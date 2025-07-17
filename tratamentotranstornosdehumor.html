@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Flashcards Interativos - Transtornos de Humor</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f0f0;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      padding: 20px;
+      max-width: 500px;
+      width: 100%;
+      position: relative;
+      text-align: center;
+    }
+    .title {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .content {
+      display: none;
+      text-align: left;
+      margin-top: 10px;
+    }
+    .btn {
+      padding: 10px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 6px;
+      background-color: #0078d4;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 500px;
+      margin-top: 20px;
+    }
+    #timer {
+      margin-top: 15px;
+      font-size: 18px;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card" id="flashcard">
+    <div class="title" id="cardTitle">Transtorno Depressivo Maior (TDM)</div>
+    <button class="btn" onclick="revealContent()">Mostrar Resposta</button>
+    <div class="content" id="cardContent">
+      <p><strong>Classe:</strong> ISRS (Inibidores Seletivos da Recaptação de Serotonina)</p>
+      <p><strong>Medicamento:</strong> Sertralina, fluoxetina, escitalopram</p>
+      <p><strong>Dosagem:</strong> Início com dose baixa; ajuste gradual</p>
+    </div>
+    <div id="timer">⏳ Tempo restante: <span id="seconds">45</span> segundos</div>
+  </div>
+
+  <div class="nav-buttons">
+    <button class="btn" onclick="prevCard()">← Voltar</button>
+    <button class="btn" onclick="nextCard()">Próximo →</button>
+  </div>
+
+  <script>
+    const cards = [
+      {
+        title: "Transtorno Depressivo Maior (TDM)",
+        content: "<p><strong>Classe:</strong> ISRS</p><p><strong>Medicamento:</strong> Sertralina, fluoxetina, escitalopram</p><p><strong>Dosagem:</strong> Início com dose baixa; ajuste gradual</p>"
+      },
+      {
+        title: "Tratamento da Depressão",
+        content: "<p><strong>Classe:</strong> ISRS, IRSN, Atípicos, Tricíclicos</p><p><strong>Medicamento:</strong> Venlafaxina, bupropiona, mirtazapina</p><p><strong>Dosagem:</strong> Ajuste conforme tolerância</p>"
+      },
+      {
+        title: "Transtorno Depressivo Persistente (Distimia)",
+        content: "<p><strong>Classe:</strong> ISRS, IRSN</p><p><strong>Medicamento:</strong> Fluoxetina, duloxetina</p><p><strong>Dosagem:</strong> Dose inicial com ajustes gradativos</p>"
+      },
+      {
+        title: "Transtorno Disfórico Pré-Menstrual (TDPM)",
+        content: "<p><strong>Classe:</strong> ISRS</p><p><strong>Medicamento:</strong> Fluoxetina, sertralina</p><p><strong>Dosagem:</strong> Contínua ou fase lútea</p>"
+      },
+      {
+        title: "Transtorno Bipolar Tipo I",
+        content: "<p><strong>Classe:</strong> Estabilizadores de humor + antipsicóticos</p><p><strong>Medicamento:</strong> Lítio, ácido valproico, risperidona</p><p><strong>Dosagem:</strong> Lítio: 900–1200 mg/dia (monitorar níveis)</p>"
+      },
+      {
+        title: "Transtorno Bipolar Tipo II",
+        content: "<p><strong>Classe:</strong> Estabilizadores de humor</p><p><strong>Medicamento:</strong> Lamotrigina, quetiapina</p><p><strong>Dosagem:</strong> 25 mg até 200 mg/dia</p>"
+      },
+      {
+        title: "Depressão Pós-Parto",
+        content: "<p><strong>Classe:</strong> ISRS</p><p><strong>Medicamento:</strong> Sertralina</p><p><strong>Dosagem:</strong> Dose inicial padrão com ajustes</p>"
+      },
+      {
+        title: "Ciclotimia",
+        content: "<p><strong>Classe:</strong> Estabilizadores de humor</p><p><strong>Medicamento:</strong> Lítio</p><p><strong>Dosagem:</strong> Monitorar sintomas e ajustar</p>"
+      },
+      {
+        title: "Transtorno de Desregulação Disruptiva do Humor (TDTH)",
+        content: "<p><strong>Classe:</strong> Antipsicóticos atípicos, ISRS</p><p><strong>Medicamento:</strong> Aripiprazol, fluoxetina</p><p><strong>Dosagem:</strong> Conforme idade e gravidade</p>"
+      }
+    ];
+
+    let current = 0;
+    let countdown;
+
+    function updateCard() {
+      document.getElementById('cardTitle').innerHTML = cards[current].title;
+      document.getElementById('cardContent').innerHTML = cards[current].content;
+      document.getElementById('cardContent').style.display = 'none';
+      document.getElementById('seconds').innerHTML = '45';
+      clearInterval(countdown);
+      startTimer();
+    }
+
+    function nextCard() {
+      if (current < cards.length - 1) {
+        current++;
+        updateCard();
+      }
+    }
+
+    function prevCard() {
+      if (current > 0) {
+        current--;
+        updateCard();
+      }
+    }
+
+    function revealContent() {
+      document.getElementById('cardContent').style.display = 'block';
+      clearInterval(countdown);
+    }
+
+    function startTimer() {
+      let seconds = 45;
+      countdown = setInterval(() => {
+        seconds--;
+        document.getElementById('seconds').textContent = seconds;
+        if (seconds <= 0) {
+          clearInterval(countdown);
+          document.getElementById('cardContent').style.display = 'block';
+        }
+      }, 1000);
+    }
+
+    window.onload = updateCard;
+  </script>
+</body>
+</html>

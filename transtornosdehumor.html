@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards de Psiquiatria com Temporizador</title>
+    <style>
+        /* --- Estilos Gerais --- */
+        :root {
+            --cor-principal: #2c3e50; /* Azul escuro */
+            --cor-secundaria: #f0f2f5;
+            --cor-alerta: #e74c3c; /* Vermelho */
+            --cor-texto: #333;
+            --cor-sombra: rgba(0, 0, 0, 0.15);
+            --raio-borda: 15px;
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cor-secundaria);
+            color: var(--cor-texto);
+            overflow: hidden;
+        }
+
+        /* --- Marca d'água de Albert Einstein --- */
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            opacity: 0.07;
+            width: 50vw;
+            max-width: 600px;
+        }
+
+        .watermark img {
+            width: 100%;
+            pointer-events: none;
+        }
+
+        /* --- Estrutura Principal --- */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: var(--cor-principal);
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 2px var(--cor-sombra);
+        }
+        
+        h2 {
+            color: #7f8c8d;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-weight: 400;
+        }
+
+        /* --- Temporizador --- */
+        #timer-display {
+            font-size: 2.2em;
+            font-weight: 600;
+            color: var(--cor-principal);
+            margin-bottom: 15px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        #timer-display.time-warning {
+            color: var(--cor-alerta);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+
+        /* --- Flashcard --- */
+        .flashcard-container {
+            width: 90vw;
+            max-width: 600px; /* Aumentado para melhor visualização */
+            height: 350px; /* Aumentado para caber mais texto */
+            perspective: 1000px;
+            margin-bottom: 20px;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.7s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+            box-shadow: 0 8px 25px var(--cor-sombra);
+            border-radius: var(--raio-borda);
+        }
+
+        .flashcard-container.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front,
+        .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 25px;
+            box-sizing: border-box;
+            border-radius: var(--raio-borda);
+        }
+
+        .flashcard-front {
+            background-color: white;
+            border: 1px solid #ddd;
+            font-size: 1.6em;
+        }
+
+        .flashcard-back {
+            background-color: var(--cor-principal);
+            color: white;
+            transform: rotateY(180deg);
+            font-size: 1.1em;
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        /* Estilos para o conteúdo do verso do card */
+        .flashcard-back h4 {
+            margin: 0 0 10px 0;
+            padding-bottom: 5px;
+            border-bottom: 2px solid white;
+            width: 100%;
+            font-size: 1.2em;
+        }
+
+        .flashcard-back p {
+            margin: 0 0 10px 0;
+            font-size: 1em;
+            line-height: 1.4;
+        }
+
+        .flashcard-back ul {
+            list-style-position: inside;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            font-size: 1em;
+            line-height: 1.5;
+        }
+
+        .flashcard-back li {
+            margin-bottom: 8px;
+        }
+
+        /* --- Navegação --- */
+        .navigation {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .nav-btn {
+            padding: 12px 25px;
+            font-size: 1em;
+            font-weight: bold;
+            border: none;
+            background-color: var(--cor-principal);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+        }
+        
+        .nav-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .card-counter {
+            font-size: 1.2em;
+            font-weight: 500;
+            min-width: 80px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="watermark">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Albert_Einstein_Head.jpg/800px-Albert_Einstein_Head.jpg" alt="Albert Einstein">
+    </div>
+
+    <div class="container">
+        <h1>Psiquiatria</h1>
+        <h2 id="sub-deck-title"></h2>
+
+        <div id="timer-display">00:00</div>
+
+        <div id="flashcard-container" class="flashcard-container">
+            <div class="flashcard-inner">
+                <div class="flashcard-front" id="card-front">
+                    <p>Carregando baralho...</p>
+                </div>
+                <div class="flashcard-back" id="card-back">
+                    <p>A resposta aparecerá aqui.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button id="prev-btn" class="nav-btn">Anterior</button>
+            <span id="card-counter" class="card-counter">0 / 0</span>
+            <button id="next-btn" class="nav-btn">Próximo</button>
+        </div>
+    </div>
+
+    <script>
+        // --- Dados do Baralho de Psiquiatria ---
+        const deck = {
+            name: "Psiquiatria",
+            subDecks: {
+                "Transtornos de Humor": [
+                    { 
+                        q: "Transtorno Depressivo Maior (TDM) - Sintomas Nucleares", 
+                        a: "<h4>Para o diagnóstico:</h4><p>5 ou mais sintomas por no mínimo 2 semanas, sendo obrigatória a presença de um dos dois primeiros:</p><ul><li><strong>Humor Deprimido:</strong> Na maior parte do dia, quase todos os dias.</li><li><strong>Anedonia:</strong> Perda de interesse ou prazer em quase todas as atividades.</li><li><strong>Alterações Neurovegetativas:</strong> Alteração de peso/apetite ou do sono.</li><li><strong>Redução de Energia/Fadiga:</strong> Cansaço e falta de energia.</li></ul>" 
+                    },
+                    { 
+                        q: "Tratamento de Primeira Linha para Depressão", 
+                        a: "<h4>Abordagem Combinada:</h4><p>A abordagem mais eficiente combina farmacoterapia e psicoterapia.</p><ul><li><strong>Farmacoterapia:</strong> Inibidores Seletivos da Recaptação da Serotonina (ISRS) são a primeira escolha.</li><li><strong>Psicoterapia:</strong> Terapia Cognitivo-Comportamental (TCC) é a mais estudada.</li><li><strong>Manutenção:</strong> Manter o tratamento por 6 a 24 meses após a remissão.</li></ul>"
+                    },
+                    {
+                        q: "Transtorno Depressivo Persistente (Distimia) - Características",
+                        a: "<h4>Características Principais:</h4><p>Um quadro crônico de humor deprimido com as seguintes características:</p><ul><li><strong>Duração:</strong> Mínimo de 2 anos em adultos (ou 1 ano em crianças/adolescentes).</li><li><strong>Intensidade:</strong> Leve, não preenche critérios para Depressão Maior.</li><li><strong>Cronicidade:</strong> Nunca mais de 2 meses consecutivos sem sintomas.</li></ul>"
+                    },
+                    {
+                        q: "Transtorno Disfórico Pré-Menstrual (TDPM) - Tétrade de Sintomas",
+                        a: "<h4>Tétrade de Sintomas:</h4><p>Sintomas que ocorrem na semana anterior à menstruação e melhoram após o seu começo:</p><ul><li><strong>Labilidade Emocional:</strong> Mudanças de humor repentinas.</li><li><strong>Irritabilidade:</strong> Raiva ou aumento de conflitos.</li><li><strong>Humor Deprimido:</strong> Sentimentos de desesperança.</li><li><strong>Ansiedade:</strong> Tensão ou sensação de estar no limite.</li></ul>"
+                    },
+                    {
+                        q: "Transtorno Bipolar Tipo I - Característica Definidora",
+                        a: "<h4>Episódio Maníaco:</h4><p>O diagnóstico é definido pela ocorrência de ao menos um <strong>episódio maníaco</strong> completo.</p><ul><li><strong>Mania:</strong> Humor elevado ou irritável por no mínimo 1 semana (ou qualquer duração, se exigir hospitalização).</li><li><strong>Sintomas (3+):</strong> Grandiosidade, diminuição da necessidade de sono, pressão para falar, etc.</li></ul>"
+                    },
+                    {
+                        q: "Transtorno Bipolar Tipo II - Díade Diagnóstica",
+                        a: "<h4>Díade Diagnóstica:</h4><p>Caracteriza-se pela combinação de episódios hipomaníacos e depressivos, sem nunca ter apresentado um episódio maníaco completo.</p><ul><li><strong>Episódio Hipomaníaco:</strong> Humor elevado/irritável por no mínimo 4 dias consecutivos.</li><li><strong>Episódio Depressivo Maior:</strong> Presença de episódios depressivos maiores.</li></ul>"
+                    },
+                    {
+                        q: "Depressão Pós-Parto vs. Blues Puerperal",
+                        a: "<h4>Diferenças Cruciais:</h4><ul><li><strong>Blues Puerperal:</strong> Quadro benigno e leve, com sintomas que duram <strong>menos de 14 dias</strong>. Requer suporte, não medicação.</li><li><strong>Depressão Pós-Parto:</strong> Preenche os critérios para um Episódio Depressivo Maior, com prejuízo funcional significativo.</li></ul>"
+                    },
+                    {
+                        q: "Transtorno Ciclotímico (Ciclotimia) - Características",
+                        a: "<h4>Humor Crônico e Flutuante:</h4><p>Um transtorno de humor crônico, considerado um 'temperamento bipolar subliminar'.</p><ul><li><strong>Duração:</strong> Mínimo de 2 anos em adultos (1 em crianças) com sintomas hipomaníacos e depressivos.</li><li><strong>Intensidade:</strong> Os sintomas são leves e não preenchem critérios para um episódio completo.</li></ul>"
+                    },
+                    {
+                        q: "Transtorno de Desregulação Disruptiva do Humor (TDDU)",
+                        a: "<h4>Tríade de Sintomas em Crianças:</h4><p>Diagnóstico para crianças com irritabilidade persistente.</p><ul><li><strong>Explosões de Raiva:</strong> Surtos de temperamento graves e desproporcionais.</li><li><strong>Irritabilidade Crônica:</strong> Humor irritado ou raivoso na maior parte do dia.</li><li><strong>Frequência:</strong> As explosões ocorrem, em média, 3+ vezes por semana.</li></ul>"
+                    }
+                ]
+            }
+        };
+
+        // --- Variáveis de Estado ---
+        let currentSubDeckName = "Transtornos de Humor"; // Alterado para o novo baralho
+        let currentCardIndex = 0;
+        let timerInterval = null;
+        const TIME_PER_CARD = 30; // Tempo em segundos por cartão
+
+        // --- Elementos do DOM ---
+        const subDeckTitle = document.getElementById('sub-deck-title');
+        const timerDisplay = document.getElementById('timer-display');
+        const flashcardContainer = document.getElementById('flashcard-container');
+        const cardFront = document.getElementById('card-front');
+        const cardBack = document.getElementById('card-back');
+        const cardCounter = document.getElementById('card-counter');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        // --- Funções ---
+
+        // Formata o tempo de segundos para MM:SS
+        function formatTime(seconds) {
+            const min = Math.floor(seconds / 60);
+            const sec = seconds % 60;
+            return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+        }
+
+        // Inicia o temporizador para um cartão
+        function startTimer() {
+            clearInterval(timerInterval); // Limpa qualquer timer anterior
+            timerDisplay.classList.remove('time-warning');
+
+            let timeLeft = TIME_PER_CARD;
+            timerDisplay.textContent = formatTime(timeLeft);
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerDisplay.textContent = formatTime(timeLeft);
+
+                if (timeLeft <= 5) {
+                    timerDisplay.classList.add('time-warning');
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    if (!flashcardContainer.classList.contains('flipped')) {
+                        flipCard();
+                    }
+                }
+            }, 1000);
+        }
+
+        // Mostra o cartão atual na tela
+        function displayCard() {
+            const cards = deck.subDecks[currentSubDeckName];
+            if (!cards || cards.length === 0) {
+                cardFront.innerHTML = `<p>Baralho vazio.</p>`;
+                cardBack.innerHTML = `<p>Baralho vazio.</p>`;
+                cardCounter.textContent = '0 / 0';
+                return;
+            }
+
+            const card = cards[currentCardIndex];
+            cardFront.innerHTML = `<p>${card.q}</p>`;
+            cardBack.innerHTML = card.a;
+            cardCounter.textContent = `${currentCardIndex + 1} / ${cards.length}`;
+            subDeckTitle.textContent = currentSubDeckName;
+
+            startTimer();
+        }
+        
+        // Vira o cartão
+        function flipCard() {
+            flashcardContainer.classList.toggle('flipped');
+            if (flashcardContainer.classList.contains('flipped')) {
+                clearInterval(timerInterval);
+            }
+        }
+
+        // Navega para o próximo cartão
+        function nextCard() {
+            const cards = deck.subDecks[currentSubDeckName];
+            if (!cards) return;
+            
+            currentCardIndex = (currentCardIndex + 1) % cards.length;
+            flashcardContainer.classList.remove('flipped');
+            setTimeout(displayCard, 150);
+        }
+
+        // Navega para o cartão anterior
+        function prevCard() {
+            const cards = deck.subDecks[currentSubDeckName];
+            if (!cards) return;
+
+            currentCardIndex = (currentCardIndex - 1 + cards.length) % cards.length;
+            flashcardContainer.classList.remove('flipped');
+            setTimeout(displayCard, 150);
+        }
+
+        // --- Inicialização e Eventos ---
+        flashcardContainer.addEventListener('click', flipCard);
+        nextBtn.addEventListener('click', nextCard);
+        prevBtn.addEventListener('click', prevCard);
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextCard();
+            if (e.key === 'ArrowLeft') prevCard();
+            if (e.key === ' ' || e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                flipCard();
+            }
+        });
+
+        // Inicia a aplicação exibindo o primeiro cartão
+        displayCard();
+
+    </script>
+</body>
+</html>

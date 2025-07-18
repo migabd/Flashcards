@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flashcards de Psicofármacos</title>
+  <!-- Chosen Palette: Minimalist Neutral -->
+  <!-- Application Structure Plan: A simple, single-view flashcard application. The structure is a direct, linear sequence of cards, which is ideal for studying and memorization. The user can navigate forwards and backwards, reveal the answer, and is timed to encourage quick recall. This structure was chosen for its proven effectiveness in educational contexts, directly addressing the user's goal of learning drug information. -->
+  <!-- Visualization & Content Choices: Report Info: Drug names and their properties. -> Goal: Memorization. -> Viz/Presentation Method: Interactive Flashcards. -> Interaction: Click to reveal, next/previous buttons. -> Justification: This classic study method is highly effective for learning discrete pieces of information like drug properties. The timed reveal adds a game-like element to encourage focus. -> Library/Method: Vanilla JS for interaction. -->
+  <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .card-container {
+      perspective: 1000px;
+    }
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+    .card.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+    .card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      border-radius: 12px;
+    }
+    .card-front {
+      background-color: white;
+      border: 1px solid #e2e8f0;
+    }
+    .card-back {
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      transform: rotateY(180deg);
+      text-align: left;
+      align-items: flex-start;
+    }
+    .card-back p {
+        margin-bottom: 8px;
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-50 text-gray-800 flex flex-col items-center justify-center min-h-screen p-4">
+
+  <div class="w-full max-w-2xl mx-auto">
+    <h1 class="text-3xl font-bold text-center text-gray-700 mb-2">Flashcards de Psicofármacos</h1>
+    <p class="text-center text-gray-500 mb-6">Estude os principais fármacos, suas classes e características.</p>
+    
+    <div id="flashcard" class="card card-container h-80 w-full mb-4">
+      <div id="card-inner" class="card-inner">
+        <div class="card-face card-front shadow-md">
+          <h2 id="cardTitle" class="text-3xl font-bold text-center text-blue-600"></h2>
+        </div>
+        <div class="card-face card-back shadow-md">
+          <div id="cardContent" class="text-gray-700 w-full"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-center items-center space-x-4 mb-6">
+      <button id="prevBtn" class="bg-white border border-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-lg shadow-sm hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+        Anterior
+      </button>
+      <button id="revealBtn" class="bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition-colors">
+        Revelar
+      </button>
+      <button id="nextBtn" class="bg-white border border-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-lg shadow-sm hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+        Próximo
+      </button>
+    </div>
+
+    <div id="progress" class="text-center text-gray-500 font-medium">
+      Card 1 / 17
+    </div>
+  </div>
+
+  <script>
+    const cards = [
+      {
+        title: "Amitriptilina",
+        content: "<p><strong>Classe:</strong> Antidepressivo Tricíclico (ADT)</p><p><strong>Dosagem:</strong> 25-150 mg/dia</p><p><strong>Efeitos Colaterais:</strong> Sonolência, boca seca, constipação, ganho de peso, hipotensão postural.</p><p><strong>Contraindicações:</strong> Infarto agudo do miocárdio recente, glaucoma, uso com IMAOs.</p>"
+      },
+      {
+        title: "Lítio",
+        content: "<p><strong>Classe:</strong> Estabilizador de Humor</p><p><strong>Dosagem:</strong> 300-1200 mg/dia (ajuste por litemia 0.6-1.2 mEq/L)</p><p><strong>Efeitos Colaterais:</strong> Tremores, poliúria, ganho de peso, náuseas, hipotireoidismo.</p><p><strong>Contraindicações:</strong> Insuficiência renal grave, doença cardiovascular, desidratação.</p>"
+      },
+      {
+        title: "Sertralina",
+        content: "<p><strong>Classe:</strong> Inibidor Seletivo da Recaptação de Serotonina (ISRS)</p><p><strong>Dosagem:</strong> 50-200 mg/dia</p><p><strong>Efeitos Colaterais:</strong> Náuseas, diarreia, insônia, sonolência, disfunção sexual, dor de cabeça.</p><p><strong>Contraindicações:</strong> Uso concomitante com IMAOs, hipersensibilidade ao fármaco.</p>"
+      },
+      {
+        title: "Paroxetina",
+        content: "<p><strong>Classe:</strong> Inibidor Seletivo da Recaptação de Serotonina (ISRS)</p><p><strong>Dosagem:</strong> 20-50 mg/dia</p><p><strong>Efeitos Colaterais:</strong> Sonolência, náuseas, boca seca, constipação, disfunção sexual, sudorese.</p><p><strong>Contraindicações:</strong> Uso concomitante com IMAOs, tioridazina. Cautela na gravidez.</p>"
+      },
+      {
+        title: "Mirtazapina",
+        content: "<p><strong>Classe:</strong> Antidepressivo Tetracíclico (NaSSA)</p><p><strong>Dosagem:</strong> 15-45 mg/dia, geralmente ao deitar.</p><p><strong>Efeitos Colaterais:</strong> Sonolência acentuada, aumento do apetite, ganho de peso, tontura.</p><p><strong>Contraindicações:</strong> Uso concomitante com IMAOs, hipersensibilidade.</p>"
+      },
+      {
+        title: "Diazepam",
+        content: "<p><strong>Classe:</strong> Benzodiazepínico</p><p><strong>Dosagem:</strong> 2-10 mg, 2 a 4 vezes ao dia (varia com indicação).</p><p><strong>Efeitos Colaterais:</strong> Sonolência, tontura, fraqueza muscular, ataxia, risco de dependência.</p><p><strong>Contraindicações:</strong> Glaucoma de ângulo fechado, miastenia gravis, insuficiência respiratória grave.</p>"
+      },
+      {
+        title: "Quetiapina",
+        content: "<p><strong>Classe:</strong> Antipsicótico Atípico</p><p><strong>Dosagem:</strong> 25-800 mg/dia (varia muito com a indicação).</p><p><strong>Efeitos Colaterais:</strong> Sonolência, tontura, boca seca, ganho de peso, dislipidemia.</p><p><strong>Contraindicações:</strong> Hipersensibilidade, uso com fortes inibidores do CYP3A4.</p>"
+      },
+      {
+        title: "Bromazepam",
+        content: "<p><strong>Classe:</strong> Benzodiazepínico</p><p><strong>Dosagem:</strong> 1.5-3 mg, até 3 vezes ao dia.</p><p><strong>Efeitos Colaterais:</strong> Sonolência, tontura, fadiga, confusão, risco de dependência.</p><p><strong>Contraindicações:</strong> Miastenia gravis, insuficiência respiratória ou hepática grave, apneia do sono.</p>"
+      },
+      {
+        title: "Zolpidem",
+        content: "<p><strong>Classe:</strong> Hipnótico não-benzodiazepínico</p><p><strong>Dosagem:</strong> 5-10 mg, antes de deitar.</p><p><strong>Efeitos Colaterais:</strong> Sonolência diurna, tontura, amnésia, comportamentos complexos do sono.</p><p><strong>Contraindicações:</strong> Insuficiência hepática grave, apneia do sono, miastenia gravis.</p>"
+      },
+      {
+        title: "Haloperidol",
+        content: "<p><strong>Classe:</strong> Antipsicótico Típico</p><p><strong>Dosagem:</strong> 0.5-5 mg, 2 a 3 vezes ao dia.</p><p><strong>Efeitos Colaterais:</strong> Sintomas extrapiramidais (distonia, acatisia), discinesia tardia, sedação.</p><p><strong>Contraindicações:</strong> Doença de Parkinson, depressão do SNC, coma.</p>"
+      },
+      {
+        title: "Clorpromazina",
+        content: "<p><strong>Classe:</strong> Antipsicótico Típico (Fenotiazina)</p><p><strong>Dosagem:</strong> 25-100 mg, 3 vezes ao dia.</p><p><strong>Efeitos Colaterais:</strong> Sedação, hipotensão postural, boca seca, fotossensibilidade, sintomas extrapiramidais.</p><p><strong>Contraindicações:</strong> Depressão grave do SNC, coma, supressão da medula óssea.</p>"
+      },
+      {
+        title: "Prometazina",
+        content: "<p><strong>Classe:</strong> Anti-histamínico de 1ª Geração (Fenotiazina)</p><p><strong>Dosagem:</strong> 25 mg (sedação) ou 12.5-25mg a cada 4-6h (alergia).</p><p><strong>Efeitos Colaterais:</strong> Sonolência profunda, tontura, confusão, boca seca, visão turva.</p><p><strong>Contraindicações:</strong> Crianças < 2 anos, coma, depressão do SNC.</p>"
+      },
+      {
+        title: "Clonidina",
+        content: "<p><strong>Classe:</strong> Agonista Alfa-2 Adrenérgico</p><p><strong>Dosagem:</strong> 0.1-0.3 mg, 2 a 3 vezes ao dia.</p><p><strong>Efeitos Colaterais:</strong> Boca seca, sonolência, tontura, constipação, hipotensão.</p><p><strong>Contraindicações:</strong> Hipersensibilidade. Cautela em doença cardíaca grave.</p>"
+      },
+      {
+        title: "Nortriptilina",
+        content: "<p><strong>Classe:</strong> Antidepressivo Tricíclico (ADT)</p><p><strong>Dosagem:</strong> 25-150 mg/dia.</p><p><strong>Efeitos Colaterais:</strong> Boca seca, constipação, sonolência, visão turva, taquicardia.</p><p><strong>Contraindicações:</strong> Infarto agudo do miocárdio recente, uso com IMAOs.</p>"
+      },
+      {
+        title: "Metadona",
+        content: "<p><strong>Classe:</strong> Opioide Sintético</p><p><strong>Dosagem:</strong> Altamente individualizada (dor crônica ou dependência).</p><p><strong>Efeitos Colaterais:</strong> Tontura, sedação, náuseas, depressão respiratória, sudorese.</p><p><strong>Contraindicações:</strong> Depressão respiratória significativa, asma aguda, íleo paralítico.</p>"
+      },
+      {
+        title: "Bupropiona",
+        content: "<p><strong>Classe:</strong> Inibidor da Recaptação de Dopamina e Noradrenalina (IRDN)</p><p><strong>Dosagem:</strong> 150-300 mg/dia.</p><p><strong>Efeitos Colaterais:</strong> Boca seca, insônia, dor de cabeça, agitação, baixo risco de disfunção sexual.</p><p><strong>Contraindicações:</strong> Transtorno convulsivo, bulimia ou anorexia, uso de IMAOs.</p>"
+      }
+    ];
+
+    let current = 0;
+    const flashcard = document.getElementById('flashcard');
+    const cardTitle = document.getElementById('cardTitle');
+    const cardContent = document.getElementById('cardContent');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const revealBtn = document.getElementById('revealBtn');
+    const progressText = document.getElementById('progress');
+
+    function updateCard() {
+      flashcard.classList.remove('flipped');
+      
+      setTimeout(() => {
+        cardTitle.textContent = cards[current].title;
+        cardContent.innerHTML = cards[current].content;
+        progressText.textContent = `Card ${current + 1} / ${cards.length}`;
+        
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === cards.length - 1;
+      }, 150); 
+    }
+
+    revealBtn.addEventListener('click', () => {
+      flashcard.classList.toggle('flipped');
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (current < cards.length - 1) {
+        current++;
+        updateCard();
+      }
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (current > 0) {
+        current--;
+        updateCard();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', updateCard);
+  </script>
+
+</body>
+</html>

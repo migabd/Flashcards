@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards: Tratamento de Transtornos Psicóticos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Estilos para o efeito de virar o card */
+        .card-container {
+            perspective: 1000px;
+        }
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .card-inner.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Safari */
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+        .card-front {
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .card-back {
+            background-color: #eff6ff; /* bg-blue-50 */
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transform: rotateY(180deg);
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+        .card-back ul {
+            list-style-type: none;
+            padding: 0;
+            width: 100%;
+        }
+        .card-back li {
+            margin-bottom: 0.75rem;
+        }
+        .card-back strong {
+            color: #1e40af; /* blue-800 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-2xl mx-auto">
+        <h1 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-2">Flashcards de Psicofarmacologia</h1>
+        <p class="text-center text-gray-600 mb-6">Clique no card para virar. Use os botões para navegar.</p>
+
+        <!-- Container do Flashcard -->
+        <div id="flashcard" class="card-container w-full h-96 md:h-80 mb-4 cursor-pointer">
+            <div id="card-inner" class="card-inner">
+                <!-- Frente do Card -->
+                <div class="card-face card-front">
+                    <h2 id="card-title" class="text-2xl md:text-3xl font-bold text-center text-gray-700"></h2>
+                </div>
+                <!-- Verso do Card -->
+                <div class="card-face card-back">
+                    <div id="card-content" class="text-sm md:text-base w-full"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timer e Navegação -->
+        <div class="flex items-center justify-between w-full">
+            <button id="prev-btn" class="bg-white text-gray-700 font-semibold py-2 px-4 border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 transition-colors">
+                Anterior
+            </button>
+            <div id="timer" class="text-2xl font-bold text-blue-600">30</div>
+            <button id="next-btn" class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition-colors">
+                Próximo
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Espera o DOM estar completamente carregado para executar o script
+        window.addEventListener('DOMContentLoaded', () => {
+            // Dados para os flashcards, extraídos do documento
+            const flashcardData = [
+                {
+                    title: "Esquizofrenia (Tratamento Geral)",
+                    content: `<ul><li><strong>Classe:</strong> Antipsicóticos (1ª e 2ª geração) são a base do tratamento.</li><li><strong>Dosagem:</strong> Altamente individualizada. Inicia-se com doses baixas, com aumento gradual. Busca-se a menor dose eficaz para manutenção.</li><li><strong>Efeitos Colaterais:</strong> Variam conforme a classe (ver cards específicos).</li><li><strong>Contraindicações:</strong> Hipersensibilidade ao fármaco. Cautela em idosos com demência devido ao risco aumentado de mortalidade.</li></ul>`
+                },
+                {
+                    title: "Antipsicóticos Típicos (1ª Geração)",
+                    content: `<p class="mb-2 text-center text-xs text-gray-500">Ex: Haloperidol, Clorpromazina</p><ul><li><strong>Mecanismo:</strong> Forte bloqueio de receptores D2 da dopamina.</li><li><strong>Indicação:</strong> Eficazes principalmente para sintomas positivos (delírios, alucinações).</li><li><strong>Efeitos Colaterais Principais:</strong> Alto risco de Sintomas Extrapiramidais (SEP): distonia, acatisia, parkinsonismo. Hiperprolactinemia.</li><li><strong>Contraindicações:</strong> Doença de Parkinson, histórico de discinesia tardia grave.</li></ul>`
+                },
+                {
+                    title: "Antipsicóticos Atípicos (2ª Geração)",
+                    content: `<p class="mb-2 text-center text-xs text-gray-500">Ex: Risperidona, Olanzapina, Quetiapina</p><ul><li><strong>Mecanismo:</strong> Bloqueio de receptores D2 (dopamina) e 5HT2A (serotonina).</li><li><strong>Indicação:</strong> Primeira linha para muitos casos, eficazes para sintomas positivos e negativos.</li><li><strong>Efeitos Colaterais Principais:</strong> Alto risco de síndrome metabólica (ganho de peso, dislipidemia, diabetes). Sedação. Menor risco de SEP que os típicos.</li><li><strong>Contraindicações:</strong> Cautela em pacientes com síndrome metabólica ou risco cardiovascular elevado.</li></ul>`
+                },
+                {
+                    title: "Esquizofrenia Refratária",
+                    content: `<p class="mb-2 text-center font-semibold text-blue-700">Tratamento com Clozapina</p><ul><li><strong>Indicação:</strong> Padrão-ouro para esquizofrenia refratária (falha com ≥2 outros antipsicóticos).</li><li><strong>Efeitos Colaterais Graves:</strong> <strong>Agranulocitose</strong> (risco de 1-2%, exige monitoramento rigoroso com hemograma), miocardite, íleo paralítico, convulsões.</li><li><strong>Outros Efeitos:</strong> Sedação, sialorreia (salivação excessiva), constipação, ganho de peso significativo.</li><li><strong>Contraindicações:</strong> Histórico de agranulocitose, mielossupressão, miocardite ativa, íleo paralítico.</li></ul>`
+                },
+                {
+                    title: "Transtorno Esquizoafetivo",
+                    content: `<ul><li><strong>Classe:</strong> Abordagem combinada.</li><li><strong>Tratamento:</strong> Antipsicóticos para os sintomas psicóticos, associados a:<br>- <strong>Estabilizadores de Humor</strong> (Lítio, Valproato) no tipo Bipolar.<br>- <strong>Antidepressivos</strong> no tipo Depressivo.</li><li><strong>Nota:</strong> A Paliperidona (atípico) é aprovada como monoterapia para este transtorno.</li><li><strong>Efeitos Colaterais:</strong> Dependem da combinação de fármacos utilizada.</li></ul>`
+                },
+                {
+                    title: "Transtorno Delirante",
+                    content: `<ul><li><strong>Classe:</strong> Antipsicóticos (1ª ou 2ª geração).</li><li><strong>Tratamento:</strong> São a primeira linha, mas a resposta pode ser parcial. A psicoterapia é um componente crucial do tratamento.</li><li><strong>Desafios:</strong> A adesão ao tratamento pode ser baixa devido à pouca crítica (insight) do paciente sobre seu quadro.</li><li><strong>Efeitos Colaterais:</strong> Conforme o antipsicótico escolhido.</li></ul>`
+                },
+                {
+                    title: "Transtorno Psicótico Breve",
+                    content: `<ul><li><strong>Classe:</strong> Antipsicóticos.</li><li><strong>Tratamento:</strong> Geralmente um curso breve de antipsicóticos é suficiente para controlar os sintomas agudos.</li><li><strong>Abordagem:</strong> O suporte psicossocial e a observação são fundamentais, pois o quadro é autolimitado por definição (duração inferior a 1 mês).</li><li><strong>Importante:</strong> Sempre descartar causas orgânicas ou induzidas por substâncias.</li></ul>`
+                }
+            ];
+
+            // Elementos do DOM
+            const flashcard = document.getElementById('flashcard');
+            const cardInner = document.getElementById('card-inner');
+            const cardTitle = document.getElementById('card-title');
+            const cardContent = document.getElementById('card-content');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const timerEl = document.getElementById('timer');
+
+            let currentCardIndex = 0;
+            let timer;
+            let timeLeft = 30;
+
+            function startTimer() {
+                clearInterval(timer);
+                timeLeft = 30;
+                timerEl.textContent = timeLeft;
+                timerEl.classList.remove('text-red-500');
+
+                timer = setInterval(() => {
+                    timeLeft--;
+                    timerEl.textContent = timeLeft;
+                    if (timeLeft <= 5) {
+                        timerEl.classList.add('text-red-500');
+                    }
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                    }
+                }, 1000);
+            }
+
+            function showCard(index) {
+                const card = flashcardData[index];
+                cardInner.classList.remove('is-flipped');
+                
+                setTimeout(() => {
+                    cardTitle.textContent = card.title;
+                    cardContent.innerHTML = card.content;
+                }, 150);
+
+                startTimer();
+            }
+
+            // Event Listeners
+            nextBtn.addEventListener('click', () => {
+                currentCardIndex = (currentCardIndex + 1) % flashcardData.length;
+                showCard(currentCardIndex);
+            });
+
+            prevBtn.addEventListener('click', () => {
+                currentCardIndex = (currentCardIndex - 1 + flashcardData.length) % flashcardData.length;
+                showCard(currentCardIndex);
+            });
+            
+            flashcard.addEventListener('click', () => {
+                cardInner.classList.toggle('is-flipped');
+            });
+
+            // Exibir o primeiro card ao carregar a página
+            showCard(currentCardIndex);
+        });
+    </script>
+</body>
+</html>
+

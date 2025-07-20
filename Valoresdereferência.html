@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia de Valores de Referência para Exames</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Warm Neutrals (Slate background, White cards) with Blue accents -->
+    <!-- Application Structure Plan: An interactive flashcard dashboard. The primary structure is a filterable grid of cards, each representing a lab value. Categories (Hemograma, Bioquímica, etc.) can be selected via buttons to filter the view. A search bar provides instant access. This task-oriented design (study/memorize) was chosen over a simple list to promote active recall, a more effective learning strategy for the target audience of medical students. The user flow is: select a category -> attempt to recall value -> click to reveal -> move to next card. -->
+    <!-- Visualization & Content Choices: Report Info: List of lab values for exams. Goal: Memorization & Quick Reference. Viz/Presentation Method: Interactive HTML/CSS "flashcards" in a grid. This is better than static text for active learning. Interaction: Category filtering, text search, and a 'show/hide' toggle on each card. Justification: These interactions directly support the user's goal of memorizing data by allowing them to test themselves and focus on specific areas. Library/Method: Vanilla JavaScript for all interactions, Tailwind CSS for styling. No charts needed as specific values, not trends, are the focus. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .category-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .hemograma { background-color: #e0f2fe; color: #0c4a6e; }
+        .bioquimica { background-color: #e0e7ff; color: #3730a3; }
+        .eletrolitos { background-color: #dcfce7; color: #166534; }
+        .funcao-renal { background-color: #fefce8; color: #854d0e; }
+        .gasometria { background-color: #fee2e2; color: #991b1b; }
+        .coagulograma { background-color: #fce7f3; color: #9d174d; }
+        .funcao-hepatica { background-color: #ffedd5; color: #9a3412; }
+        .enzimas-cardiacas { background-color: #fae8ff; color: #86198f; }
+
+        .filter-btn.active {
+            background-color: #2563eb;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div id="app" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">Guia Rápido de Valores de Referência</h1>
+            <p class="mt-3 text-lg text-slate-600 max-w-3xl mx-auto">Uma ferramenta interativa para te ajudar a memorizar os principais valores laboratoriais para as provas de residência.</p>
+        </header>
+
+        <section id="controls" class="mb-10">
+            <div class="max-w-xl mx-auto mb-6">
+                <input type="text" id="searchInput" placeholder="🔎 Pesquisar por exame..." class="w-full px-5 py-3 text-base text-slate-900 placeholder-slate-500 bg-white border border-slate-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+            </div>
+            <div id="filter-container" class="flex flex-wrap justify-center gap-2 sm:gap-3">
+            </div>
+        </section>
+
+        <main>
+            <div id="lab-values-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            </div>
+             <div id="no-results" class="hidden text-center col-span-full py-12">
+                <p class="text-xl font-semibold text-slate-600">Nenhum resultado encontrado.</p>
+                <p class="text-slate-500 mt-2">Tente ajustar sua busca ou filtro.</p>
+            </div>
+        </main>
+
+        <footer class="text-center mt-12 pt-8 border-t border-slate-200">
+            <p class="text-sm text-slate-500">Desenvolvido para auxiliar seus estudos. Boa sorte nas provas!</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const labData = [
+                { name: 'Hemoglobina (Hb)', value: 'H: 13-18 g/dL<br>M: 12-16 g/dL', category: 'hemograma', tags: ['hb', 'hemoglobina', 'anemia'] },
+                { name: 'Hematócrito (Ht)', value: 'H: 40-52%<br>M: 37-47%', category: 'hemograma', tags: ['ht', 'hematocrito', 'anemia'] },
+                { name: 'Leucócitos', value: '4.000 - 11.000 /mm³', category: 'hemograma', tags: ['leuco', 'leucocitos', 'infeccao'] },
+                { name: 'Plaquetas', value: '150.000 - 450.000 /mm³', category: 'hemograma', tags: ['plaquetas', 'coagulacao', 'sangramento'] },
+                { name: 'Sódio (Na+)', value: '135 - 145 mEq/L', category: 'eletrolitos', tags: ['na', 'sodio', 'disturbio hidroeletrolitico'] },
+                { name: 'Potássio (K+)', value: '3,5 - 5,0 mEq/L', category: 'eletrolitos', tags: ['k', 'potassio', 'hipercalemia', 'hipocalemia'] },
+                { name: 'Cálcio Iônico', value: '1,12 - 1,32 mmol/L', category: 'eletrolitos', tags: ['calcio ionico'] },
+                { name: 'Cálcio Total', value: '8,5 - 10,2 mg/dL', category: 'eletrolitos', tags: ['calcio total'] },
+                { name: 'Magnésio (Mg++)', value: '1,7 - 2,2 mg/dL', category: 'eletrolitos', tags: ['mg', 'magnesio'] },
+                { name: 'Cloro (Cl-)', value: '98 - 107 mEq/L', category: 'eletrolitos', tags: ['cloro', 'cl'] },
+                { name: 'Ureia', value: '10 - 50 mg/dL', category: 'funcao-renal', tags: ['ureia', 'funcao renal'] },
+                { name: 'Creatinina', value: '0,7 - 1,3 mg/dL', category: 'funcao-renal', tags: ['creatinina', 'funcao renal'] },
+                { name: 'Glicemia de Jejum', value: '70 - 99 mg/dL', category: 'bioquimica', tags: ['glicose', 'glicemia', 'diabetes'] },
+                { name: 'HbA1c (Glicada)', value: '< 5,7% (Normal)<br>5,7-6,4% (Pré-diabetes)<br>≥ 6,5% (Diabetes)', category: 'bioquimica', tags: ['hba1c', 'hemoglobina glicada', 'diabetes'] },
+                { name: 'Ferro Sérico', value: 'H: 65 - 175 µg/dL<br>M: 50 - 170 µg/dL', category: 'bioquimica', tags: ['ferro', 'ferro serico', 'anemia', 'cinetica do ferro'] },
+                { name: 'Ferritina', value: 'H: 24 - 336 ng/mL<br>M: 11 - 307 ng/mL', category: 'bioquimica', tags: ['ferritina', 'anemia', 'cinetica do ferro', 'estoque de ferro'] },
+                { name: 'Vitamina B12', value: '200 - 900 pg/mL', category: 'bioquimica', tags: ['vitamina b12', 'cobalamina', 'anemia megaloblastica', 'neuropatia'] },
+                { name: 'TGO (AST)', value: '5 - 40 U/L', category: 'funcao-hepatica', tags: ['tgo', 'ast', 'transaminase', 'figado'] },
+                { name: 'TGP (ALT)', value: '7 - 56 U/L', category: 'funcao-hepatica', tags: ['tgp', 'alt', 'transaminase', 'figado'] },
+                { name: 'Bilirrubina Total', value: '0,3 - 1,2 mg/dL', category: 'funcao-hepatica', tags: ['bilirrubina', 'ictericia'] },
+                { name: 'Bilirrubina Direta', value: '0 - 0,3 mg/dL', category: 'funcao-hepatica', tags: ['bilirrubina direta', 'bd'] },
+                { name: 'Amilase', value: '30 - 110 U/L', category: 'bioquimica', tags: ['amilase', 'pancreatite'] },
+                { name: 'Lipase', value: '10 - 140 U/L', category: 'bioquimica', tags: ['lipase', 'pancreatite'] },
+                { name: 'pH (Gasometria)', value: '7,35 - 7,45', category: 'gasometria', tags: ['ph', 'gasometria', 'equilibrio acido base'] },
+                { name: 'pCO2 (Gasometria)', value: '35 - 45 mmHg', category: 'gasometria', tags: ['pco2', 'gasometria', 'equilibrio acido base'] },
+                { name: 'pO2 (Gasometria)', value: '80 - 100 mmHg', category: 'gasometria', tags: ['po2', 'gasometria', 'oxigenacao'] },
+                { name: 'HCO3 (Bicarbonato)', value: '22 - 26 mEq/L', category: 'gasometria', tags: ['hco3', 'bicarbonato', 'gasometria'] },
+                { name: 'SatO2 (Gasometria)', value: '> 95%', category: 'gasometria', tags: ['saturacao', 'sato2', 'oxigenacao'] },
+                { name: 'RNI (Coagulograma)', value: 'Normal: < 1,1<br>Terapêutico: 2,0 - 3,0', category: 'coagulograma', tags: ['rni', 'inr', 'tap', 'coagulacao', 'warfarina'] },
+                { name: 'TTPA (Coagulograma)', value: '25 - 35 segundos', category: 'coagulograma', tags: ['ttpa', 'kptt', 'coagulacao', 'heparina'] },
+                { name: 'Troponina I', value: 'Varia com o método. Geralmente < 0,04 ng/mL', category: 'enzimas-cardiacas', tags: ['troponina', 'iam', 'infarto'] },
+                { name: 'CK-MB', value: '< 5 ng/mL ou < 3-5% da CK total', category: 'enzimas-cardiacas', tags: ['ckmb', 'iam', 'infarto'] }
+            ];
+
+            const categoryNames = {
+                'hemograma': 'Hemograma',
+                'bioquimica': 'Bioquímica',
+                'eletrolitos': 'Eletrólitos',
+                'funcao-renal': 'Função Renal',
+                'gasometria': 'Gasometria Arterial',
+                'coagulograma': 'Coagulograma',
+                'funcao-hepatica': 'Função Hepática',
+                'enzimas-cardiacas': 'Enzimas Cardíacas'
+            };
+
+            const grid = document.getElementById('lab-values-grid');
+            const searchInput = document.getElementById('searchInput');
+            const filterContainer = document.getElementById('filter-container');
+            const noResultsDiv = document.getElementById('no-results');
+            
+            const categories = ['todos', ...Object.keys(categoryNames)];
+
+            function createFilterButtons() {
+                categories.forEach(cat => {
+                    const btn = document.createElement('button');
+                    btn.dataset.category = cat;
+                    btn.textContent = cat === 'todos' ? 'Todos' : categoryNames[cat];
+                    btn.className = 'filter-btn px-4 py-2 text-sm font-semibold rounded-full transition-all duration-200 border border-slate-300 bg-white text-slate-700 hover:bg-slate-100';
+                    if (cat === 'todos') {
+                        btn.classList.add('active');
+                    }
+                    filterContainer.appendChild(btn);
+                });
+            }
+
+            function createLabCards() {
+                grid.innerHTML = '';
+                labData.sort((a, b) => a.name.localeCompare(b.name)).forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'lab-card bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300 p-5 flex flex-col justify-between';
+                    card.dataset.category = item.category;
+                    card.dataset.tags = item.tags.join(' ');
+                    card.dataset.name = item.name;
+
+                    card.innerHTML = `
+                        <div>
+                            <span class="category-tag ${item.category}">${categoryNames[item.category]}</span>
+                            <h3 class="text-lg font-bold text-slate-800 mt-3">${item.name}</h3>
+                        </div>
+                        <div class="mt-4">
+                            <div class="value-container min-h-[60px] flex items-center justify-center bg-slate-100 rounded-lg p-3">
+                                <p class="value-text text-center text-slate-800 font-semibold text-base hidden">${item.value}</p>
+                            </div>
+                            <button class="toggle-btn w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200">
+                                Mostrar Valor
+                            </button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+            
+            function filterAndSearch() {
+                const searchTerm = searchInput.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                const activeCategory = document.querySelector('.filter-btn.active').dataset.category;
+                let resultsFound = false;
+
+                document.querySelectorAll('.lab-card').forEach(card => {
+                    const categoryMatch = activeCategory === 'todos' || card.dataset.category === activeCategory;
+                    const searchMatch = card.dataset.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(searchTerm) || card.dataset.tags.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(searchTerm);
+                    
+                    if(categoryMatch && searchMatch) {
+                        card.style.display = 'flex';
+                        resultsFound = true;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                noResultsDiv.style.display = resultsFound ? 'none' : 'block';
+            }
+
+            filterContainer.addEventListener('click', (e) => {
+                if(e.target.classList.contains('filter-btn')) {
+                    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                    e.target.classList.add('active');
+                    filterAndSearch();
+                }
+            });
+
+            searchInput.addEventListener('keyup', filterAndSearch);
+
+            grid.addEventListener('click', (e) => {
+                if (e.target.classList.contains('toggle-btn')) {
+                    const button = e.target;
+                    const card = button.closest('.lab-card');
+                    const valueText = card.querySelector('.value-text');
+                    
+                    const isHidden = valueText.classList.toggle('hidden');
+                    button.textContent = isHidden ? 'Mostrar Valor' : 'Ocultar Valor';
+                }
+            });
+            
+            createFilterButtons();
+            createLabCards();
+        });
+    </script>
+</body>
+</html>
+
+

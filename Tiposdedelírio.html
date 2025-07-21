@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards: Tipos de Delírios</title>
+    
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Estilos para a animação de virar e fontes -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        .backface-hidden { 
+            backface-visibility: hidden; 
+            -webkit-backface-visibility: hidden; 
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-2xl mx-auto">
+        <h1 class="text-4xl font-extrabold text-center text-gray-800 mb-2">Flashcards de Psicopatologia</h1>
+        <p class="text-lg text-center text-gray-600 mb-8">Tipos de Delírios</p>
+
+        <!-- Container do Flashcard -->
+        <div id="flashcard-container" class="w-full h-80 perspective-1000 cursor-pointer">
+            <div id="flashcard-flipper" class="relative w-full h-full transition-transform duration-700 transform-style-3d">
+                <!-- Frente do Card -->
+                <div class="absolute w-full h-full backface-hidden flex items-center justify-center p-6 bg-white border-2 border-gray-200 rounded-2xl shadow-lg">
+                    <h2 id="card-term" class="text-2xl md:text-3xl font-bold text-center text-gray-800"></h2>
+                </div>
+                
+                <!-- Verso do Card -->
+                <div class="absolute w-full h-full backface-hidden rotate-y-180 flex items-center justify-center p-6 bg-teal-600 border-2 border-teal-700 rounded-2xl shadow-lg">
+                    <p id="card-definition" class="text-base md:text-lg text-white text-center"></p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Controles de Navegação -->
+        <div class="flex items-center justify-between mt-8">
+            <button id="prev-button" class="flex items-center justify-center px-6 py-3 bg-white border-2 border-gray-300 rounded-lg shadow-md hover:bg-gray-50 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                <span class="text-gray-700 font-semibold">Anterior</span>
+            </button>
+          
+            <p id="card-counter" class="text-lg font-semibold text-gray-700"></p>
+          
+            <button id="next-button" class="flex items-center justify-center px-6 py-3 bg-teal-600 text-white rounded-lg shadow-md hover:bg-teal-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                <span class="font-semibold">Próximo</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+        </div>
+    </div>
+    
+    <footer class="text-center mt-12 text-gray-500 text-sm">
+        <p>Clique no card para virar. Use os botões para navegar.</p>
+    </footer>
+
+    <script>
+        // Dados dos flashcards
+        const flashcardData = [
+          { term: 'Persecutório', definition: 'O paciente sente-se perseguido, alvo de fofoca entre os vizinhos, acredita que as pessoas querem enganá-lo, prejudicá-lo ou conspiram contra si.' },
+          { term: 'Erotomaníaco (síndrome de Clérambault)', definition: 'O paciente acredita que alguém, normalmente em condição de superioridade econômica ou social, como um artista famoso ou empresário, está secretamente apaixonado por ele. Acredita que fatos do cotidiano são mensagens subliminares de amor e interpreta as negativas e rejeições amorosas como confirmações codificadas de amor correspondido.' },
+          { term: 'De parasitose (síndrome de Ekbom)', definition: 'O paciente acredita que está infestado por vermes, por isso coça-se, arranha-se e, apesar de jamais encontrar qualquer parasita, está convicto de que eles estão em seu corpo.' },
+          { term: 'Grandeza ou megalomania', definition: 'O paciente acredita estar incumbido de uma missão divina, especial ou secreta. Crê que pertence à nobreza ou à realeza. Acredita ter realizado uma grande invenção que pode mudar o mundo ou torná-lo rico.' },
+          { term: 'Síndrome de Capgras', definition: 'O paciente crê que pessoas de sua família foram substituídas por sósias ou que foram trocadas por impostores.' },
+          { term: 'Síndrome de Fregoli', definition: 'O paciente acredita que um mesmo indivíduo, normalmente um familiar, disfarça-se de uma ou mais pessoas para persegui-lo ou vigiá-lo. Ou pode reconhecer um estranho como um familiar ou conhecido.' },
+          { term: 'Síndrome de Cotard', definition: 'O paciente acredita que seus órgãos estão apodrecendo ou que esteja morto.' },
+          { term: 'Ciumento (síndrome de Otelo)', definition: 'O paciente está convicto de que está sendo traído, baseando-se em pequenas "evidências". Por exemplo, um "bom dia" ou um aceno dado pela companheira para outra pessoa tornam-se provas cabais de uma traição.' }
+        ];
+
+        // Elementos do DOM
+        const cardContainer = document.getElementById('flashcard-container');
+        const cardFlipper = document.getElementById('flashcard-flipper');
+        const cardTerm = document.getElementById('card-term');
+        const cardDefinition = document.getElementById('card-definition');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+        const cardCounter = document.getElementById('card-counter');
+
+        let currentIndex = 0;
+        let isFlipped = false;
+
+        // Função para atualizar o conteúdo do card
+        function updateCard() {
+            const currentCard = flashcardData[currentIndex];
+            cardTerm.textContent = currentCard.term;
+            cardDefinition.textContent = currentCard.definition;
+            cardCounter.textContent = `${currentIndex + 1} / ${flashcardData.length}`;
+            
+            // Garante que o card esteja sempre virado para a frente ao mudar
+            if (isFlipped) {
+                cardFlipper.classList.remove('rotate-y-180');
+                isFlipped = false;
+            }
+        }
+
+        // Event listener para virar o card
+        cardContainer.addEventListener('click', () => {
+            cardFlipper.classList.toggle('rotate-y-180');
+            isFlipped = !isFlipped;
+        });
+
+        // Event listener para o botão "Próximo"
+        nextButton.addEventListener('click', (e) => {
+            e.stopPropagation(); // Impede que o clique no botão vire o card
+            currentIndex = (currentIndex + 1) % flashcardData.length;
+            updateCard();
+        });
+
+        // Event listener para o botão "Anterior"
+        prevButton.addEventListener('click', (e) => {
+            e.stopPropagation(); // Impede que o clique no botão vire o card
+            currentIndex = (currentIndex - 1 + flashcardData.length) % flashcardData.length;
+            updateCard();
+        });
+
+        // Inicializa o primeiro card
+        window.onload = updateCard;
+    </script>
+
+</body>
+</html>
+

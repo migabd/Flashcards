@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards de Psiquiatria - Índice</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Estilo para a transição suave */
+        .link-container {
+            transition: all 0.5s ease-in-out;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .link-container.show {
+            max-height: 1000px; /* Altura suficiente para todos os links */
+        }
+        /* Efeito de hover nos botões de link */
+        .link-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-2xl mx-auto">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-teal-600 dark:text-teal-400">Flashcards de Psiquiatria</h1>
+            <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">Seu guia de acesso rápido para estudos.</p>
+        </header>
+
+        <main class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:p-8">
+            <button id="psychiatry-btn" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-4 px-6 rounded-lg text-xl flex items-center justify-center transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-teal-300 dark:focus:ring-teal-700">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-3" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 00-1-1v-.5a1.5 1.5 0 01-3 0V15a1 1 0 00-1-1H4a1 1 0 01-1-1v-3a1 1 0 011-1h.5a1.5 1.5 0 000-3H4a1 1 0 01-1-1V5a1 1 0 011-1h3a1 1 0 001-1v-.5z" />
+                </svg>
+                Psiquiatria
+            </button>
+
+            <div id="links-section" class="link-container mt-6">
+                <div class="relative mb-6">
+                    <input type="text" id="search-bar" class="w-full pl-10 pr-4 py-3 bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-teal-500 dark:focus:border-teal-400 rounded-lg outline-none transition" placeholder="Pesquisar tópicos...">
+                    <svg class="w-6 h-6 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+
+                <div id="links-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    </div>
+                 <p id="no-results" class="text-center text-gray-500 dark:text-gray-400 mt-4 hidden">Nenhum resultado encontrado.</p>
+            </div>
+        </main>
+
+        <footer class="text-center mt-8 text-gray-500 dark:text-gray-400">
+            <p>&copy; 2024. Criado para o repositório 'migabd/Flashcards'.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const psychiatryBtn = document.getElementById('psychiatry-btn');
+            const linksSection = document.getElementById('links-section');
+            const searchBar = document.getElementById('search-bar');
+            const linksGrid = document.getElementById('links-grid');
+            const noResultsMsg = document.getElementById('no-results');
+
+            // Lista de páginas do seu repositório
+            const pages = [
+                { title: 'Conceitos para Transtornos Psicóticos', url: 'Conceitos úteis para transtornos psicóticos.html' },
+                { title: 'Transtornos Psicóticos', url: 'Transtornospsicóticos.html' },
+                { title: 'Tratamento para Transtornos Psicóticos', url: 'Tratamento para transtornos psicóticos.html' },
+                { title: 'Tratamento na Emergência Psiquiátrica', url: 'Tratamento para transtornos psicóticosnaemergencia.html' },
+                { title: 'Alguns Fármacos Úteis', url: 'alguns fármacos úteis.html' },
+                { title: 'Transtornos de Humor', url: 'transtornosdehumor.html' },
+                { title: 'Tratamento para Transtornos de Humor', url: 'tratamentotranstornosdehumor.html' },
+                { title: 'Transtornos do Sono', url: 'Transtornosdosono.html' },
+                { title: 'Tratamento para Transtornos do Sono', url: 'Tratamentotranstornosdosono.html' }
+            ];
+
+            // Função para renderizar os botões de link
+            function renderLinks(filter = '') {
+                linksGrid.innerHTML = '';
+                const filteredPages = pages.filter(page => page.title.toLowerCase().includes(filter.toLowerCase()));
+
+                if (filteredPages.length === 0) {
+                    noResultsMsg.classList.remove('hidden');
+                } else {
+                    noResultsMsg.classList.add('hidden');
+                }
+
+                filteredPages.forEach(page => {
+                    const linkElement = document.createElement('a');
+                    linkElement.href = page.url;
+                    linkElement.className = 'link-btn block bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md hover:bg-teal-50 dark:hover:bg-gray-600 transition-all duration-300';
+                    linkElement.innerHTML = `
+                        <h3 class="font-semibold text-teal-700 dark:text-teal-300">${page.title}</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Acessar material</p>
+                    `;
+                    linksGrid.appendChild(linkElement);
+                });
+            }
+
+            // Evento de clique no botão principal
+            psychiatryBtn.addEventListener('click', () => {
+                linksSection.classList.toggle('show');
+                // Renderiza todos os links quando a seção é aberta
+                if (linksSection.classList.contains('show')) {
+                    renderLinks();
+                }
+            });
+
+            // Evento de digitação na barra de pesquisa
+            searchBar.addEventListener('input', (e) => {
+                renderLinks(e.target.value);
+            });
+
+            // Renderiza os links inicialmente para que a busca funcione
+            // mas eles estarão ocultos pelo container
+            renderLinks();
+        });
+    </script>
+
+</body>
+</html>

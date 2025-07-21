@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards: Métodos Científicos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .flashcard-container {
+            perspective: 1000px;
+        }
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+        }
+        .flashcard.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .flashcard-front {
+            background-color: #fff;
+            border: 1px solid #e5e7eb;
+        }
+        .flashcard-back {
+            background-color: #f3f4f6;
+            border: 1px solid #e5e7eb;
+            transform: rotateY(180deg);
+        }
+        .nav-button {
+            transition: all 0.2s ease-in-out;
+        }
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body class="bg-stone-100 text-stone-800 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-2xl">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-teal-800">Flashcards de Métodos Científicos</h1>
+            <p class="mt-2 text-stone-600">Clique no cartão para ver a resposta. Use os botões para navegar.</p>
+        </header>
+
+        <main>
+            <div id="flashcard-container" class="flashcard-container w-full h-80 md:h-96 mb-6">
+                <!-- O cartão será inserido aqui pelo JavaScript -->
+            </div>
+
+            <div class="flex items-center justify-between">
+                <button id="prev-btn" class="nav-button bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-6 rounded-lg shadow-md disabled:bg-teal-400">
+                    Anterior
+                </button>
+                <div id="card-counter" class="text-stone-600 font-semibold"></div>
+                <button id="next-btn" class="nav-button bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-6 rounded-lg shadow-md disabled:bg-teal-400">
+                    Próximo
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const flashcardsData = [
+            // Parte I: Pilares do Raciocínio
+            { front: "Método Dedutivo", back: "Parte de uma premissa GERAL para uma conclusão PARTICULAR. Se as premissas são verdadeiras, a conclusão é garantida. Principal proponente: Aristóteles. Limitação: não gera conhecimento novo." },
+            { front: "Método Indutivo", back: "Parte de observações PARTICULARES para uma generalização. A conclusão é provável, não certa. Principal proponente: Francis Bacon. Limitação: Problema da Indução (não garante a verdade)." },
+            { front: "Método Hipotético-Dedutivo", back: "Inicia com um problema, formula uma hipótese e a testa através da tentativa de FALSEAMENTO. Principal proponente: Karl Popper. É o método mais usado na ciência moderna." },
+            { front: "Critério de Falseabilidade (Popper)", back: "Uma teoria só é científica se for falseável, ou seja, se for possível conceber um teste que possa refutá-la. É o critério que demarca a ciência da não-ciência." },
+            { front: "Método Dialético", back: "Analisa a realidade a partir de suas contradições (Tese ↔ Antítese → Síntese). Busca compreender os fenômenos em sua totalidade e interconexão. Principais proponentes: Hegel e Marx." },
+            { front: "Método Fenomenológico", back: "Busca descrever a essência dos fenômenos como são percebidos pela consciência (experiência vivida). Usa a 'Epoché' (suspensão de juízos). Principal proponente: Edmund Husserl." },
+            
+            // Parte II: Correntes Filosóficas
+            { front: "Paradigma (Thomas Kuhn)", back: "Um modelo conceitual compartilhado por uma comunidade científica que define a 'ciência normal'. Inclui leis, teorias e pressupostos." },
+            { front: "Revolução Científica (Thomas Kuhn)", back: "A transição de um paradigma antigo para um novo, que ocorre após um período de 'crise' causado pelo acúmulo de anomalias (problemas que o paradigma não resolve)." },
+            { front: "Incomensurabilidade (Thomas Kuhn)", back: "A ideia de que paradigmas rivais não podem ser comparados por um padrão neutro. A mudança de paradigma é como uma 'conversão'." },
+            { front: "Pensamento Complexo (Edgar Morin)", back: "Uma crítica ao pensamento científico tradicional (simplificador). Propõe 'religar os saberes' e compreender a realidade como um 'tecido junto' (complexus), aceitando a incerteza e a contradição." },
+
+            // Parte III: Vertentes de Estudo
+            { front: "Pesquisa Quantitativa", back: "Objetivo: medir, testar hipóteses e generalizar resultados. Usa dados numéricos e análise estatística. Raciocínio predominantemente dedutivo." },
+            { front: "Pesquisa Qualitativa", back: "Objetivo: compreender e interpretar a singularidade e o significado de um fenômeno. Usa dados descritivos (entrevistas, observações). Raciocínio predominantemente indutivo." },
+            { front: "Métodos Mistos (Quanti-Qualitativa)", back: "Combina as abordagens quantitativa e qualitativa para obter uma compreensão mais completa. Usa a 'Triangulação' para validar ou complementar os achados." },
+            { front: "Triangulação (em Métodos Mistos)", back: "Uso de múltiplos métodos ou fontes de dados para examinar o mesmo fenômeno. Os resultados podem ser de: Convergência (validação), Complementaridade (diferentes facetas) ou Divergência (contradição produtiva)." },
+            
+            // Parte IV: Debates Atuais
+            { front: "Crise de Replicabilidade", back: "A constatação de que muitos resultados científicos publicados são difíceis de replicar. Causas incluem o viés de publicação e práticas de pesquisa questionáveis (p-hacking)." },
+            { front: "Ciência Aberta (Open Science)", back: "Um movimento para combater a crise de replicabilidade, promovendo o compartilhamento público de dados, materiais e protocolos de pesquisa para aumentar a transparência e a verificação." }
+        ];
+
+        let currentCardIndex = 0;
+        const cardContainer = document.getElementById('flashcard-container');
+        const cardCounterEl = document.getElementById('card-counter');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        function createCard(index) {
+            const cardData = flashcardsData[index];
+            cardContainer.innerHTML = `
+                <div class="flashcard" id="card">
+                    <div class="flashcard-face flashcard-front">
+                        <h2 class="text-2xl md:text-3xl font-bold text-teal-900">${cardData.front}</h2>
+                    </div>
+                    <div class="flashcard-face flashcard-back">
+                        <p class="text-base md:text-lg text-stone-700">${cardData.back}</p>
+                    </div>
+                </div>
+            `;
+            const card = document.getElementById('card');
+            card.addEventListener('click', () => {
+                card.classList.toggle('is-flipped');
+            });
+        }
+
+        function updateUI() {
+            createCard(currentCardIndex);
+            cardCounterEl.textContent = `${currentCardIndex + 1} / ${flashcardsData.length}`;
+            prevBtn.disabled = currentCardIndex === 0;
+            nextBtn.disabled = currentCardIndex === flashcardsData.length - 1;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                updateUI();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentCardIndex < flashcardsData.length - 1) {
+                currentCardIndex++;
+                updateUI();
+            }
+        });
+
+        // Initial load
+        updateUI();
+
+    </script>
+</body>
+</html>

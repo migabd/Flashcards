@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards: Diagnóstico e Tratamento dos Transtornos do Sono</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Clinical Focus Colors -->
+    <!-- Application Structure Plan: This SPA is a dedicated flashcard tool focused on diagnosis and treatment, as requested. The UI is minimalist, presenting a grid of flippable cards. This single-purpose design eliminates distractions and allows for rapid, focused review of clinical management, a key study area for residency exams. -->
+    <!-- Visualization & Content Choices: 
+    - Flashcards: Report Info: Diagnostic methods and treatment hierarchies for sleep disorders -> Goal: Memorize clinical pathways -> Viz: Grid of flippable cards (HTML/CSS/JS) -> Interaction: Click to flip -> Justification: Active recall is highly effective for memorizing algorithms and treatment steps. Each card is color-coded, and the back is clearly structured into "Diagnóstico" and "Tratamento" for clarity.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        .flashcard-scene {
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.7s;
+            transform-style: preserve-3d;
+        }
+        .flashcard.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            text-align: center;
+        }
+        .flashcard-face--front {
+            color: white;
+        }
+        .flashcard-face--back {
+            background-color: #f1f5f9;
+            color: #1e293b;
+            transform: rotateY(180deg);
+            justify-content: flex-start;
+            align-items: flex-start;
+            text-align: left;
+            overflow-y: auto; /* Adicionado para rolagem quando o conteúdo transborda */
+        }
+        .back-content h4 {
+            font-weight: 700;
+            color: #1d4ed8;
+            margin-bottom: 0.25rem;
+        }
+        .back-content ul {
+            list-style-type: disc;
+            list-style-position: inside;
+            padding-left: 0.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="bg-slate-50">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-5xl font-bold text-slate-800">Flashcards: Diagnóstico e Tratamento</h1>
+            <p class="text-md md:text-xl text-slate-600 mt-2">Foco no manejo clínico dos Transtornos do Sono.</p>
+        </header>
+
+        <main>
+            <div id="flashcards-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Flashcards will be injected here by JS -->
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const flashcardData = [
+            { 
+                title: 'SAOS', 
+                color: 'bg-sky-600', 
+                backContent: `
+                    <h4>Diagnóstico</h4>
+                    <ul>
+                        <li><b>Padrão-ouro:</b> Polissonografia (PSG) tipo 1.</li>
+                        <li><b>Alternativa:</b> Poligrafia Domiciliar (HSAT) para alta probabilidade sem comorbidades.</li>
+                        <li><b>Índice chave:</b> IAH (Índice de Apneia-Hipopneia).</li>
+                    </ul>
+                    <h4>Tratamento</h4>
+                    <ul>
+                        <li><b>1ª Linha (Mod/Grave):</b> CPAP.</li>
+                        <li><b>Alternativas:</b> Aparelho Intraoral (AIO), Terapia Posicional, Perda de peso.</li>
+                        <li><b>Cirurgia:</b> Bariátrica, Avanço maxilomandibular.</li>
+                    </ul>` 
+            },
+            { 
+                title: 'Insônia Crônica', 
+                color: 'bg-violet-600', 
+                backContent: `
+                    <h4>Diagnóstico</h4>
+                    <ul>
+                        <li><b>Principal:</b> Clínico (critérios de frequência, duração e prejuízo diurno).</li>
+                        <li><b>Auxiliares:</b> Diário do sono, Actigrafia.</li>
+                    </ul>
+                    <h4>Tratamento</h4>
+                    <ul>
+                        <li><b>1ª Linha (Padrão-ouro):</b> TCC-I (Terapia Cognitivo-Comportamental para Insônia).</li>
+                        <li><b>2ª Linha:</b> Farmacoterapia (adjuvante/curto prazo). Evitar uso crônico de BZDs/Drogas "Z".</li>
+                    </ul>` 
+            },
+            { 
+                title: 'Narcolepsia Tipo 1', 
+                color: 'bg-amber-500', 
+                backContent: `
+                    <h4>Diagnóstico</h4>
+                    <ul>
+                        <li>SED + Cataplexia, <b>OU</b></li>
+                        <li>Hipocretina no LCR ≤ 110 pg/mL, <b>OU</b></li>
+                        <li>PSG + TMLS (Lat. média ≤ 8 min e ≥ 2 SOREMPs).</li>
+                    </ul>
+                    <h4>Tratamento</h4>
+                    <ul>
+                        <li><b>Sonolência (SED):</b> Modafinila (1ª linha), Metilfenidato.</li>
+                        <li><b>Cataplexia:</b> Venlafaxina (IRSN), ISRS.</li>
+                        <li><b>Não-farmacológico:</b> Cochilos programados.</li>
+                    </ul>` 
+            },
+            { 
+                title: 'Síndrome das Pernas Inquietas', 
+                color: 'bg-emerald-600', 
+                backContent: `
+                    <h4>Diagnóstico</h4>
+                    <ul>
+                        <li><b>Clínico:</b> Critérios essenciais (URGE).</li>
+                        <li><b>Laboratório Mandatório:</b> Dosar Ferritina sérica.</li>
+                    </ul>
+                    <h4>Tratamento</h4>
+                    <ul>
+                        <li><b>1º Passo:</b> Repor Ferro se ferritina < 75-100 ng/mL.</li>
+                        <li><b>1ª Linha Farmaco:</b> Ligantes alfa-2-delta (Gabapentina, Pregabalina).</li>
+                        <li><b>2ª Linha:</b> Agonistas dopaminérgicos (risco de *augmentation*).</li>
+                    </ul>` 
+            },
+            { 
+                title: 'TCSREM', 
+                color: 'bg-rose-600', 
+                backContent: `
+                    <h4>Diagnóstico</h4>
+                    <ul>
+                        <li><b>Clínico:</b> História de atuação de sonhos (muitas vezes violentos).</li>
+                        <li><b>Confirmação:</b> PSG mostrando <b>Sono REM sem atonia</b>.</li>
+                    </ul>
+                    <h4>Tratamento</h4>
+                    <ul>
+                        <li><b>Segurança:</b> Medidas para proteger paciente e parceiro(a).</li>
+                        <li><b>1ª Linha:</b> Melatonina e/ou Clonazepam.</li>
+                    </ul>` 
+            },
+            { 
+                title: 'Parassonias NREM', 
+                color: 'bg-red-700', 
+                backContent: `
+                    <p class="text-xs mb-2">(Sonambulismo, Terror Noturno)</p>
+                    <h4>Diagnóstico</h4>
+                    <ul>
+                        <li><b>Clínico:</b> História de eventos no 1º terço da noite, com despertar confuso e amnésia.</li>
+                    </ul>
+                    <h4>Tratamento</h4>
+                    <ul>
+                        <li><b>Principal:</b> Medidas de segurança e orientação familiar.</li>
+                        <li><b>Farmacológico (raro):</b> Clonazepam em baixas doses se eventos frequentes ou perigosos.</li>
+                    </ul>` 
+            },
+            { 
+                title: 'Enurese Noturna', 
+                color: 'bg-cyan-600', 
+                backContent: `
+                    <h4>Diagnóstico</h4>
+                    <ul>
+                        <li><b>Clínico:</b> Idade > 5 anos.</li>
+                        <li><b>Diferenciar:</b> Primária (nunca teve controle) vs. Secundária (perda de controle).</li>
+                    </ul>
+                    <h4>Tratamento</h4>
+                    <ul>
+                        <li><b>Comportamental:</b> Restrição hídrica noturna.</li>
+                        <li><b>1ª Linha:</b> Alarme de enurese.</li>
+                        <li><b>2ª Linha:</b> Desmopressina, Antidepressivos tricíclicos.</li>
+                    </ul>` 
+            },
+            { 
+                title: 'Transtorno de Pesadelos', 
+                color: 'bg-slate-700', 
+                backContent: `
+                    <h4>Diagnóstico</h4>
+                    <ul>
+                        <li><b>Clínico:</b> Pesadelos recorrentes com recordação vívida, causando sofrimento ou prejuízo.</li>
+                    </ul>
+                    <h4>Tratamento</h4>
+                    <ul>
+                        <li><b>1ª Linha:</b> Terapia de Ensaio de Imagens (IRT).</li>
+                        <li><b>Associado a TEPT:</b> Prazosina.</li>
+                    </ul>` 
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const flashcardsContainer = document.getElementById('flashcards-container');
+
+            function renderFlashcards() {
+                flashcardsContainer.innerHTML = '';
+                flashcardData.forEach(cardData => {
+                    const scene = document.createElement('div');
+                    scene.className = 'flashcard-scene h-72'; /* Altura aumentada para melhor ajuste */
+                    scene.innerHTML = `
+                        <div class="flashcard">
+                            <div class="flashcard-face flashcard-face--front ${cardData.color}">
+                                <h3 class="text-xl font-bold">${cardData.title}</h3>
+                            </div>
+                            <div class="flashcard-face flashcard-face--back">
+                                <div class="text-sm w-full back-content">${cardData.backContent}</div>
+                            </div>
+                        </div>
+                    `;
+                    scene.addEventListener('click', () => {
+                        scene.querySelector('.flashcard').classList.toggle('is-flipped');
+                    });
+                    flashcardsContainer.appendChild(scene);
+                });
+            }
+
+            renderFlashcards();
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+                <!-- Grid de Links -->
+                <div id="links-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Os links serão inseridos aqui pelo JavaScript -->
+                </div>
+                 <p id="no-results" class="text-center text-gray-500 dark:text-gray-400 mt-4 hidden">Nenhum resultado encontrado.</p>
+            </div>
+        </main>
+
+        <footer class="text-center mt-8 text-gray-500 dark:text-gray-400">
+            <p>&copy; 2024. Criado para o repositório 'migabd/Flashcards'.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const psychiatryBtn = document.getElementById('psychiatry-btn');
+            const linksSection = document.getElementById('links-section');
+            const searchBar = document.getElementById('search-bar');
+            const linksGrid = document.getElementById('links-grid');
+            const noResultsMsg = document.getElementById('no-results');
+
+            // Lista de páginas do seu repositório
+            const pages = [
+    { title: 'Conceitos para Transtornos Psicóticos', url: 'Conceitos úteis para transtornos psicóticos.html' },
+    { title: 'Transtornos Psicóticos', url: 'Transtornospsicóticos.html' },
+    { title: 'Tratamento para Transtornos Psicóticos', url: 'Tratamento para transtornos psicóticos.html' },
+    { title: 'Tratamento na Emergência Psiquiátrica', url: 'Tratamento para transtornos psicóticosnaemergencia.html' },
+    { title: 'Alguns Fármacos Úteis', url: 'alguns fármacos úteis.html' },
+    { title: 'Transtornos de Humor', url: 'transtornosdehumor.html' },
+    { title: 'Tratamento para Transtornos de Humor', url: 'tratamentotranstornosdehumor.html' }
+];
+
+            // Função para renderizar os botões de link
+            function renderLinks(filter = '') {
+                linksGrid.innerHTML = '';
+                const filteredPages = pages.filter(page => page.title.toLowerCase().includes(filter.toLowerCase()));
+
+                if (filteredPages.length === 0) {
+                    noResultsMsg.classList.remove('hidden');
+                } else {
+                    noResultsMsg.classList.add('hidden');
+                }
+
+                filteredPages.forEach(page => {
+                    const linkElement = document.createElement('a');
+                    linkElement.href = page.url;
+                    linkElement.className = 'link-btn block bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md hover:bg-teal-50 dark:hover:bg-gray-600 transition-all duration-300';
+                    linkElement.innerHTML = `
+                        <h3 class="font-semibold text-teal-700 dark:text-teal-300">${page.title}</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Acessar material</p>
+                    `;
+                    linksGrid.appendChild(linkElement);
+                });
+            }
+
+            // Evento de clique no botão principal
+            psychiatryBtn.addEventListener('click', () => {
+                linksSection.classList.toggle('show');
+                // Renderiza todos os links quando a seção é aberta
+                if (linksSection.classList.contains('show')) {
+                    renderLinks();
+                }
+            });
+
+            // Evento de digitação na barra de pesquisa
+            searchBar.addEventListener('input', (e) => {
+                renderLinks(e.target.value);
+            });
+
+            // Renderiza os links inicialmente para que a busca funcione
+            // mas eles estarão ocultos pelo container
+            renderLinks();
+        });
+    </script>
+
+</body>
+</html>

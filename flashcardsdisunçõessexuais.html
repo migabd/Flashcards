@@ -3,156 +3,274 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Central de Resumos</title>
+    <title>Flashcards Interativos: Distúrbios Sexuais</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* --- Estilos Gerais --- */
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-
         body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa, #c3cfe2); /* Gradiente de fundo claro */
-            color: #333; /* Cor do texto principal (escuro) */
-            margin: 0;
-            padding: 20px;
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F9FA;
+        }
+        .deck-button.active {
+            background-color: #C25B2A;
+            color: #FFFFFF;
+            border-color: #C25B2A;
+        }
+        .flashcard-container {
+            perspective: 1000px;
+        }
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flashcard.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-        }
-
-        /* --- Container Principal --- */
-        .container {
-            max-width: 800px;
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.9); /* Fundo branco semi-transparente */
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 2rem;
             text-align: center;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
-
-        /* --- Cabeçalho --- */
-        header h1 {
-            font-size: 2.5em;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: #2c3e50; /* Cor do título (azul escuro) */
+        .flashcard-front {
+            background-color: #FFFFFF;
+            color: #383838;
         }
-
-        header p {
-            font-size: 1.1em;
-            color: #555; /* Cor do subtítulo (cinza escuro) */
-            margin-bottom: 40px;
+        .flashcard-back {
+            background-color: #FDFBF8;
+            color: #383838;
+            transform: rotateY(180deg);
+            overflow-y: auto;
+            align-items: flex-start;
+            text-align: left;
         }
-
-        /* --- Barra de Pesquisa --- */
-        .search-container {
-            margin-bottom: 40px;
+        .flashcard-back ul {
+            list-style-position: inside;
+            padding-left: 1rem;
         }
-
-        #searchInput {
-            width: 80%;
-            padding: 15px;
-            font-size: 1em;
-            border: 2px solid #dcdcdc; /* Borda cinza claro */
-            border-radius: 25px;
-            background-color: #fff;
-            color: #333;
-            transition: all 0.3s ease;
+        .flashcard-back li {
+            margin-bottom: 0.5rem;
         }
-
-        #searchInput:focus {
-            outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 10px rgba(52, 152, 219, 0.2);
+        #timer-progress {
+            transition: stroke-dashoffset 1s linear;
         }
-
-        #searchInput::placeholder {
-            color: #aaa;
-        }
-
-        /* --- Grade de Botões --- */
-        .button-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        /* --- Estilo dos Botões de Link --- */
-        .button {
-            display: block;
-            padding: 20px;
-            text-decoration: none;
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #3498db; /* Cor do texto do botão (azul) */
-            background-color: #ffffff; /* Fundo do botão (branco) */
-            border-radius: 10px;
-            border: 2px solid #3498db; /* Borda do botão (azul) */
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .button:hover {
-            transform: translateY(-5px);
-            background-color: #3498db; /* Cor de fundo ao passar o mouse (azul) */
-            color: #ffffff; /* Cor do texto ao passar o mouse (branco) */
-            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
-        }
-
     </style>
 </head>
-<body>
+<body class="antialiased text-gray-800">
 
-    <div class="container">
-        <header>
-            <h1>Meus Resumos e Listas</h1>
-            <p>Selecione um tópico ou utilize a barra de pesquisa para filtrar.</p>
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-[#C25B2A]">Flashcards: Distúrbios Sexuais</h1>
+            <p class="text-lg text-gray-600 mt-2">Estude os conceitos-chave de forma interativa.</p>
         </header>
 
-        <div class="search-container">
-            <input type="text" id="searchInput" onkeyup="filterButtons()" placeholder="Pesquisar por título...">
-        </div>
+        <section id="deck-selection" class="mb-8">
+            <h2 class="text-2xl font-bold text-center mb-4">Escolha uma categoria:</h2>
+            <div id="deck-buttons" class="flex flex-wrap justify-center gap-2 md:gap-4">
+            </div>
+        </section>
 
-        <nav class="button-grid" id="buttonGrid">
-            <a href="Concentração.html" class="button">Concentração</a>
-            <a href="Exame físico neurológico.html" class="button">Exame Físico Neurológico</a>
-            <a href="Questões de sono.html" class="button">Questões de Sono</a>
-            <a href="Transtornos de sono.html" class="button">Transtornos de Sono</a>
-            <a href="Aula2transversal.html" class="button">Aula 2 Transversal</a>
-            <a href="CasoclínicoHDA.html" class="button">Caso Clínico HDA</a>
-            <a href="HDA.html" class="button">HDA</a>
-            <a href="Aula3transversal.html" class="button">Aula 3 Transversal</a>
-            <a href="dependência química.html" class="button">Dependência Química</a>
-            <a href="Cessarotabagismo.html" class="button">Cessar o Tabagismo</a>
-            <a href="disunçõessexuais.html" class="button">Disfunções Sexuais</a>
-        </nav>
+        <main id="flashcard-section" class="flex flex-col items-center">
+            <div id="timer-container" class="relative w-24 h-24 mb-4">
+                <svg class="w-full h-full" viewBox="0 0 36 36">
+                    <path class="text-gray-200"
+                        d="M18 2.0845
+                          a 15.9155 15.9155 0 0 1 0 31.831
+                          a 15.9155 15.9155 0 0 1 0 -31.831"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="3" />
+                    <path id="timer-progress"
+                        class="text-[#C25B2A] transform -rotate-90 origin-center"
+                        d="M18 2.0845
+                          a 15.9155 15.9155 0 0 1 0 31.831
+                          a 15.9155 15.9155 0 0 1 0 -31.831"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="3"
+                        stroke-dasharray="100, 100"
+                        stroke-dashoffset="0" />
+                </svg>
+                <div id="timer-text" class="absolute inset-0 flex items-center justify-center text-2xl font-bold text-gray-700">30</div>
+            </div>
+
+            <div id="flashcard-display" class="w-full max-w-2xl h-80 md:h-96 mb-4">
+                <div id="card-container" class="flashcard-container w-full h-full">
+                    <div id="card" class="flashcard">
+                        <div id="card-front" class="flashcard-face flashcard-front"></div>
+                        <div id="card-back" class="flashcard-face flashcard-back"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="navigation-controls" class="flex items-center justify-center w-full max-w-2xl">
+                <button id="prev-card" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Anterior</button>
+                <p id="card-counter" class="mx-6 text-lg font-medium text-gray-700">1 / 1</p>
+                <button id="next-card" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Próximo</button>
+            </div>
+             <p class="text-sm text-gray-500 mt-4">Clique no card para virar ou aguarde o tempo acabar.</p>
+        </main>
+
     </div>
 
     <script>
-        // --- Lógica da Barra de Pesquisa ---
-        function filterButtons() {
-            const input = document.getElementById('searchInput');
-            const filter = input.value.toUpperCase();
-            const grid = document.getElementById('buttonGrid');
-            const buttons = grid.getElementsByTagName('a');
+        document.addEventListener('DOMContentLoaded', function () {
+            const decks = {
+                "Critérios Essenciais": [
+                    { q: "Quais são os 3 critérios essenciais para diagnosticar uma disfunção sexual?", a: "<ul><li><strong>1. Sofrimento Clínico:</strong> A condição deve causar angústia ou dificuldades interpessoais significativas.</li><li><strong>2. Duração e Frequência:</strong> O sintoma deve persistir por no mínimo 6 meses e ocorrer em 75-100% das relações.</li><li><strong>3. Contexto e Estímulo:</strong> A avaliação deve considerar se a estimulação sexual é adequada.</li></ul>" },
+                    { q: "Qual a principal mudança da CID-11 em relação à localização das disfunções sexuais?", a: "A CID-11 moveu as disfunções sexuais do capítulo de 'Transtornos Mentais' para um novo capítulo chamado 'Condições Relacionadas à Saúde Sexual', visando reduzir o estigma e promover uma visão de saúde integral." },
+                    { q: "Qual a diferença entre uma parafilia e um transtorno parafílico?", a: "Uma <strong>parafilia</strong> é um interesse sexual atípico. Torna-se um <strong>transtorno parafílico</strong> apenas quando causa sofrimento ao indivíduo ou envolve dano/risco de dano a outros (não consentimento)." },
+                    { q: "Qual a diferença conceitual entre Disfunção Sexual e Disforia de Gênero?", a: "<strong>Disfunção Sexual</strong> refere-se a um problema no processo da resposta sexual (desejo, excitação, orgasmo). <strong>Disforia de Gênero</strong> refere-se ao sofrimento causado pela incongruência entre o gênero experienciado e o atribuído no nascimento." }
+                ],
+                "Disfunções Masculinas": [
+                    { q: "Transtorno do Desejo Sexual Masculino Hipoativo (TDSHM)", a: "<strong>Definição:</strong> Deficiência ou ausência persistente de pensamentos/fantasias sexuais e de desejo por atividade sexual, causando sofrimento.<br><strong>Prevalência (Brasil):</strong> Aumenta com a idade, de 2,4% (18-25 anos) a 4,8% (>60 anos)." },
+                    { q: "Transtorno Erétil (DE)", a: "<strong>Definição:</strong> Dificuldade recorrente em obter/manter uma ereção ou diminuição da rigidez.<br><strong>Prevalência (Brasil):</strong> Muito alta, 45% a 52% dos homens com mais de 40 anos relatam algum grau de dificuldade." },
+                    { q: "Ejaculação Prematura (Precoce) (EP)", a: "<strong>Definição:</strong> Ejaculação que ocorre dentro de ~1 minuto após a penetração, antes do desejado.<br><strong>Prevalência (Brasil):</strong> A disfunção masculina mais comum, afetando 20% a 30% dos homens." },
+                    { q: "Ejaculação Retardada (ER)", a: "<strong>Definição:</strong> Atraso acentuado, infrequência ou ausência de ejaculação, causando sofrimento.<br><strong>Prevalência (Brasil):</strong> Cerca de 4,8% a 6,5%, mas provavelmente subnotificada." }
+                ],
+                "Disfunções Femininas": [
+                    { q: "Transtorno do Interesse/Excitação Sexual Feminino", a: "<strong>Definição:</strong> Ausência/redução do interesse e/ou excitação sexual, com pelo menos 3 de 6 sintomas específicos.<br><strong>Justificativa da Fusão (DSM-5):</strong> Reconhece que, para muitas mulheres, desejo e excitação são fases sobrepostas e difíceis de separar clinicamente." },
+                    { q: "Transtorno do Orgasmo Feminino", a: "<strong>Definição:</strong> Atraso, infrequência ou ausência de orgasmo, ou intensidade reduzida das sensações, causando sofrimento.<br><strong>Nota Importante:</strong> É crucial avaliar se a estimulação (tipo e duração) é adequada para a mulher." },
+                    { q: "Transtorno da Dor Gênito-Pélvica/Penetração (DGPP)", a: "<strong>Definição:</strong> Dificuldades persistentes com penetração, dor vulvovaginal, medo/ansiedade da dor ou tensão dos músculos pélvicos.<br><strong>Justificativa da Fusão (DSM-5):</strong> Unifica Vaginismo e Dispareunia devido à alta comorbidade e dificuldade de distinção." }
+                ],
+                "DSM-5 vs. CID-11": [
+                    { q: "Como o DSM-5 e a CID-11 tratam os problemas de desejo?", a: "<strong>DSM-5:</strong> Separa por gênero (TDSHM para homens; fundido com excitação para mulheres).<br><strong>CID-11:</strong> Usa uma categoria única para ambos os sexos (Disfunção do Desejo Sexual Hipoativo), simplificando a abordagem." },
+                    { q: "Como o DSM-5 e a CID-11 tratam a Ejaculação Precoce?", a: "<strong>DSM-5:</strong> Usa um critério de tempo rígido (ejaculação em ~1 minuto).<br><strong>CID-11:</strong> Foca mais na falta de controle percebido pelo indivíduo, sem um critério de tempo fixo, tornando o diagnóstico mais subjetivo." },
+                    { q: "Como o DSM-5 e a CID-11 tratam os problemas de dor na mulher?", a: "<strong>DSM-5:</strong> Unifica em um único diagnóstico (Transtorno da Dor Gênito-Pélvica/Penetração).<br><strong>CID-11:</strong> Tem um conceito similar (Transtorno de Dor-Penetração Sexual), mas mantém códigos separados para dispareunia em outro capítulo, o que pode complexificar a codificação." }
+                ],
+                "Fatores de Risco": [
+                    { q: "Qual classe de medicamento é mais famosa por causar disfunções sexuais?", a: "Os <strong>Antidepressivos ISRS</strong> (Inibidores Seletivos da Recaptação de Serotonina), como Fluoxetina e Sertralina. Podem causar diminuição da libido, disfunção erétil, ejaculação retardada e anorgasmia." },
+                    { q: "Cite duas classes de anti-hipertensivos que podem causar disfunção sexual.", a: "<strong>1. Betabloqueadores</strong> (ex: Propranolol), que podem causar disfunção erétil e diminuição da libido.<br><strong>2. Diuréticos Tiazídicos</strong> (ex: Hidroclorotiazida), associados à disfunção erétil." },
+                    { q: "Além de medicamentos, quais outros fatores devem ser considerados na avaliação de uma disfunção sexual?", a: "É crucial uma avaliação multifatorial, incluindo:<ul><li><strong>Fatores do Parceiro</strong> (saúde, problemas sexuais)</li><li><strong>Fatores de Relacionamento</strong> (comunicação, conflitos)</li><li><strong>Vulnerabilidade Individual</strong> (imagem corporal, histórico de abuso, depressão)</li><li><strong>Fatores Culturais/Religiosos</strong></li><li><strong>Fatores Médicos</strong> (outras doenças)</li></ul>" }
+                ]
+            };
 
-            for (let i = 0; i < buttons.length; i++) {
-                const button = buttons[i];
-                const textValue = button.textContent || button.innerText;
+            let currentDeckName = Object.keys(decks)[0];
+            let currentCardIndex = 0;
+            const TIME_LIMIT = 30;
+            let timeLeft = TIME_LIMIT;
+            let timerId = null;
 
-                if (textValue.toUpperCase().indexOf(filter) > -1) {
-                    button.style.display = "";
-                } else {
-                    button.style.display = "none";
-                }
+            const deckButtonsContainer = document.getElementById('deck-buttons');
+            const cardContainer = document.getElementById('card-container');
+            const cardElement = document.getElementById('card');
+            const cardFront = document.getElementById('card-front');
+            const cardBack = document.getElementById('card-back');
+            const prevButton = document.getElementById('prev-card');
+            const nextButton = document.getElementById('next-card');
+            const cardCounter = document.getElementById('card-counter');
+            const timerText = document.getElementById('timer-text');
+            const timerProgress = document.getElementById('timer-progress');
+
+            function startTimer() {
+                clearInterval(timerId);
+                timeLeft = TIME_LIMIT;
+                timerText.textContent = timeLeft;
+                timerProgress.style.strokeDashoffset = 0;
+
+                timerId = setInterval(() => {
+                    timeLeft--;
+                    timerText.textContent = timeLeft;
+                    const progressOffset = 100 - (timeLeft / TIME_LIMIT) * 100;
+                    timerProgress.style.strokeDashoffset = progressOffset;
+
+                    if (timeLeft <= 0) {
+                        clearInterval(timerId);
+                        if (!cardElement.classList.contains('is-flipped')) {
+                            cardElement.classList.add('is-flipped');
+                        }
+                    }
+                }, 1000);
             }
-        }
-    </script>
 
+            function createDeckButtons() {
+                Object.keys(decks).forEach(deckName => {
+                    const button = document.createElement('button');
+                    button.textContent = deckName;
+                    button.className = 'deck-button px-4 py-2 border-2 border-gray-300 rounded-full text-sm md:text-base font-medium transition-colors hover:bg-gray-100';
+                    if (deckName === currentDeckName) {
+                        button.classList.add('active');
+                    }
+                    button.addEventListener('click', () => {
+                        currentDeckName = deckName;
+                        currentCardIndex = 0;
+                        updateActiveButton();
+                        loadCard();
+                    });
+                    deckButtonsContainer.appendChild(button);
+                });
+            }
+
+            function updateActiveButton() {
+                document.querySelectorAll('.deck-button').forEach(btn => {
+                    if (btn.textContent === currentDeckName) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                });
+            }
+
+            function loadCard() {
+                const deck = decks[currentDeckName];
+                const cardData = deck[currentCardIndex];
+                
+                if (cardElement.classList.contains('is-flipped')) {
+                    cardElement.classList.remove('is-flipped');
+                }
+
+                setTimeout(() => {
+                    cardFront.innerHTML = `<h3 class="text-xl md:text-2xl font-bold">${cardData.q}</h3>`;
+                    cardBack.innerHTML = `<div class="w-full">${cardData.a}</div>`;
+                    updateNavigation();
+                    startTimer();
+                }, 300); 
+            }
+
+            function updateNavigation() {
+                const deck = decks[currentDeckName];
+                cardCounter.textContent = `${currentCardIndex + 1} / ${deck.length}`;
+                prevButton.disabled = currentCardIndex === 0;
+                nextButton.disabled = currentCardIndex === deck.length - 1;
+            }
+
+            cardContainer.addEventListener('click', () => {
+                cardElement.classList.toggle('is-flipped');
+                if (cardElement.classList.contains('is-flipped')) {
+                     clearInterval(timerId);
+                }
+            });
+
+            prevButton.addEventListener('click', () => {
+                if (currentCardIndex > 0) {
+                    currentCardIndex--;
+                    loadCard();
+                }
+            });
+
+            nextButton.addEventListener('click', () => {
+                const deck = decks[currentDeckName];
+                if (currentCardIndex < deck.length - 1) {
+                    currentCardIndex++;
+                    loadCard();
+                }
+            });
+
+            createDeckButtons();
+            loadCard();
+        });
+    </script>
 </body>
 </html>
-
-

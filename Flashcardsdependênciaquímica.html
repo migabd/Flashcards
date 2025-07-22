@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards de Dependência Química</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Study Room Neutrals -->
+    <!-- Application Structure Plan: A classic flashcard interface. A central card element is the focus, with simple controls for navigation (Next/Previous) and interaction (Flip). A 30-second timer was added to each card to increase study pressure and simulate exam conditions, promoting faster recall. The category filter was removed for a more streamlined, linear study flow. -->
+    <!-- Visualization & Content Choices: 
+        - Card Content: Report Info -> Key facts, clinical scenarios, questions. Goal -> Test Knowledge. Viz/Method -> HTML text on a flippable card. Interaction -> Click to flip. Justification -> Mimics physical flashcards, forcing active recall. Library -> Vanilla JS + CSS transitions.
+        - Card Navigation: Goal -> Browse content. Method -> "Next" and "Previous" buttons. Interaction -> Click. Justification -> Simple, intuitive control over the study deck. Library -> Vanilla JS.
+        - Timer: Goal -> Add time pressure. Method -> A countdown display. Interaction -> Automatically flips the card when time runs out. Justification -> Simulates exam conditions and encourages quick thinking. Library -> Vanilla JS.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f5;
+        }
+        .flashcard-container {
+            perspective: 1000px;
+        }
+        .flashcard {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flashcard.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .card-front {
+            background-color: #ffffff;
+            color: #333;
+        }
+        .card-back {
+            background-color: #e0f2fe; /* Light Blue */
+            color: #0c4a6e; /* Dark Blue */
+            transform: rotateY(180deg);
+        }
+        .card-category {
+            font-family: 'Roboto Slab', serif;
+            font-size: 0.875rem;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #fde68a; /* Light Yellow */
+            color: #713f12; /* Dark Yellow/Brown */
+            padding: 4px 12px;
+            border-radius: 9999px;
+        }
+        .nav-button {
+            transition: all 0.2s ease-in-out;
+        }
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .flip-button {
+            transition: all 0.2s ease-in-out;
+        }
+        .flip-button:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-2xl mx-auto">
+        <header class="text-center mb-6">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800" style="font-family: 'Roboto Slab', serif;">Flashcards para Residência</h1>
+            <p class="text-gray-600 mt-1">Dependência Química</p>
+        </header>
+
+        <div id="flashcard-container" class="flashcard-container mb-4">
+            <div id="flashcard" class="flashcard">
+                <div id="card-front" class="card-face card-front">
+                    <!-- Content injected by JS -->
+                </div>
+                <div id="card-back" class="card-face card-back">
+                    <!-- Content injected by JS -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mb-6 flex justify-center items-center gap-6">
+            <p id="card-counter" class="text-gray-500 font-semibold text-lg"></p>
+            <div id="timer-display" class="font-bold text-xl text-gray-700"></div>
+        </div>
+
+        <div class="flex justify-center items-center gap-4">
+            <button id="prev-button" class="nav-button bg-white text-gray-700 font-bold py-3 px-6 rounded-lg shadow-md">Anterior</button>
+            <button id="flip-button" class="flip-button bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-8 rounded-full shadow-lg">Virar Card</button>
+            <button id="next-button" class="nav-button bg-white text-gray-700 font-bold py-3 px-6 rounded-lg shadow-md">Próximo</button>
+        </div>
+    </div>
+
+    <script>
+        const allFlashcards = [
+            { category: 'Toxidrome', question: 'Paciente agitado, com midríase, taquicardia, hipertensão e pele <strong class="text-red-600">SECA e QUENTE</strong>. Qual a toxidrome?', answer: '<strong>Anticolinérgica</strong>. O diferencial é a pele seca. Mnemônico: "Quente como uma lebre, seco como um osso, vermelho como uma beterraba, louco como um chapeleiro".' },
+            { category: 'Toxidrome', question: 'Paciente agitado, com midríase, taquicardia, hipertensão e pele <strong class="text-blue-600">ÚMIDA (diaforese)</strong>. Qual a toxidrome?', answer: '<strong>Simpaticomimética</strong> (Cocaína, Anfetaminas). O diferencial é a pele úmida.' },
+            { category: 'Toxidrome', question: 'Paciente com miose puntiforme, rebaixamento do nível de consciência e depressão respiratória. Qual a toxidrome?', answer: '<strong>Opioide</strong>. Essa é a tríade clássica da overdose.' },
+            { category: 'Toxidrome', question: 'Paciente com salivação excessiva, lacrimejamento, diarreia, miose e fasciculações. Qual a toxidrome?', answer: '<strong>Colinérgica</strong> (ex: organofosforados). Mnemônico: SLUDGE/DUMBELS.' },
+            { category: 'Abstinência', question: 'Qual síndrome de abstinência é caracterizada por um quadro "gripal" severo (dores, rinorreia, lacrimejamento) mas <strong class="text-green-600">NÃO</strong> apresenta risco de vida?', answer: '<strong>Abstinência de Opioides</strong>. É extremamente desconfortável, mas não fatal.' },
+            { category: 'Abstinência', question: 'Quais são as duas síndromes de abstinência que são <strong class="text-red-600">potencialmente FATAIS</strong> e podem cursar com convulsões e delirium?', answer: '<strong>Álcool</strong> e <strong>Sedativo-Hipnóticos</strong> (Benzodiazepínicos, Barbitúricos). Ambas são síndromes de hiperexcitabilidade do SNC.' },
+            { category: 'Intoxicação', question: 'Qual o tratamento de primeira linha para a agitação e controle de sintomas cardiovasculares na intoxicação por cocaína?', answer: '<strong>Benzodiazepínicos</strong> (ex: Diazepam, Lorazepam). Eles atuam como "antídoto fisiológico".' },
+            { category: 'Antídoto', question: 'Qual a principal <strong class="text-red-600">CONTRAINDICAÇÃO</strong> ao uso de Flumazenil na intoxicação por Benzodiazepínicos?', answer: '<strong>Uso crônico de BZD ou co-ingestão com pró-convulsivantes (ex: ADTs)</strong>. Risco de precipitar convulsões refratárias.' },
+            { category: 'Antídoto', question: 'Por que a administração de <strong class="text-yellow-500">Tiamina (Vit. B1)</strong> é crucial em pacientes alcoolistas na emergência?', answer: 'Para prevenir a <strong>Encefalopatia de Wernicke</strong>. Deve ser administrada <strong class="text-red-600">ANTES</strong> da infusão de glicose.' },
+            { category: 'Antídoto', question: 'Qual o risco de usar um betabloqueador puro (ex: Propranolol) para tratar a taquicardia na intoxicação aguda por cocaína?', answer: 'Risco de <strong>vasoconstrição coronariana paradoxal</strong>, devido à estimulação alfa-adrenérgica sem oposição, podendo piorar a isquemia miocárdica.' },
+            { category: 'Clínica', question: 'Paciente, usuário crônico de cannabis, com vômitos cíclicos e incoercíveis que melhoram com um comportamento bizarro. Qual a síndrome e o comportamento?', answer: '<strong>Síndrome de Hiperêmese Canabinoide (SHC)</strong>. O comportamento patognomônico é a compulsão por tomar <strong>banhos quentes</strong> para alívio dos sintomas.' },
+            { category: 'Clínica', question: 'O que é o <strong class="text-blue-600">Delirium Tremens</strong>?', answer: 'A forma mais grave da abstinência alcoólica. Ocorre 48-96h após a última dose. Caracteriza-se por <strong>delirium, agitação psicomotora intensa e instabilidade autonômica</strong>. Alta mortalidade.' },
+            { category: 'Fundamentos', question: 'De acordo com o DSM-5, quantos critérios são necessários para o diagnóstico de Transtorno por Uso de Substância e como se classifica a gravidade?', answer: 'Pelo menos <strong>2 de 11 critérios</strong> em 12 meses. Gravidade: <strong>2-3 (Leve)</strong>, <strong>4-5 (Moderado)</strong>, <strong>≥6 (Grave)</strong>.' },
+            { category: 'Antídoto', question: 'Qual o antídoto para a intoxicação por opioides e qual o principal cuidado após sua administração?', answer: 'Antídoto: <strong>Naloxona</strong>. Cuidado: Risco de <strong>ressedação</strong>, pois a meia-vida da naloxona pode ser mais curta que a do opioide. O paciente necessita de observação prolongada.' },
+            { category: 'Clínica', question: 'O que é o Transtorno Perceptivo Persistente por Alucinógenos (HPPD)?', answer: 'É a recorrência de sintomas perceptuais (ex: neve visual, halos, rastros) após a cessação do uso de alucinógenos. É um diagnóstico de exclusão, conhecido como "flashbacks".' }
+        ];
+
+        const currentCards = [...allFlashcards];
+        let currentIndex = 0;
+        let isFlipped = false;
+        let timerId = null;
+        let timeLeft = 30;
+
+        const flashcard = document.getElementById('flashcard');
+        const cardFront = document.getElementById('card-front');
+        const cardBack = document.getElementById('card-back');
+        const cardCounter = document.getElementById('card-counter');
+        const timerDisplay = document.getElementById('timer-display');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+        const flipButton = document.getElementById('flip-button');
+
+        function stopTimer() {
+            clearInterval(timerId);
+        }
+
+        function startTimer() {
+            stopTimer();
+            timeLeft = 30;
+            timerDisplay.textContent = `Tempo: ${timeLeft}s`;
+            timerDisplay.classList.remove('text-red-500');
+            timerDisplay.classList.add('text-gray-700');
+
+            timerId = setInterval(() => {
+                timeLeft--;
+                timerDisplay.textContent = `Tempo: ${timeLeft}s`;
+                if (timeLeft <= 5 && timeLeft > 0) {
+                    timerDisplay.classList.add('text-red-500');
+                }
+                if (timeLeft <= 0) {
+                    stopTimer();
+                    timerDisplay.textContent = 'Tempo Esgotado!';
+                    if (!isFlipped) {
+                        flipCard();
+                    }
+                }
+            }, 1000);
+        }
+
+        function displayCard() {
+            const card = currentCards[currentIndex];
+            cardFront.innerHTML = `<div class="card-category">${card.category}</div><h2 class="text-xl md:text-2xl text-center font-bold">${card.question}</h2>`;
+            cardBack.innerHTML = `<p class="text-center text-lg md:text-xl">${card.answer}</p>`;
+            cardCounter.textContent = `${currentIndex + 1} / ${currentCards.length}`;
+            
+            if (isFlipped) {
+                flashcard.classList.remove('is-flipped');
+                isFlipped = false;
+            }
+            startTimer();
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            flashcard.classList.toggle('is-flipped');
+            if (isFlipped) {
+                stopTimer();
+            } else {
+                startTimer();
+            }
+        }
+
+        function nextCard() {
+            currentIndex = (currentIndex + 1) % currentCards.length;
+            displayCard();
+        }
+
+        function prevCard() {
+            currentIndex = (currentIndex - 1 + currentCards.length) % currentCards.length;
+            displayCard();
+        }
+
+        flipButton.addEventListener('click', flipCard);
+        nextButton.addEventListener('click', nextCard);
+        prevButton.addEventListener('click', prevCard);
+
+        // Initial display
+        displayCard();
+    </script>
+
+</body>
+</html>

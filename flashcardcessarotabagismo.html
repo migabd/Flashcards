@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards Interativos: Cessação do Tabagismo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF7;
+            color: #4A4A4A;
+        }
+        .flashcard-container {
+            perspective: 1000px;
+            width: 100%;
+            height: 320px;
+        }
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+        }
+        .flashcard.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 1px solid #EAEAEA;
+        }
+        .flashcard-front {
+            background-color: #FFFFFF;
+        }
+        .flashcard-back {
+            background-color: #F9FAFB;
+            transform: rotateY(180deg);
+        }
+        .timer {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: 4px solid;
+            transition: all 0.3s ease;
+        }
+        .nav-button {
+            background-color: #5E7B8D;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .nav-button:hover {
+            background-color: #4a6374;
+        }
+        .nav-button:disabled {
+            background-color: #9DB2BF;
+            cursor: not-allowed;
+        }
+        .progress-bar-bg {
+            background-color: #E0E7EC;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            background-color: #5E7B8D;
+            height: 8px;
+            border-radius: 8px;
+            transition: width 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto max-w-2xl px-4 py-8">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Flashcards: Tabagismo</h1>
+            <p class="mt-2 text-lg text-gray-600">Clique no card para virar ou aguarde o tempo esgotar.</p>
+        </header>
+
+        <div id="flashcard-container" class="flashcard-container mb-6">
+            <!-- Flashcard will be dynamically inserted here -->
+        </div>
+
+        <div class="flex items-center justify-between">
+            <button id="prev-btn" class="nav-button">Anterior</button>
+            <div id="card-counter" class="text-sm font-semibold text-gray-600"></div>
+            <button id="next-btn" class="nav-button">Próximo</button>
+        </div>
+        
+        <div class="mt-6">
+            <div class="progress-bar-bg">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const flashcardsData = [
+        {
+            front: "Quais são os 3 pilares do Programa Nacional de Controle do Tabagismo (PNCT)?",
+            back: "1. Prevenir a iniciação;<br>2. Promover a cessação;<br>3. Proteger da exposição à fumaça ambiental."
+        },
+        {
+            front: "Qual documento é a referência primária para o tratamento do tabagismo no SUS?",
+            back: "O Protocolo Clínico e Diretrizes Terapêuticas (PCDT) do Tabagismo, versão 2020."
+        },
+        {
+            front: "Qual o escore no Teste de Fagerström que indica a necessidade de farmacoterapia?",
+            back: "Escore ≥ 5."
+        },
+        {
+            front: "Paciente não quer parar de fumar nos próximos 6 meses. Qual o estágio motivacional e a conduta?",
+            back: "<b>Estágio:</b> Pré-contemplação.<br><b>Conduta:</b> Entrevista Motivacional. Não prescrever fármacos nem marcar 'Data D'."
+        },
+        {
+            front: "Qual é a base indispensável do tratamento do tabagismo no SUS?",
+            back: "A Abordagem Cognitivo-Comportamental (TCC). A farmacoterapia é sempre um adjuvante."
+        },
+        {
+            front: "Qual a principal contraindicação absoluta da Bupropiona?",
+            back: "Risco aumentado de convulsão (histórico de epilepsia, TCE grave, transtornos alimentares, etc.)."
+        },
+        {
+            front: "Quando a Terapia de Reposição de Nicotina (TRN) deve ser evitada?",
+            back: "Nas primeiras 2 semanas após um evento cardiovascular agudo (IAM, angina instável)."
+        },
+        {
+            front: "Qual o principal efeito adverso da Vareniclina e como manejá-lo?",
+            back: "<b>Efeito Adverso:</b> Náuseas.<br><b>Manejo:</b> Tomar o medicamento após as refeições e com um copo de água cheio."
+        },
+        {
+            front: "Qual a conduta correta para uma gestante fumante que busca ajuda?",
+            back: "A primeira linha é sempre a abordagem não farmacológica: TCC / Aconselhamento. A farmacoterapia é evitada."
+        },
+        {
+            front: "Qual a conduta para um adolescente (< 18 anos) que deseja parar de fumar?",
+            back: "A primeira linha é a TCC / Aconselhamento. A farmacoterapia não é recomendada por falta de evidências de segurança e eficácia."
+        },
+        {
+            front: "Paciente em uso de Bupropiona queixa-se de insônia. Qual a orientação?",
+            back: "Orientar a tomada da segunda dose no máximo até o final da tarde, nunca à noite, para minimizar o efeito estimulante no sono."
+        },
+        {
+            front: "Qual o mecanismo de ação da Vareniclina?",
+            back: "É um agonista parcial seletivo dos receptores nicotínicos α4β2. Alivia a fissura (efeito agonista) e reduz a satisfação ao fumar (efeito antagonista)."
+        }
+    ];
+
+    let currentCardIndex = 0;
+    let timerInterval;
+    const container = document.getElementById('flashcard-container');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const cardCounter = document.getElementById('card-counter');
+    const progressBar = document.getElementById('progress-bar');
+
+    function startTimer() {
+        let timeLeft = 30;
+        const timerEl = document.getElementById('timer');
+        const flashcard = document.getElementById('flashcard');
+
+        if (timerInterval) {
+            clearInterval(timerInterval);
+        }
+        
+        if (!timerEl) return;
+
+        timerEl.textContent = timeLeft;
+        timerEl.style.borderColor = '#5E7B8D';
+        timerEl.style.color = '#5E7B8D';
+
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            timerEl.textContent = timeLeft;
+
+            if (timeLeft <= 10 && timeLeft > 5) {
+                timerEl.style.borderColor = '#FBBF24'; // Amarelo
+                timerEl.style.color = '#D97706';
+            } else if (timeLeft <= 5) {
+                timerEl.style.borderColor = '#F87171'; // Vermelho
+                timerEl.style.color = '#DC2626';
+            }
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                if (flashcard && !flashcard.classList.contains('is-flipped')) {
+                    flashcard.classList.add('is-flipped');
+                }
+            }
+        }, 1000);
+    }
+
+    function createCard(index) {
+        const cardData = flashcardsData[index];
+        container.innerHTML = `
+            <div class="flashcard" id="flashcard">
+                <div class="flashcard-face flashcard-front">
+                    <div id="timer" class="timer">30</div>
+                    <h2 class="text-xl md:text-2xl font-semibold text-center px-8">${cardData.front}</h2>
+                </div>
+                <div class="flashcard-face flashcard-back">
+                    <p class="text-lg md:text-xl text-center">${cardData.back}</p>
+                </div>
+            </div>
+        `;
+        const flashcard = document.getElementById('flashcard');
+        flashcard.addEventListener('click', () => {
+            flashcard.classList.toggle('is-flipped');
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+        });
+    }
+
+    function updateUI() {
+        createCard(currentCardIndex);
+        startTimer();
+        cardCounter.textContent = `${currentCardIndex + 1} / ${flashcardsData.length}`;
+        prevBtn.disabled = currentCardIndex === 0;
+        nextBtn.disabled = currentCardIndex === flashcardsData.length - 1;
+        
+        const progressPercentage = ((currentCardIndex + 1) / flashcardsData.length) * 100;
+        progressBar.style.width = `${progressPercentage}%`;
+    }
+
+    prevBtn.addEventListener('click', () => {
+        if (currentCardIndex > 0) {
+            currentCardIndex--;
+            updateUI();
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentCardIndex < flashcardsData.length - 1) {
+            currentCardIndex++;
+            updateUI();
+        }
+    });
+
+    updateUI();
+});
+</script>
+
+</body>
+</html>
+

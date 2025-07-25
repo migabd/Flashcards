@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards: Sistemas de Informação em Saúde</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9; /* slate-100 */
+        }
+        .flashcard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .card {
+            height: 320px;
+            perspective: 1500px;
+            cursor: pointer;
+        }
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.7s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            border-radius: 0.75rem;
+        }
+        .card.is-flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            text-align: center;
+        }
+        .card-front {
+            color: white;
+        }
+        .card-back {
+            background-color: #ffffff;
+            color: #1e293b; /* slate-800 */
+            transform: rotateY(180deg);
+            justify-content: flex-start;
+        }
+        .filter-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        .filter-btn.active {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-800">Flashcards de SIS</h1>
+            <p class="mt-3 text-lg text-slate-600 max-w-2xl mx-auto">Um guia rápido sobre os Sistemas de Informação em Saúde do Brasil. Clique nos cartões para virar!</p>
+        </header>
+
+        <div class="flex justify-center flex-wrap gap-3 mb-10">
+            <button data-filter="all" class="filter-btn active font-semibold text-white bg-slate-700 px-5 py-2 rounded-full shadow-md">Todos</button>
+            <button data-filter="conceito" class="filter-btn font-semibold text-white bg-sky-600 px-5 py-2 rounded-full shadow-md">Conceitos</button>
+            <button data-filter="sistema" class="filter-btn font-semibold text-white bg-teal-600 px-5 py-2 rounded-full shadow-md">Sistemas</button>
+            <button data-filter="indicador" class="filter-btn font-semibold text-white bg-amber-600 px-5 py-2 rounded-full shadow-md">Indicadores</button>
+        </div>
+
+        <div id="flashcard-container" class="flashcard-grid">
+            
+            <!-- Conceitos -->
+            <div class="card" data-category="conceito">
+                <div class="card-inner">
+                    <div class="card-face card-front bg-sky-600">
+                        <div class="text-6xl mb-4">🧠</div>
+                        <h2 class="text-2xl font-bold">O que é um SIS?</h2>
+                    </div>
+                    <div class="card-face card-back">
+                        <h3 class="text-xl font-bold text-sky-700 mb-3">Sistema de Informação em Saúde</h3>
+                        <p class="text-slate-700">Segundo a OMS, é um mecanismo de <strong class="font-semibold">coleta, processamento, análise e transmissão</strong> da informação necessária para <strong class="font-semibold">planejar, organizar, operar e avaliar</strong> os serviços de saúde.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" data-category="conceito">
+                <div class="card-inner">
+                    <div class="card-face card-front bg-sky-600">
+                        <div class="text-6xl mb-4">🎯</div>
+                        <h2 class="text-2xl font-bold">Qual o fluxo da informação?</h2>
+                    </div>
+                    <div class="card-face card-back">
+                        <h3 class="text-xl font-bold text-sky-700 mb-3">Da Informação à Ação</h3>
+                        <p class="text-2xl font-semibold text-slate-700 flex flex-col items-center gap-2">
+                            <span>INFORMAÇÃO</span>
+                            <span class="text-sky-600 text-3xl">&darr;</span>
+                            <span class="bg-sky-100 text-sky-800 px-3 py-1 rounded-md">EVIDÊNCIAS</span>
+                            <span class="text-sky-600 text-3xl">&darr;</span>
+                            <span>AÇÃO</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sistemas -->
+            <div class="card" data-category="sistema">
+                <div class="card-inner">
+                    <div class="card-face card-front bg-teal-600">
+                        <div class="text-6xl mb-4">💀</div>
+                        <h2 class="text-2xl font-bold">SIM</h2>
+                    </div>
+                    <div class="card-face card-back">
+                        <h3 class="text-xl font-bold text-teal-700 mb-3">Sistema de Informações sobre Mortalidade</h3>
+                        <ul class="text-left space-y-2 text-slate-700">
+                            <li><strong class="font-semibold">Evento:</strong> Óbito</li>
+                            <li><strong class="font-semibold">Instrumento:</strong> Declaração de Óbito (DO)</li>
+                            <li><strong class="font-semibold">Usos:</strong> Estudos de mortalidade, vigilância de óbitos (infantil, materno).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" data-category="sistema">
+                <div class="card-inner">
+                    <div class="card-face card-front bg-teal-600">
+                        <div class="text-6xl mb-4">👶</div>
+                        <h2 class="text-2xl font-bold">SINASC</h2>
+                    </div>
+                    <div class="card-face card-back">
+                        <h3 class="text-xl font-bold text-teal-700 mb-3">Sistema de Informações sobre Nascidos Vivos</h3>
+                        <ul class="text-left space-y-2 text-slate-700">
+                            <li><strong class="font-semibold">Evento:</strong> Nascido Vivo</li>
+                            <li><strong class="font-semibold">Instrumento:</strong> Declaração de Nascido Vivo (DNV)</li>
+                            <li><strong class="font-semibold">Usos:</strong> Monitoramento da saúde da criança, vigilância de risco.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" data-category="sistema">
+                <div class="card-inner">
+                    <div class="card-face card-front bg-teal-600">
+                        <div class="text-6xl mb-4">📈</div>
+                        <h2 class="text-2xl font-bold">SINAN</h2>
+                    </div>
+                    <div class="card-face card-back">
+                        <h3 class="text-xl font-bold text-teal-700 mb-3">Sistema de Informação de Agravos de Notificação</h3>
+                        <ul class="text-left space-y-2 text-slate-700">
+                            <li><strong class="font-semibold">Evento:</strong> Agravos de Notificação Compulsória</li>
+                            <li><strong class="font-semibold">Instrumento:</strong> Ficha de Investigação/Notificação (FIN)</li>
+                            <li><strong class="font-semibold">Usos:</strong> Acompanhamento de surtos, epidemias.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card" data-category="sistema">
+                <div class="card-inner">
+                    <div class="card-face card-front bg-teal-600">
+                        <div class="text-6xl mb-4">🏥</div>
+                        <h2 class="text-2xl font-bold">SIH</h2>
+                    </div>
+                    <div class="card-face card-back">
+                        <h3 class="text-xl font-bold text-teal-700 mb-3">Sistema de Informações Hospitalares</h3>
+                         <ul class="text-left space-y-2 text-slate-700">
+                            <li><strong class="font-semibold">Evento:</strong> Informação Hospitalar</li>
+                            <li><strong class="font-semibold">Instrumento:</strong> Autorização de Internação (AIH)</li>
+                            <li><strong class="font-semibold">Usos:</strong> Morbidade hospitalar, gestão e custeio.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Indicadores -->
+            <div class="card" data-category="indicador">
+                <div class="card-inner">
+                    <div class="card-face card-front bg-amber-600">
+                        <div class="text-6xl mb-4">🍼</div>
+                        <h2 class="text-2xl font-bold">Coeficiente de Mortalidade Infantil (CMI)</h2>
+                    </div>
+                    <div class="card-face card-back">
+                        <h3 class="text-xl font-bold text-amber-700 mb-3">Mortalidade Infantil (CMI)</h3>
+                        <p class="mb-4 text-slate-700">Mede o risco de um nascido vivo morrer antes de completar 1 ano.</p>
+                        <div class="bg-amber-50 p-3 rounded-lg font-mono text-amber-900 text-sm">
+                           (Nº de óbitos &lt; 1 ano / Nº de nascidos vivos) x 1.000
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" data-category="indicador">
+                <div class="card-inner">
+                    <div class="card-face card-front bg-amber-600">
+                        <div class="text-6xl mb-4">📉</div>
+                        <h2 class="text-2xl font-bold">Taxa de Mortalidade Geral (TMG)</h2>
+                    </div>
+                    <div class="card-face card-back">
+                        <h3 class="text-xl font-bold text-amber-700 mb-3">Mortalidade Geral (TMG)</h3>
+                        <p class="mb-4 text-slate-700">Indica o número total de óbitos em uma população.</p>
+                        <div class="bg-amber-50 p-3 rounded-lg font-mono text-amber-900 text-sm">
+                           (Nº total de óbitos / População total) x 1.000
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" data-category="indicador">
+                <div class="card-inner">
+                    <div class="card-face card-front bg-amber-600">
+                        <div class="text-6xl mb-4">➕</div>
+                        <h2 class="text-2xl font-bold">Incidência</h2>
+                    </div>
+                    <div class="card-face card-back">
+                        <h3 class="text-xl font-bold text-amber-700 mb-3">Incidência</h3>
+                        <p class="mb-4 text-slate-700">Mede o número de <strong class="font-semibold">casos NOVOS</strong> de uma doença em um período.</p>
+                        <div class="bg-amber-50 p-3 rounded-lg font-mono text-amber-900 text-sm">
+                           (Nº de casos novos / População exposta) x 100.000
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" data-category="indicador">
+                <div class="card-inner">
+                    <div class="card-face card-front bg-amber-600">
+                        <div class="text-6xl mb-4">📊</div>
+                        <h2 class="text-2xl font-bold">Prevalência</h2>
+                    </div>
+                    <div class="card-face card-back">
+                        <h3 class="text-xl font-bold text-amber-700 mb-3">Prevalência</h3>
+                        <p class="mb-4 text-slate-700">Mede o número <strong class="font-semibold">TOTAL de casos</strong> (novos + antigos) de uma doença em um ponto no tempo.</p>
+                        <div class="bg-amber-50 p-3 rounded-lg font-mono text-amber-900 text-sm">
+                           (Nº total de casos / População total) x 100.000
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('is-flipped');
+                });
+            });
+
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const allCards = document.querySelectorAll('.card');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Update active button style
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    const filter = button.dataset.filter;
+
+                    allCards.forEach(card => {
+                        if (filter === 'all' || card.dataset.category === filter) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards com Desafio: Tipologia dos Dados</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9; /* slate-100 */
+        }
+        .flashcard-container {
+            perspective: 1000px;
+        }
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        .flashcard.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .flashcard-front {
+            background-color: white;
+        }
+        .flashcard-back {
+            background-color: white;
+            transform: rotateY(180deg);
+        }
+        .card-title {
+            font-family: 'Roboto Slab', serif;
+            font-weight: 700;
+        }
+        .primary-theme {
+            border-top: 5px solid #0d9488; /* teal-600 */
+        }
+        .primary-theme .card-title {
+            color: #0d9488;
+        }
+        .secondary-theme {
+             border-top: 5px solid #d97706; /* amber-600 */
+        }
+        .secondary-theme .card-title {
+            color: #d97706;
+        }
+        .disabled-deck {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
+
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-800 mb-2">Flashcards: Tipologia de Dados</h1>
+            <p class="text-lg text-slate-600 mb-4">Clique em "Iniciar" e vire o máximo de cards em 30 segundos!</p>
+            <div class="flex items-center justify-center gap-4">
+                <div id="timer" class="text-3xl font-bold bg-white px-4 py-2 rounded-lg shadow-md">00:30</div>
+                <button id="startBtn" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105">
+                    Iniciar Desafio
+                </button>
+                 <button id="resetBtn" class="hidden bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-transform transform hover:scale-105">
+                    Tentar Novamente
+                </button>
+            </div>
+            <p id="feedback" class="text-xl font-semibold text-red-600 mt-4 h-6"></p>
+        </header>
+
+        <main id="flashcard-deck" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 disabled-deck">
+            
+            <!-- Flashcard 1 -->
+            <div class="flashcard-container h-64">
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-face flashcard-front primary-theme">
+                        <h2 class="card-title text-2xl text-center">O que são Dados Primários? 🔬</h2>
+                    </div>
+                    <div class="flashcard-face flashcard-back primary-theme">
+                        <p class="text-center">São dados **inéditos**, que NÃO EXISTIAM antes da pesquisa. São coletados pelo próprio pesquisador para um fim específico.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flashcard 2 -->
+            <div class="flashcard-container h-64">
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-face flashcard-front primary-theme">
+                        <h2 class="card-title text-2xl text-center">Como coletar Dados Primários?</h2>
+                    </div>
+                    <div class="flashcard-face flashcard-back primary-theme">
+                        <ul class="list-disc list-inside text-left space-y-1">
+                            <li>Questionários</li>
+                            <li>Entrevistas</li>
+                            <li>Medições (ex: IMC)</li>
+                            <li>Exames (bioquímicos, de imagem)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flashcard 3 -->
+            <div class="flashcard-container h-64">
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-face flashcard-front primary-theme">
+                        <h2 class="card-title text-2xl text-center">Vantagens dos Dados Primários ✅</h2>
+                    </div>
+                    <div class="flashcard-face flashcard-back primary-theme">
+                        <ul class="list-disc list-inside text-left space-y-1">
+                            <li>**Atualizados:** Refletem o agora.</li>
+                            <li>**Relevantes:** Feitos para a pesquisa.</li>
+                            <li>**Controlados:** Qualidade garantida.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flashcard 4 -->
+            <div class="flashcard-container h-64">
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-face flashcard-front primary-theme">
+                        <h2 class="card-title text-2xl text-center">Desvantagens dos Dados Primários ❌</h2>
+                    </div>
+                    <div class="flashcard-face flashcard-back primary-theme">
+                        <ul class="list-disc list-inside text-left space-y-1">
+                            <li>**Caros:** Exigem mais dinheiro.</li>
+                            <li>**Demorados:** Levam mais tempo para coletar.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Flashcard 5 -->
+            <div class="flashcard-container h-64">
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-face flashcard-front secondary-theme">
+                        <h2 class="card-title text-2xl text-center">O que são Dados Secundários? 📚</h2>
+                    </div>
+                    <div class="flashcard-face flashcard-back secondary-theme">
+                        <p class="text-center">São dados que **JÁ EXISTIAM** antes da pesquisa, coletados por outras pessoas ou instituições para outros fins.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Flashcard 6 -->
+            <div class="flashcard-container h-64">
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-face flashcard-front secondary-theme">
+                        <h2 class="card-title text-2xl text-center">Fontes de Dados Secundários?</h2>
+                    </div>
+                    <div class="flashcard-face flashcard-back secondary-theme">
+                        <ul class="list-disc list-inside text-left space-y-1">
+                            <li>DATASUS, IBGE</li>
+                            <li>OMS, ONU</li>
+                            <li>Artigos científicos</li>
+                            <li>Censos e relatórios</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flashcard 7 -->
+            <div class="flashcard-container h-64">
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-face flashcard-front secondary-theme">
+                        <h2 class="card-title text-2xl text-center">Vantagens dos Dados Secundários ✅</h2>
+                    </div>
+                    <div class="flashcard-face flashcard-back secondary-theme">
+                        <ul class="list-disc list-inside text-left space-y-1">
+                           <li>**Baratos:** Baixo custo ou gratuitos.</li>
+                           <li>**Rápidos:** Coleta de dados ágil.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flashcard 8 -->
+            <div class="flashcard-container h-64">
+                <div class="flashcard" onclick="flipCard(this)">
+                    <div class="flashcard-face flashcard-front secondary-theme">
+                        <h2 class="card-title text-2xl text-center">Desvantagens dos Dados Secundários ❌</h2>
+                    </div>
+                    <div class="flashcard-face flashcard-back secondary-theme">
+                        <ul class="list-disc list-inside text-left space-y-1">
+                            <li>**Desatualizados:** Podem ser antigos.</li>
+                            <li>**Irrelevantes:** Podem não ser ideais.</li>
+                            <li>**Sem Controle:** Qualidade incerta.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+        </main>
+    </div>
+
+    <script>
+        const timerDisplay = document.getElementById('timer');
+        const startBtn = document.getElementById('startBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const deck = document.getElementById('flashcard-deck');
+        const feedback = document.getElementById('feedback');
+        const allCards = document.querySelectorAll('.flashcard');
+
+        let timeLeft = 30;
+        let timerInterval = null;
+        let gameActive = false;
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+        }
+
+        function updateTimer() {
+            timeLeft--;
+            timerDisplay.textContent = formatTime(timeLeft);
+            if (timeLeft <= 0) {
+                endGame();
+            }
+        }
+
+        function startGame() {
+            gameActive = true;
+            deck.classList.remove('disabled-deck');
+            startBtn.classList.add('hidden');
+            resetBtn.classList.add('hidden');
+            feedback.textContent = '';
+            
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function endGame() {
+            gameActive = false;
+            clearInterval(timerInterval);
+            deck.classList.add('disabled-deck');
+            feedback.textContent = 'Tempo Esgotado!';
+            resetBtn.classList.remove('hidden');
+        }
+
+        function resetGame() {
+            timeLeft = 30;
+            timerDisplay.textContent = formatTime(timeLeft);
+            feedback.textContent = '';
+            deck.classList.add('disabled-deck');
+            resetBtn.classList.add('hidden');
+            startBtn.classList.remove('hidden');
+            allCards.forEach(card => card.classList.remove('is-flipped'));
+        }
+
+        function flipCard(cardElement) {
+            if (gameActive) {
+                cardElement.classList.toggle('is-flipped');
+            }
+        }
+
+        startBtn.addEventListener('click', startGame);
+        resetBtn.addEventListener('click', resetGame);
+
+    </script>
+</body>
+</html>

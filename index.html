@@ -10,14 +10,15 @@
         body {
             font-family: 'Inter', sans-serif;
         }
-        /* Estilo para a transição suave */
+        /* Estilo para a transição suave e rolagem */
         .link-container {
-            transition: all 0.5s ease-in-out;
+            transition: max-height 0.5s ease-in-out;
             max-height: 0;
             overflow: hidden;
         }
         .link-container.show {
-            max-height: 1000px; /* Altura suficiente para todos os links */
+            max-height: 60vh; /* Altura máxima para a lista, permitindo rolagem */
+            overflow-y: auto; /* Adiciona barra de rolagem se o conteúdo exceder a altura */
         }
         /* Efeito de hover nos botões de link */
         .link-btn:hover {
@@ -52,7 +53,7 @@
             </div>
 
             <!-- Seção de Psiquiatria -->
-            <div id="links-section-psychiatry" class="link-container mt-6">
+            <div id="links-section-psychiatry" class="link-container mt-6 p-1">
                 <div class="relative mb-6">
                     <input type="text" id="search-bar-psychiatry" class="w-full pl-10 pr-4 py-3 bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-teal-500 dark:focus:border-teal-400 rounded-lg outline-none transition" placeholder="Pesquisar tópicos de psiquiatria...">
                     <svg class="w-6 h-6 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -64,7 +65,7 @@
             </div>
 
             <!-- Seção Transversal -->
-            <div id="links-section-transversal" class="link-container mt-6">
+            <div id="links-section-transversal" class="link-container mt-6 p-1">
                 <div class="relative mb-6">
                     <input type="text" id="search-bar-transversal" class="w-full pl-10 pr-4 py-3 bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-indigo-500 dark:focus:border-indigo-400 rounded-lg outline-none transition" placeholder="Pesquisar tópicos transversais...">
                     <svg class="w-6 h-6 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -113,10 +114,10 @@
                 { title: 'Tratamento para Transtornos do Sono', url: 'Tratamentotranstornosdosono.html' },
                 { title: 'Dependência Química', url: 'Flashcardsdependênciaquímica.html' },
                 { title: 'Disfunções Sexuais', url: 'flashcardsdisunçõessexuais.html' },
-                { title: 'Cessação do Tabagismo', url: 'flashcardcessarotabagismo.html' }
+                { title: 'Cessação do Tabagismo', url: 'flashcardcessarotabagismo.html' },
+                { title: 'Prós e Contras de cada ISRS', url: 'ProsecontrascadaISRS.html' } // Texto do link atualizado
             ];
 
-            // UPDATED: Adicionado os novos links para as aulas transversais
             const transversalPages = [
                 { title: 'Aula 2 Transversal', url: 'Aula2tranversal.html' },
                 { title: 'Aula 3 Transversal', url: 'Aula3transversal.html' },

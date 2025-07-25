@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards: Instrumentos de Coleta de Dados</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+        }
+        .flashcard-container {
+            perspective: 1000px;
+        }
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+        .flashcard.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .card-front {
+            color: white;
+        }
+        .card-back {
+            background-color: #FFFFFF;
+            color: #334155;
+            transform: rotateY(180deg);
+            border: 1px solid #E2E8F0;
+        }
+        .card-category-geral { background-color: #F97316; } /* Orange */
+        .card-category-direta { background-color: #3B82F6; } /* Blue */
+        .card-category-indireta { background-color: #10B981; } /* Green */
+    </style>
+</head>
+<body class="bg-slate-50 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-2xl mx-auto">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-800">Flashcards de Estudo</h1>
+            <p class="text-slate-500 mt-1">Instrumentos de Coleta de Dados</p>
+        </header>
+
+        <div id="flashcard-container" class="flashcard-container w-full h-80 md:h-96 mb-6">
+            <div id="flashcard" class="flashcard">
+                <div id="card-front" class="card-face card-front">
+                    <h2 id="front-content" class="text-2xl md:text-3xl font-bold text-center"></h2>
+                </div>
+                <div id="card-back" class="card-face card-back">
+                    <div id="back-content" class="text-base md:text-lg text-center"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col items-center space-y-4">
+            <button id="flip-button" class="w-full max-w-xs bg-slate-800 text-white font-bold py-3 px-6 rounded-lg shadow-md hover:bg-slate-700 transition-colors duration-300">
+                Virar Card
+            </button>
+            <div class="flex items-center justify-between w-full max-w-xs">
+                <button id="prev-button" class="bg-slate-200 text-slate-700 font-bold py-2 px-4 rounded-lg hover:bg-slate-300 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                    Anterior
+                </button>
+                <span id="progress-indicator" class="text-slate-600 font-semibold"></span>
+                <button id="next-button" class="bg-slate-200 text-slate-700 font-bold py-2 px-4 rounded-lg hover:bg-slate-300 transition-colors duration-300">
+                    Próximo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const flashcardData = [
+            {
+                category: 'geral',
+                front: 'Quais 3 fatores definem a escolha do instrumento de coleta?',
+                back: '<ul class="list-none space-y-2"><li>🎯 <strong>Objetivos</strong> da pesquisa</li><li>🔬 <strong>Tipo de estudo</strong> realizado</li><li>🤔 <strong>Abordagem metodológica</strong> (Quanti/Quali)</li></ul>'
+            },
+            {
+                category: 'direta',
+                front: 'O que é um <strong>Questionário</strong>?',
+                back: 'É uma série ordenada de perguntas, respondidas por escrito pelo participante, <strong>sem a interferência direta do pesquisador</strong>. Pode conter perguntas abertas ou fechadas.'
+            },
+            {
+                category: 'direta',
+                front: 'Quais as 5 etapas para elaborar um <strong>Questionário</strong>?',
+                back: '<ol class="list-decimal list-inside text-left space-y-1"><li>Definir os objetivos</li><li>Escolher o tipo de perguntas</li><li>Definir a ordem das perguntas</li><li>Realizar um Pré-teste</li><li>Fazer a <strong>Calibração</strong> (ajustes)</li></ol>'
+            },
+            {
+                category: 'direta',
+                front: 'O que é um <strong>Roteiro de Entrevista</strong>?',
+                back: 'É um instrumento predominante em <strong>estudos qualitativos</strong>. Envolve uma interação face a face entre pesquisador e participante, geralmente com registro em áudio ou vídeo.'
+            },
+            {
+                category: 'direta',
+                front: 'Quais são os 3 tipos de <strong>Entrevista</strong>?',
+                back: '<ul class="list-disc list-inside text-left space-y-2"><li><strong>Estruturada:</strong> Roteiro rígido, sem alterar a ordem das perguntas.</li><li><strong>Não-estruturada:</strong> Roteiro flexível, o pesquisador adapta a ordem.</li><li><strong>Painel:</strong> Repetida com os mesmos sujeitos ao longo do tempo.</li></ul>'
+            },
+            {
+                category: 'indireta',
+                front: 'O que é a <strong>Análise Documental</strong>?',
+                back: 'É a análise de documentos que <strong>não foram criados para a pesquisa</strong>, como prontuários, filmes, fotos, registros institucionais e objetos culturais.'
+            },
+            {
+                category: 'indireta',
+                front: 'O que é a <strong>Pesquisa Bibliográfica</strong>?',
+                back: 'É a análise de toda fonte de informação <strong>já tornada pública</strong> sobre um tema, como artigos, livros, teses e dissertações. É a base da fundamentação teórica.'
+            },
+            {
+                category: 'geral',
+                front: 'Qual a principal abordagem (Quanti/Quali) para Entrevistas e Questionários?',
+                back: '<ul class="list-none space-y-2"><li><strong>Entrevistas</strong> são predominantemente <strong>Qualitativas</strong>.</li><li><strong>Questionários</strong> são frequentemente usados em pesquisas <strong>Quantitativas</strong> (mas podem ser mistos).</li></ul>'
+            }
+        ];
+
+        let currentCardIndex = 0;
+
+        const flashcard = document.getElementById('flashcard');
+        const cardFront = document.getElementById('card-front');
+        const frontContent = document.getElementById('front-content');
+        const backContent = document.getElementById('back-content');
+        const flipButton = document.getElementById('flip-button');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+        const progressIndicator = document.getElementById('progress-indicator');
+
+        function showCard(index) {
+            const card = flashcardData[index];
+            
+            // Reset flip state
+            if (flashcard.classList.contains('is-flipped')) {
+                flashcard.classList.remove('is-flipped');
+            }
+
+            // Update content
+            frontContent.innerHTML = card.front;
+            backContent.innerHTML = card.back;
+            
+            // Update category color
+            cardFront.className = 'card-face card-front'; // Reset classes
+            cardFront.classList.add(`card-category-${card.category}`);
+
+            // Update progress
+            progressIndicator.textContent = `${index + 1} / ${flashcardData.length}`;
+
+            // Update button states
+            prevButton.disabled = index === 0;
+            nextButton.disabled = index === flashcardData.length - 1;
+        }
+
+        flipButton.addEventListener('click', () => {
+            flashcard.classList.toggle('is-flipped');
+        });
+        
+        flashcard.addEventListener('click', () => {
+            flashcard.classList.toggle('is-flipped');
+        });
+
+        prevButton.addEventListener('click', () => {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                showCard(currentCardIndex);
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            if (currentCardIndex < flashcardData.length - 1) {
+                currentCardIndex++;
+                showCard(currentCardIndex);
+            }
+        });
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            showCard(currentCardIndex);
+        });
+    </script>
+</body>
+</html>

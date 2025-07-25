@@ -2,162 +2,226 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Flashcards Interativos - Transtornos de Humor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flashcards de Psicofarmacologia - Transtornos de Humor</title>
+  
+  <!-- Tailwind CSS for styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
+    /* Custom styles for the 3D flip animation */
     body {
-      font-family: sans-serif;
-      background: #f0f0f0;
-      padding: 30px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      font-family: 'Inter', sans-serif;
     }
-    .card {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-      padding: 20px;
-      max-width: 500px;
-      width: 100%;
-      position: relative;
-      text-align: center;
+    .perspective {
+      perspective: 1000px;
     }
-    .title {
-      font-size: 22px;
-      font-weight: bold;
-      margin-bottom: 20px;
+    .transform-style-3d {
+      transform-style: preserve-3d;
     }
-    .content {
-      display: none;
-      text-align: left;
-      margin-top: 10px;
+    .backface-hidden {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden; /* Safari support */
     }
-    .btn {
-      padding: 10px 20px;
-      margin: 10px;
-      border: none;
-      border-radius: 6px;
-      background-color: #0078d4;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
+    .rotate-y-180 {
+      transform: rotateY(180deg);
     }
-    .nav-buttons {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      max-width: 500px;
-      margin-top: 20px;
-    }
-    #timer {
-      margin-top: 15px;
-      font-size: 18px;
-      color: #444;
+    #flashcard.is-flipped {
+      transform: rotateY(180deg);
     }
   </style>
 </head>
-<body>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
 
-  <div class="card" id="flashcard">
-    <div class="title" id="cardTitle">Transtorno Depressivo Maior (TDM)</div>
-    <button class="btn" onclick="revealContent()">Mostrar Resposta</button>
-    <div class="content" id="cardContent">
-      <p><strong>Classe:</strong> ISRS (Inibidores Seletivos da Recaptação de Serotonina)</p>
-      <p><strong>Medicamento:</strong> Sertralina, fluoxetina, escitalopram</p>
-      <p><strong>Dosagem:</strong> Início com dose baixa; ajuste gradual</p>
+  <main class="w-full max-w-lg mx-auto">
+    <header class="text-center mb-8">
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Flashcards de Psicofarmacologia</h1>
+      <p class="text-md text-gray-500 mt-1">Tratamento de Transtornos de Humor</p>
+    </header>
+
+    <!-- Card container with perspective for 3D effect -->
+    <div id="flashcard-container" class="perspective w-full h-64 md:h-72">
+      <div id="flashcard" class="relative w-full h-full transform-style-3d transition-transform duration-700 ease-in-out">
+        
+        <!-- Front of the card -->
+        <div id="card-front" class="absolute w-full h-full backface-hidden bg-white rounded-xl shadow-lg border border-gray-200 flex flex-col justify-center items-center p-6">
+          <h2 id="cardTitle" class="text-xl md:text-2xl font-semibold text-gray-800 text-center"></h2>
+        </div>
+        
+        <!-- Back of the card -->
+        <div id="card-back" class="absolute w-full h-full backface-hidden bg-blue-50 rounded-xl shadow-lg border border-blue-200 flex flex-col justify-center p-6 rotate-y-180">
+           <div id="cardContent" class="text-gray-700 text-left space-y-2"></div>
+        </div>
+      </div>
     </div>
-    <div id="timer">⏳ Tempo restante: <span id="seconds">45</span> segundos</div>
-  </div>
 
-  <div class="nav-buttons">
-    <button class="btn" onclick="prevCard()">← Voltar</button>
-    <button class="btn" onclick="nextCard()">Próximo →</button>
-  </div>
+    <!-- Timer Progress Bar -->
+    <div class="mt-8">
+        <div id="timer-container" class="w-full bg-gray-200 rounded-full h-2.5">
+            <div id="timer-bar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-100 ease-linear"></div>
+        </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="flex items-center justify-between mt-6">
+      <button id="prevBtn" class="p-3 rounded-full bg-white shadow-md hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-600"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      
+      <button id="revealBtn" class="px-8 py-3 rounded-full bg-blue-600 text-white font-semibold shadow-lg hover:bg-blue-700 transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+        Mostrar Resposta
+      </button>
+      
+      <button id="nextBtn" class="p-3 rounded-full bg-white shadow-md hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-600"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+    </div>
+
+    <!-- Progress Counter -->
+    <div id="progress-counter" class="text-center text-gray-500 mt-6 font-medium"></div>
+
+  </main>
 
   <script>
+    // --- DATA ---
     const cards = [
-      {
-        title: "Transtorno Depressivo Maior (TDM)",
-        content: "<p><strong>Classe:</strong> ISRS</p><p><strong>Medicamento:</strong> Sertralina, fluoxetina, escitalopram</p><p><strong>Dosagem:</strong> Início com dose baixa; ajuste gradual</p>"
-      },
-      {
-        title: "Tratamento da Depressão",
-        content: "<p><strong>Classe:</strong> ISRS, IRSN, Atípicos, Tricíclicos</p><p><strong>Medicamento:</strong> Venlafaxina, bupropiona, mirtazapina</p><p><strong>Dosagem:</strong> Ajuste conforme tolerância</p>"
-      },
-      {
-        title: "Transtorno Depressivo Persistente (Distimia)",
-        content: "<p><strong>Classe:</strong> ISRS, IRSN</p><p><strong>Medicamento:</strong> Fluoxetina, duloxetina</p><p><strong>Dosagem:</strong> Dose inicial com ajustes gradativos</p>"
-      },
-      {
-        title: "Transtorno Disfórico Pré-Menstrual (TDPM)",
-        content: "<p><strong>Classe:</strong> ISRS</p><p><strong>Medicamento:</strong> Fluoxetina, sertralina</p><p><strong>Dosagem:</strong> Contínua ou fase lútea</p>"
-      },
-      {
-        title: "Transtorno Bipolar Tipo I",
-        content: "<p><strong>Classe:</strong> Estabilizadores de humor + antipsicóticos</p><p><strong>Medicamento:</strong> Lítio, ácido valproico, risperidona</p><p><strong>Dosagem:</strong> Lítio: 900–1200 mg/dia (monitorar níveis)</p>"
-      },
-      {
-        title: "Transtorno Bipolar Tipo II",
-        content: "<p><strong>Classe:</strong> Estabilizadores de humor</p><p><strong>Medicamento:</strong> Lamotrigina, quetiapina</p><p><strong>Dosagem:</strong> 25 mg até 200 mg/dia</p>"
-      },
-      {
-        title: "Depressão Pós-Parto",
-        content: "<p><strong>Classe:</strong> ISRS</p><p><strong>Medicamento:</strong> Sertralina</p><p><strong>Dosagem:</strong> Dose inicial padrão com ajustes</p>"
-      },
-      {
-        title: "Ciclotimia",
-        content: "<p><strong>Classe:</strong> Estabilizadores de humor</p><p><strong>Medicamento:</strong> Lítio</p><p><strong>Dosagem:</strong> Monitorar sintomas e ajustar</p>"
-      },
-      {
-        title: "Transtorno de Desregulação Disruptiva do Humor (TDTH)",
-        content: "<p><strong>Classe:</strong> Antipsicóticos atípicos, ISRS</p><p><strong>Medicamento:</strong> Aripiprazol, fluoxetina</p><p><strong>Dosagem:</strong> Conforme idade e gravidade</p>"
-      }
+      { title: "Transtorno Depressivo Maior (TDM)", content: "<p><strong>Classe:</strong> ISRS</p><p><strong>Medicamento:</strong> Sertralina, fluoxetina, escitalopram</p><p><strong>Dosagem:</strong> Início com dose baixa; ajuste gradual</p>" },
+      { title: "Tratamento da Depressão", content: "<p><strong>Classe:</strong> ISRS, IRSN, Atípicos, Tricíclicos</p><p><strong>Medicamento:</strong> Venlafaxina, bupropiona, mirtazapina</p><p><strong>Dosagem:</strong> Ajuste conforme tolerância</p>" },
+      { title: "Transtorno Depressivo Persistente (Distimia)", content: "<p><strong>Classe:</strong> ISRS, IRSN</p><p><strong>Medicamento:</strong> Fluoxetina, duloxetina</p><p><strong>Dosagem:</strong> Dose inicial com ajustes gradativos</p>" },
+      { title: "Transtorno Disfórico Pré-Menstrual (TDPM)", content: "<p><strong>Classe:</strong> ISRS</p><p><strong>Medicamento:</strong> Fluoxetina, sertralina</p><p><strong>Dosagem:</strong> Contínua ou na fase lútea</p>" },
+      { title: "Transtorno Bipolar Tipo I", content: "<p><strong>Classe:</strong> Estabilizadores de humor + antipsicóticos</p><p><strong>Medicamento:</strong> Lítio, ácido valproico, risperidona</p><p><strong>Dosagem:</strong> Lítio: 900–1200 mg/dia (monitorar níveis)</p>" },
+      { title: "Transtorno Bipolar Tipo II", content: "<p><strong>Classe:</strong> Estabilizadores de humor</p><p><strong>Medicamento:</strong> Lamotrigina, quetiapina</p><p><strong>Dosagem:</strong> Titulação lenta de 25 mg até 200 mg/dia</p>" },
+      { title: "Depressão Pós-Parto", content: "<p><strong>Classe:</strong> ISRS</p><p><strong>Medicamento:</strong> Sertralina</p><p><strong>Dosagem:</strong> Dose inicial padrão com ajustes</p>" },
+      { title: "Ciclotimia", content: "<p><strong>Classe:</strong> Estabilizadores de humor</p><p><strong>Medicamento:</strong> Lítio, lamotrigina</p><p><strong>Dosagem:</strong> Monitorar sintomas e ajustar</p>" },
+      { title: "Transtorno de Desregulação Disruptiva do Humor (TDTH)", content: "<p><strong>Classe:</strong> Antipsicóticos atípicos, ISRS</p><p><strong>Medicamento:</strong> Aripiprazol, fluoxetina</p><p><strong>Dosagem:</strong> Conforme idade e gravidade</p>" }
     ];
 
-    let current = 0;
-    let countdown;
+    // --- STATE ---
+    let currentCardIndex = 0;
+    let timerInterval;
+    const TIMER_DURATION = 15; // seconds
 
-    function updateCard() {
-      document.getElementById('cardTitle').innerHTML = cards[current].title;
-      document.getElementById('cardContent').innerHTML = cards[current].content;
-      document.getElementById('cardContent').style.display = 'none';
-      document.getElementById('seconds').innerHTML = '45';
-      clearInterval(countdown);
+    // --- DOM ELEMENTS ---
+    const flashcard = document.getElementById('flashcard');
+    const cardTitle = document.getElementById('cardTitle');
+    const cardContent = document.getElementById('cardContent');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const revealBtn = document.getElementById('revealBtn');
+    const progressCounter = document.getElementById('progress-counter');
+    const timerBar = document.getElementById('timer-bar');
+
+    // --- FUNCTIONS ---
+
+    /**
+     * Updates the UI with the data from the current card.
+     */
+    function displayCard() {
+      // Reset card state
+      flashcard.classList.remove('is-flipped');
+      revealBtn.disabled = false;
+
+      // Get current card data
+      const cardData = cards[currentCardIndex];
+      
+      // Update DOM
+      cardTitle.innerHTML = cardData.title;
+      cardContent.innerHTML = cardData.content;
+      progressCounter.textContent = `Card ${currentCardIndex + 1} de ${cards.length}`;
+
+      // Update navigation button states
+      prevBtn.disabled = currentCardIndex === 0;
+      nextBtn.disabled = currentCardIndex === cards.length - 1;
+
+      // Reset and start the timer
+      resetTimer();
       startTimer();
     }
 
+    /**
+     * Flips the card to show the answer.
+     */
+    function revealAnswer() {
+      flashcard.classList.add('is-flipped');
+      revealBtn.disabled = true;
+      clearInterval(timerInterval);
+    }
+
+    /**
+     * Navigates to the next card.
+     */
     function nextCard() {
-      if (current < cards.length - 1) {
-        current++;
-        updateCard();
+      if (currentCardIndex < cards.length - 1) {
+        currentCardIndex++;
+        displayCard();
       }
     }
 
+    /**
+     * Navigates to the previous card.
+     */
     function prevCard() {
-      if (current > 0) {
-        current--;
-        updateCard();
+      if (currentCardIndex > 0) {
+        currentCardIndex--;
+        displayCard();
       }
     }
 
-    function revealContent() {
-      document.getElementById('cardContent').style.display = 'block';
-      clearInterval(countdown);
-    }
-
+    /**
+     * Starts the countdown timer and updates the progress bar.
+     */
     function startTimer() {
-      let seconds = 45;
-      countdown = setInterval(() => {
-        seconds--;
-        document.getElementById('seconds').textContent = seconds;
-        if (seconds <= 0) {
-          clearInterval(countdown);
-          document.getElementById('cardContent').style.display = 'block';
-        }
-      }, 1000);
+        let timeLeft = TIMER_DURATION;
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            const percentage = (timeLeft / TIMER_DURATION) * 100;
+            timerBar.style.width = `${percentage}%`;
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                revealAnswer();
+            }
+        }, 1000);
     }
 
-    window.onload = updateCard;
+    /**
+     * Resets the timer and progress bar to their initial state.
+     */
+    function resetTimer() {
+        clearInterval(timerInterval);
+        timerBar.style.transition = 'none'; // Disable transition for instant reset
+        timerBar.style.width = '100%';
+        // Force reflow to apply the style change immediately
+        timerBar.offsetHeight; 
+        timerBar.style.transition = 'width 1s linear'; // Re-enable transition
+    }
+
+
+    // --- EVENT LISTENERS ---
+    revealBtn.addEventListener('click', revealAnswer);
+    nextBtn.addEventListener('click', nextCard);
+    prevBtn.addEventListener('click', prevCard);
+    
+    // Allow keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') {
+            nextCard();
+        } else if (e.key === 'ArrowLeft') {
+            prevCard();
+        } else if (e.key === ' ') {
+            e.preventDefault(); // Prevent page scroll
+            revealAnswer();
+        }
+    });
+
+    // --- INITIALIZATION ---
+    window.addEventListener('DOMContentLoaded', displayCard);
+
   </script>
 </body>
 </html>

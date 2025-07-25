@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards: Fontes de Dados em Saúde</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .flashcard-container {
+            perspective: 1000px;
+        }
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flashcard-container.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            text-align: center;
+        }
+        .flashcard-back {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-800 mb-2">Flashcards Interativos</h1>
+            <p class="text-lg text-slate-600">Clique nos cartões para virar e testar seus conhecimentos sobre Fontes de Dados.</p>
+        </header>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- Flashcard 1: Dado -->
+            <div class="flashcard-container h-64 cursor-pointer">
+                <div class="flashcard-inner shadow-lg rounded-xl">
+                    <div class="flashcard-front bg-sky-500 text-white">
+                        <h2 class="text-3xl font-bold">🧊<br>O que é um DADO?</h2>
+                    </div>
+                    <div class="flashcard-back bg-sky-100 text-sky-900">
+                        <p class="font-semibold">É a matéria-prima, um conteúdo quantificável e bruto que, isoladamente, não transmite uma mensagem clara.</p>
+                        <p class="text-sm mt-2">Ex: O número 37, a palavra "febre".</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flashcard 2: Informação -->
+            <div class="flashcard-container h-64 cursor-pointer">
+                <div class="flashcard-inner shadow-lg rounded-xl">
+                    <div class="flashcard-front bg-emerald-500 text-white">
+                        <h2 class="text-3xl font-bold">💡<br>O que é INFORMAÇÃO?</h2>
+                    </div>
+                    <div class="flashcard-back bg-emerald-100 text-emerald-900">
+                        <p class="font-semibold">É o resultado da organização, análise e contextualização dos dados. É o dado com significado, pronto para a tomada de decisão.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flashcard 3: Tipos de Dados -->
+            <div class="flashcard-container h-64 cursor-pointer">
+                <div class="flashcard-inner shadow-lg rounded-xl">
+                    <div class="flashcard-front bg-amber-500 text-white">
+                        <h2 class="text-3xl font-bold">🗂️<br>Quais os tipos de dados?</h2>
+                    </div>
+                    <div class="flashcard-back bg-amber-100 text-amber-900">
+                        <p><span class="font-bold">Primários:</span> Coletados pelo próprio pesquisador para um fim específico.</p>
+                        <p class="mt-4"><span class="font-bold">Secundários:</span> Dados já existentes, coletados por outras instituições (Ex: IBGE, DATASUS).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flashcard 4: Registro Civil -->
+            <div class="flashcard-container h-64 cursor-pointer">
+                <div class="flashcard-inner shadow-lg rounded-xl">
+                    <div class="flashcard-front bg-indigo-500 text-white">
+                        <h2 class="text-3xl font-bold">📜<br>O que é o Registro Civil?</h2>
+                    </div>
+                    <div class="flashcard-back bg-indigo-100 text-indigo-900">
+                        <p class="font-semibold">É a fonte de dados que registra oficialmente os eventos vitais de um cidadão, como nascimentos, casamentos e óbitos, garantindo direitos fundamentais.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flashcard 5: IBGE -->
+            <div class="flashcard-container h-64 cursor-pointer">
+                <div class="flashcard-inner shadow-lg rounded-xl">
+                    <div class="flashcard-front bg-rose-500 text-white">
+                        <h2 class="text-3xl font-bold">🗺️<br>Qual o papel do IBGE?</h2>
+                    </div>
+                    <div class="flashcard-back bg-rose-100 text-rose-900">
+                        <p class="font-semibold">É a principal fonte de dados demográficos e socioeconômicos do Brasil. Realiza pesquisas essenciais para a saúde, como o Censo, a PNS e a PeNSE.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flashcard 6: DATASUS -->
+            <div class="flashcard-container h-64 cursor-pointer">
+                <div class="flashcard-inner shadow-lg rounded-xl">
+                    <div class="flashcard-front bg-cyan-500 text-white">
+                        <h2 class="text-3xl font-bold">🏥<br>O que é o DATASUS?</h2>
+                    </div>
+                    <div class="flashcard-back bg-cyan-100 text-cyan-900">
+                        <p class="font-semibold">É o Departamento de Informática do SUS, responsável por coletar, processar e disseminar as informações de saúde do Brasil para apoiar análises e a tomada de decisões.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const flashcards = document.querySelectorAll('.flashcard-container');
+            flashcards.forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('flipped');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

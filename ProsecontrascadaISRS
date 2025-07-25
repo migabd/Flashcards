@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards de Antidepressivos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Fundo cinza claro */
+        }
+        .flashcard-container {
+            perspective: 1000px;
+        }
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            border-radius: 16px;
+        }
+        .flashcard-container.flipped .flashcard {
+            transform: rotateY(180deg);
+        }
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .flashcard-back {
+            transform: rotateY(180deg);
+            justify-content: flex-start;
+            align-items: flex-start;
+            overflow-y: auto;
+        }
+        .flashcard-back h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-top: 12px;
+            margin-bottom: 4px;
+        }
+        .flashcard-back p, .flashcard-back ul {
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        .flashcard-back ul {
+            list-style-position: inside;
+            padding-left: 4px;
+        }
+        .ssri-color { background-color: #e0f2fe; /* Azul claro */ }
+        .ssri-color-back { background-color: #f0f9ff; /* Azul muito claro */ }
+        .atypical-color { background-color: #dcfce7; /* Verde claro */ }
+        .atypical-color-back { background-color: #f0fdf4; /* Verde muito claro */ }
+        .sari-color { background-color: #fef9c3; /* Amarelo claro */ }
+        .sari-color-back { background-color: #fefce8; /* Amarelo muito claro */ }
+        .multimodal-color { background-color: #f3e8ff; /* Roxo claro */ }
+        .multimodal-color-back { background-color: #faf5ff; /* Roxo muito claro */ }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+
+    <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-800">Flashcards de Antidepressivos</h1>
+        <p class="text-gray-600 mt-2">Clique nos cards para ver os detalhes.</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+
+        <!-- Fluoxetina -->
+        <div class="flashcard-container h-96" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard">
+                <div class="flashcard-front ssri-color">
+                    <h2 class="text-3xl font-bold text-sky-800">Fluoxetina</h2>
+                    <p class="text-sky-600 mt-2">ISRS - Ativador</p>
+                </div>
+                <div class="flashcard-back ssri-color-back text-gray-700">
+                    <h3 class="text-sky-800">Quando Preferir:</h3>
+                    <ul class="list-disc">
+                        <li>Má adesão ao tratamento (meia-vida longa).</li>
+                        <li>Depressão com fadiga, apatia, hipersonia.</li>
+                        <li>Bulimia nervosa, TOC, TDPM.</li>
+                    </ul>
+                    <h3 class="text-sky-800">Quando Evitar/Cuidado:</h3>
+                    <ul class="list-disc">
+                        <li>Pacientes com agitação, ansiedade ou insônia.</li>
+                        <li>Idosos (risco de acúmulo).</li>
+                        <li>Polifarmácia (inibidor potente da CYP2D6).</li>
+                    </ul>
+                     <h3 class="text-sky-800">Efeitos Adversos Chave:</h3>
+                    <p>Ativação (ansiedade, insônia), náusea, perda de peso inicial, disfunção sexual. Risco muito baixo de descontinuação.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sertralina -->
+        <div class="flashcard-container h-96" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard">
+                <div class="flashcard-front ssri-color">
+                    <h2 class="text-3xl font-bold text-sky-800">Sertralina</h2>
+                    <p class="text-sky-600 mt-2">ISRS - Levemente Ativador</p>
+                </div>
+                <div class="flashcard-back ssri-color-back text-gray-700">
+                    <h3 class="text-sky-800">Quando Preferir:</h3>
+                    <ul class="list-disc">
+                        <li>Amplo espectro de indicações (depressão, pânico, TEPT, fobia social).</li>
+                        <li>Primeira escolha na lactação.</li>
+                        <li>Uso em pediatria para TOC (>6 anos).</li>
+                         <li>Bom perfil de equilíbrio geral.</li>
+                    </ul>
+                    <h3 class="text-sky-800">Quando Evitar/Cuidado:</h3>
+                    <ul class="list-disc">
+                         <li>Sensibilidade a efeitos gastrointestinais (diarreia).</li>
+                         <li>Requer monitoramento em polifarmácia (inibidor moderado da CYP2D6).</li>
+                    </ul>
+                     <h3 class="text-sky-800">Efeitos Adversos Chave:</h3>
+                    <p>Náusea, diarreia, disfunção sexual. Perfil de peso geralmente neutro. Risco moderado de descontinuação.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Paroxetina -->
+        <div class="flashcard-container h-96" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard">
+                <div class="flashcard-front ssri-color">
+                    <h2 class="text-3xl font-bold text-sky-800">Paroxetina</h2>
+                    <p class="text-sky-600 mt-2">ISRS - Sedativo</p>
+                </div>
+                <div class="flashcard-back ssri-color-back text-gray-700">
+                    <h3 class="text-sky-800">Quando Preferir:</h3>
+                    <ul class="list-disc">
+                        <li>Depressão com ansiedade, agitação ou insônia.</li>
+                        <li>Amplo espectro para transtornos de ansiedade.</li>
+                    </ul>
+                    <h3 class="text-sky-800">Quando Evitar/Cuidado:</h3>
+                    <ul class="list-disc">
+                        <li>Pacientes com sobrepeso/obesidade.</li>
+                        <li>Preocupação com disfunção sexual.</li>
+                        <li>Idosos (efeitos anticolinérgicos, sedação).</li>
+                        <li>Polifarmácia (inibidor potente da CYP2D6).</li>
+                        <li>Histórico de má adesão.</li>
+                    </ul>
+                     <h3 class="text-sky-800">Efeitos Adversos Chave:</h3>
+                    <p>Sedação, ganho de peso, disfunção sexual (muito alta), constipação. Risco muito alto de síndrome de descontinuação.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Escitalopram -->
+        <div class="flashcard-container h-96" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard">
+                <div class="flashcard-front ssri-color">
+                    <h2 class="text-3xl font-bold text-sky-800">Escitalopram</h2>
+                    <p class="text-sky-600 mt-2">ISRS - Neutro</p>
+                </div>
+                <div class="flashcard-back ssri-color-back text-gray-700">
+                    <h3 class="text-sky-800">Quando Preferir:</h3>
+                    <ul class="list-disc">
+                        <li>Primeira escolha em idosos e polifarmácia.</li>
+                        <li>Quando se deseja o menor risco de interações medicamentosas.</li>
+                        <li>Perfil de tolerabilidade muito bom.</li>
+                    </ul>
+                    <h3 class="text-sky-800">Quando Evitar/Cuidado:</h3>
+                    <ul class="list-disc">
+                        <li>Risco de disfunção sexual ainda é presente.</li>
+                        <li>Custo pode ser maior que outros ISRS genéricos.</li>
+                    </ul>
+                     <h3 class="text-sky-800">Efeitos Adversos Chave:</h3>
+                    <p>Disfunção sexual. Perfil muito "limpo" e bem tolerado em geral. Risco moderado de descontinuação.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bupropiona -->
+        <div class="flashcard-container h-96" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard">
+                <div class="flashcard-front atypical-color">
+                    <h2 class="text-3xl font-bold text-green-800">Bupropiona</h2>
+                    <p class="text-green-600 mt-2">Atípico - IRND</p>
+                </div>
+                <div class="flashcard-back atypical-color-back text-gray-700">
+                    <h3 class="text-green-800">Quando Preferir:</h3>
+                    <ul class="list-disc">
+                        <li>Para evitar disfunção sexual ou ganho de peso.</li>
+                        <li>Depressão com anedonia, fadiga, apatia.</li>
+                        <li>Cessação do tabagismo.</li>
+                        <li>Potencialização de ISRS para tratar disfunção sexual.</li>
+                    </ul>
+                    <h3 class="text-green-800">Quando Evitar/Cuidado:</h3>
+                    <ul class="list-disc">
+                        <li><strong>Contraindicado</strong> em pacientes com histórico de convulsões ou transtornos alimentares.</li>
+                        <li>Pode piorar a ansiedade e a insônia.</li>
+                    </ul>
+                     <h3 class="text-green-800">Efeitos Adversos Chave:</h3>
+                    <p>Boca seca, insônia, agitação, cefaleia. Reduz o limiar convulsivo. Sem disfunção sexual e associado à perda de peso.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mirtazapina -->
+        <div class="flashcard-container h-96" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard">
+                <div class="flashcard-front atypical-color">
+                    <h2 class="text-3xl font-bold text-green-800">Mirtazapina</h2>
+                    <p class="text-green-600 mt-2">Atípico - Antagonista α2</p>
+                </div>
+                <div class="flashcard-back atypical-color-back text-gray-700">
+                    <h3 class="text-green-800">Quando Preferir:</h3>
+                    <ul class="list-disc">
+                        <li>Depressão com insônia e ansiedade significativas.</li>
+                        <li>Depressão com perda de peso e apetite (comum em idosos).</li>
+                        <li>Para evitar disfunção sexual ou efeitos gastrointestinais.</li>
+                    </ul>
+                    <h3 class="text-green-800">Quando Evitar/Cuidado:</h3>
+                    <ul class="list-disc">
+                        <li>Pacientes com obesidade, síndrome metabólica ou hipersonia.</li>
+                    </ul>
+                     <h3 class="text-green-800">Efeitos Adversos Chave:</h3>
+                    <p>Sedação, aumento de apetite e ganho de peso. Risco muito baixo de disfunção sexual e náuseas.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trazodona -->
+        <div class="flashcard-container h-96" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard">
+                <div class="flashcard-front sari-color">
+                    <h2 class="text-3xl font-bold text-amber-800">Trazodona</h2>
+                    <p class="text-amber-600 mt-2">Atípico - SARI</p>
+                </div>
+                <div class="flashcard-back sari-color-back text-gray-700">
+                    <h3 class="text-amber-800">Quando Preferir:</h3>
+                    <ul class="list-disc">
+                        <li>Principalmente como hipnótico em doses baixas (25-150mg).</li>
+                        <li>Para tratar insônia induzida por outros antidepressivos (ex: Fluoxetina, Bupropiona).</li>
+                        <li>Monoterapia para depressão com insônia proeminente.</li>
+                    </ul>
+                    <h3 class="text-amber-800">Quando Evitar/Cuidado:</h3>
+                    <ul class="list-disc">
+                        <li>Risco de priapismo (emergência médica).</li>
+                        <li>Risco de hipotensão ortostática e quedas (cuidado em idosos).</li>
+                    </ul>
+                     <h3 class="text-amber-800">Efeitos Adversos Chave:</h3>
+                    <p>Sedação, tontura, hipotensão postural. Raro, mas grave: priapismo.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Vortioxetina -->
+        <div class="flashcard-container h-96" onclick="this.classList.toggle('flipped')">
+            <div class="flashcard">
+                <div class="flashcard-front multimodal-color">
+                    <h2 class="text-3xl font-bold text-purple-800">Vortioxetina</h2>
+                    <p class="text-purple-600 mt-2">Atípico - Multimodal</p>
+                </div>
+                <div class="flashcard-back multimodal-color-back text-gray-700">
+                    <h3 class="text-purple-800">Quando Preferir:</h3>
+                    <ul class="list-disc">
+                        <li>Depressão com queixas cognitivas (déficit de atenção, concentração).</li>
+                        <li>Quando se busca baixo risco de disfunção sexual e ganho de peso.</li>
+                    </ul>
+                    <h3 class="text-purple-800">Quando Evitar/Cuidado:</h3>
+                    <ul class="list-disc">
+                        <li>Pacientes sensíveis a náuseas.</li>
+                        <li>Custo pode ser uma barreira.</li>
+                    </ul>
+                     <h3 class="text-purple-800">Efeitos Adversos Chave:</h3>
+                    <p>Náusea é o efeito mais comum. Perfil de tolerabilidade favorável em relação a disfunção sexual e peso.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards Interativos: Comportamento Sexual Compulsivo</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f9;
+        }
+
+        .flashcard-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            padding: 25px;
+        }
+
+        /* Container for the 3D effect */
+        .flashcard {
+            background-color: transparent;
+            height: 380px;
+            perspective: 1000px; /* For the 3D flip effect */
+            cursor: pointer;
+        }
+
+        /* This container is needed to position the front and back side */
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.7s;
+            transform-style: preserve-3d;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+            border-radius: 18px;
+        }
+
+        /* Do the horizontal flip when the user clicks on the card */
+        .flashcard.is-flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* Position the front and back sides */
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Safari */
+            backface-visibility: hidden;
+            border-radius: 18px;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box; /* Ensures padding is included in height/width */
+        }
+
+        /* Style the front side */
+        .flashcard-front {
+            background-color: #ffffff;
+            color: #333;
+            border-top: 10px solid;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .flashcard-front .click-indicator {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 15px;
+            font-weight: 400;
+        }
+
+        /* Style the back side */
+        .flashcard-back {
+            background-color: #ffffff;
+            color: #333;
+            transform: rotateY(180deg);
+            border-top: 10px solid;
+            padding: 25px 30px;
+        }
+
+        .flashcard h2 {
+            font-size: 1.6em;
+            font-weight: 700;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .flashcard-front h2 {
+             margin-bottom: 20px;
+        }
+        
+        .flashcard-back h2 {
+            margin-bottom: 20px;
+        }
+
+        .flashcard h2 .icon {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+        }
+
+        .flashcard-back ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 1.0em; /* Adjusted for better fit */
+            line-height: 1.6;
+            flex-grow: 1;
+            text-align: left;
+        }
+
+        .flashcard-back li {
+            margin-bottom: 12px; /* Adjusted for better fit */
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .flashcard-back li::before {
+            content: '»';
+            position: absolute;
+            left: 5px;
+            font-weight: 700;
+            font-size: 1.4em;
+            top: -4px;
+        }
+
+        .card-1 { border-color: #2563eb; } .card-1 h2, .card-1 li::before { color: #2563eb; }
+        .card-2 { border-color: #dc2626; } .card-2 h2, .card-2 li::before { color: #dc2626; }
+        .card-3 { border-color: #16a34a; } .card-3 h2, .card-3 li::before { color: #16a34a; }
+        .card-4 { border-color: #d97706; } .card-4 h2, .card-4 li::before { color: #d97706; }
+        .card-5 { border-color: #475569; } .card-5 h2, .card-5 li::before { color: #475569; }
+        .card-6 { border-color: #7c3aed; } .card-6 h2, .card-6 li::before { color: #7c3aed; }
+    </style>
+</head>
+<body>
+
+    <div class="flashcard-container">
+
+        <!-- Card 1 -->
+        <div class="flashcard" onclick="this.classList.toggle('is-flipped')">
+            <div class="flashcard-inner">
+                <div class="flashcard-front card-1">
+                    <div>
+                        <h2>
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 15V12M12 12V9H10M12 12H14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Tríade Central do Transtorno
+                        </h2>
+                        <div class="click-indicator">(Clique para revelar)</div>
+                    </div>
+                </div>
+                <div class="flashcard-back card-1">
+                    <h2>Tríade Central do Transtorno</h2>
+                    <ul>
+                        <li><b>Falha no Controle:</b> Padrão persistente de falha em controlar <strong>impulsos, fantasias ou comportamentos</strong> sexuais intensos e repetitivos.</li>
+                        <li><b>Centralidade na Vida:</b> Atividades sexuais tornam-se o <strong>foco principal</strong> da vida, em detrimento de outros interesses, atividades e obrigações.</li>
+                        <li><b>Prejuízo Evidente:</b> O comportamento causa <strong>sofrimento acentuado</strong> e prejuízo significativo nas áreas pessoal, familiar, social ou profissional.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="flashcard" onclick="this.classList.toggle('is-flipped')">
+            <div class="flashcard-inner">
+                <div class="flashcard-front card-2">
+                     <div>
+                        <h2>
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C14.0955 3 16.0353 3.78033 17.5 5.06885M17.5 5.06885L21 3M17.5 5.06885V7.5H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Tríade do Ciclo Compulsivo
+                        </h2>
+                        <div class="click-indicator">(Clique para revelar)</div>
+                    </div>
+                </div>
+                <div class="flashcard-back card-2">
+                    <h2>Tríade do Ciclo Compulsivo</h2>
+                    <ul>
+                        <li><b>Tensão e Impulso:</b> Sentimentos crescentes de <strong>tensão, ansiedade ou desejo</strong> que precedem o ato sexual.</li>
+                        <li><b>Ato e Alívio Temporário:</b> Engajamento no comportamento sexual para obter prazer ou um <strong>alívio momentâneo</strong> da tensão.</li>
+                        <li><b>Culpa e Vergonha:</b> Sentimentos de <strong>culpa, arrependimento ou vergonha</strong> que surgem após o ato, reforçando o ciclo.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="flashcard" onclick="this.classList.toggle('is-flipped')">
+            <div class="flashcard-inner">
+                <div class="flashcard-front card-3">
+                    <div>
+                        <h2>
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3L2 7L12 11L22 7L12 3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 17L12 21L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12L12 16L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Tétrade de Manifestações
+                        </h2>
+                        <div class="click-indicator">(Clique para revelar)</div>
+                    </div>
+                </div>
+                <div class="flashcard-back card-3">
+                    <h2>Tétrade de Manifestações</h2>
+                    <ul>
+                        <li><b>Uso de Pornografia:</b> Consumo <strong>excessivo e incontrolável</strong> de material pornográfico.</li>
+                        <li><b>Masturbação Compulsiva:</b> Prática que <strong>interfere na rotina</strong> diária e nas responsabilidades.</li>
+                        <li><b>Múltiplos Parceiros:</b> Busca <strong>incessante por múltiplos parceiros</strong>, muitas vezes de forma anônima ou impessoal.</li>
+                        <li><b>Sexo de Risco:</b> Engajamento em práticas sexuais que colocam a <strong>saúde em risco</strong>.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="flashcard" onclick="this.classList.toggle('is-flipped')">
+            <div class="flashcard-inner">
+                <div class="flashcard-front card-4">
+                    <div>
+                        <h2>
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.29 3.86L1.82 18C1.62301 18.3343 1.63695 18.747 1.85921 19.083C2.08147 19.419 2.48782 19.633 2.94 19.63H21.06C21.5122 19.633 21.9185 19.419 22.1408 19.083C22.3631 18.747 22.377 18.3343 22.18 18L13.71 3.86C13.5101 3.52499 13.1973 3.30861 12.85 3.25C12.5027 3.19139 12.1473 3.29822 11.89 3.54L11.85 3.58C11.35 4.08 10.79 3.36 10.29 3.86Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 9V13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 17.0195V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Tétrade de Consequências
+                        </h2>
+                        <div class="click-indicator">(Clique para revelar)</div>
+                    </div>
+                </div>
+                <div class="flashcard-back card-4">
+                    <h2>Tétrade de Consequências</h2>
+                    <ul>
+                        <li><b>Relações Interpessoais:</b> Dificuldade em manter relacionamentos íntimos e saudáveis devido a <strong>mentiras e segredos</strong>.</li>
+                        <li><b>Desempenho Ocupacional:</b> <strong>Queda na produtividade</strong> no trabalho ou nos estudos.</li>
+                        <li><b>Riscos à Saúde:</b> Aumento da exposição a <strong>Infecções Sexualmente Transmissíveis</strong> (ISTs).</li>
+                        <li><b>Problemas Financeiros/Legais:</b> <strong>Gastos excessivos</strong> com sexo ou consequências legais.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="flashcard" onclick="this.classList.toggle('is-flipped')">
+            <div class="flashcard-inner">
+                <div class="flashcard-front card-5">
+                    <div>
+                        <h2>
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 3H5C3.89543 3 3 3.89543 3 5V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 3H19C20.1046 3 21 3.89543 21 5V10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 21H5C3.89543 21 3 20.1046 3 19V14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 21H19C20.1046 21 21 20.1046 21 19V14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Tríade de Comorbidades
+                        </h2>
+                        <div class="click-indicator">(Clique para revelar)</div>
+                    </div>
+                </div>
+                <div class="flashcard-back card-5">
+                    <h2>Tríade de Comorbidades</h2>
+                    <ul>
+                        <li><b>Transtornos de Ansiedade:</b> A ansiedade pode ser tanto um <strong>gatilho</strong> para o comportamento quanto uma <strong>consequência</strong> dele.</li>
+                        <li><b>Depressão:</b> Sentimentos de <strong>vazio, tristeza e desesperança</strong> são frequentemente encontrados nestes quadros.</li>
+                        <li><b>Uso de Substâncias:</b> O uso de <strong>álcool ou outras drogas</strong> é comum para facilitar ou intensificar o comportamento sexual.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="flashcard" onclick="this.classList.toggle('is-flipped')">
+            <div class="flashcard-inner">
+                <div class="flashcard-front card-6">
+                    <div>
+                        <h2>
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13 10V3L4 14H11L11 21L20 10H13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            Tétrade de Gatilhos Emocionais
+                        </h2>
+                        <div class="click-indicator">(Clique para revelar)</div>
+                    </div>
+                </div>
+                <div class="flashcard-back card-6">
+                    <h2>Tétrade de Gatilhos Emocionais</h2>
+                    <ul>
+                        <li><b>Ansiedade:</b> O comportamento sexual é usado como uma forma disfuncional de <strong>lidar com a ansiedade</strong>.</li>
+                        <li><b>Solidão:</b> A busca por sexo pode ser uma tentativa de <strong>preencher um sentimento de vazio</strong> ou solidão.</li>
+                        <li><b>Tédio:</b> O comportamento serve como uma fonte de <strong>alta estimulação</strong> para combater o tédio.</li>
+                        <li><b>Estresse:</b> Utilização do sexo como uma <strong>válvula de escape</strong> para situações estressantes da vida.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

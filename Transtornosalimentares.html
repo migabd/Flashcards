@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards Interativos: Transtornos Alimentares</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f3f4f6; /* bg-gray-100 */
+        }
+        .scene {
+            width: 100%;
+            max-width: 500px;
+            height: 600px;
+            perspective: 1000px;
+        }
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+        .card.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .card__face {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+        }
+        .card__face--front {
+            background-color: white;
+            align-items: center;
+            justify-content: center;
+        }
+        .card__face--back {
+            transform: rotateY(180deg);
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="container mx-auto p-4 flex flex-col items-center w-full">
+        <header class="text-center mb-6">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Flashcards Interativos</h1>
+            <p class="text-md text-gray-600 mt-1">Transtornos Alimentares</p>
+        </header>
+
+        <!-- Flashcard Scene -->
+        <div id="cardScene" class="scene mb-6">
+            <div id="card" class="card">
+                <div id="cardFront" class="card__face card__face--front">
+                    <!-- Conteúdo da frente do cartão será inserido via JS -->
+                </div>
+                <div id="cardBack" class="card__face card__face--back">
+                    <!-- Conteúdo do verso do cartão será inserido via JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegação -->
+        <div class="flex items-center justify-center space-x-4 w-full max-w-md">
+            <button id="prevBtn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                Anterior
+            </button>
+            <button id="flipBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg transition-colors shadow-lg">
+                Virar Cartão
+            </button>
+            <button id="nextBtn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                Próximo
+            </button>
+        </div>
+        <div id="cardCounter" class="mt-4 text-gray-500"></div>
+
+    </div>
+
+    <script>
+        // --- Dados dos Flashcards ---
+        const flashcards = [
+            {
+                front: {
+                    title: "Anorexia Nervosa",
+                    color: "blue"
+                },
+                back: {
+                    title: "Anorexia Nervosa",
+                    definition: "Busca incessante por magreza, medo intenso de ganhar peso e uma visão distorcida do próprio corpo, resultando em um peso corporal significativamente baixo.",
+                    characteristics: [
+                        "Restrição severa e voluntária de alimentos.",
+                        "Medo extremo de engordar, mesmo estando muito abaixo do peso.",
+                        "Distorção da imagem corporal (sente-se acima do peso, mesmo magro/a).",
+                        "A autoavaliação depende excessivamente do peso e da forma."
+                    ],
+                    alerts: [
+                        "Perda de peso rápida e contínua.",
+                        "Negação da fome ou desculpas para não comer.",
+                        "Isolamento social e prática excessiva de exercícios.",
+                        "Amenorreia (ausência de menstruação) em mulheres."
+                    ],
+                    color: "blue"
+                }
+            },
+            {
+                front: {
+                    title: "Bulimia Nervosa",
+                    color: "purple"
+                },
+                back: {
+                    title: "Bulimia Nervosa",
+                    definition: "Episódios recorrentes de compulsão alimentar (ingestão de grande quantidade de comida com sensação de perda de controle), seguidos por comportamentos compensatórios para evitar o ganho de peso.",
+                    characteristics: [
+                        "Episódios de compulsão alimentar em segredo.",
+                        "Comportamentos compensatórios (vômitos, laxantes, jejum, etc.).",
+                        "A autoavaliação é muito influenciada pelo peso e forma corporal.",
+                        "O peso geralmente está na faixa normal ou com sobrepeso."
+                    ],
+                    alerts: [
+                        "Ir ao banheiro logo após as refeições.",
+                        "Sinais de vômito (inchaço nas bochechas, calos nos dedos).",
+                        "Preocupação constante com o peso.",
+                        "Mudanças de humor, ansiedade e depressão."
+                    ],
+                    color: "purple"
+                }
+            },
+            {
+                front: {
+                    title: "Transtorno de Compulsão Alimentar",
+                    color: "green"
+                },
+                back: {
+                    title: "Transtorno de Compulsão Alimentar",
+                    definition: "Episódios recorrentes de compulsão alimentar (comer grandes quantidades rapidamente, sentindo falta de controle), mas <strong>sem</strong> os comportamentos compensatórios vistos na bulimia.",
+                    characteristics: [
+                        "Comer muito mais rápido que o normal.",
+                        "Comer até se sentir desconfortavelmente cheio.",
+                        "Comer grandes quantidades mesmo sem fome.",
+                        "Sentir-se culpado/a ou deprimido/a após o episódio."
+                    ],
+                    alerts: [
+                        "Ganho de peso ou obesidade.",
+                        "Comer em segredo, esconder embalagens de comida.",
+                        "Fazer dietas frequentemente, sem sucesso.",
+                        "Sentimentos de angústia sobre o comer."
+                    ],
+                    color: "green"
+                }
+            }
+        ];
+
+        // --- Lógica do Aplicativo ---
+        const card = document.getElementById('card');
+        const cardFront = document.getElementById('cardFront');
+        const cardBack = document.getElementById('cardBack');
+        const flipBtn = document.getElementById('flipBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const cardCounter = document.getElementById('cardCounter');
+
+        let currentCardIndex = 0;
+
+        const colorClasses = {
+            blue: {
+                bg: 'bg-blue-50',
+                border: 'border-blue-500',
+                text: 'text-blue-800',
+                textLight: 'text-blue-700'
+            },
+            purple: {
+                bg: 'bg-purple-50',
+                border: 'border-purple-500',
+                text: 'text-purple-800',
+                textLight: 'text-purple-700'
+            },
+            green: {
+                bg: 'bg-green-50',
+                border: 'border-green-500',
+                text: 'text-green-800',
+                textLight: 'text-green-700'
+            }
+        };
+
+        function updateCard(index) {
+            const data = flashcards[index];
+            const frontColors = colorClasses[data.front.color];
+            const backColors = colorClasses[data.back.color];
+
+            // Atualizar Frente
+            cardFront.className = `card__face card__face--front ${frontColors.bg} border-l-8 ${frontColors.border}`;
+            cardFront.innerHTML = `<h2 class="text-4xl font-bold ${frontColors.text} text-center">${data.front.title}</h2>`;
+
+            // Atualizar Verso
+            cardBack.className = `card__face card__face--back ${backColors.bg} border-l-8 ${backColors.border}`;
+            cardBack.innerHTML = `
+                <div class="space-y-4 text-left">
+                    <h2 class="text-2xl font-bold ${backColors.text} mb-3">${data.back.title}</h2>
+                    <div>
+                        <h3 class="font-semibold ${backColors.textLight}">Definição:</h3>
+                        <p class="text-gray-700 text-sm">${data.back.definition}</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold ${backColors.textLight}">Características Principais:</h3>
+                        <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm">
+                            ${data.back.characteristics.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold ${backColors.textLight}">Sinais de Alerta:</h3>
+                        <ul class="list-disc list-inside text-gray-700 space-y-1 text-sm">
+                            ${data.back.alerts.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+            
+            // Atualizar contador
+            cardCounter.textContent = `${index + 1} / ${flashcards.length}`;
+
+            // Atualizar estado dos botões
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === flashcards.length - 1;
+        }
+
+        // --- Event Listeners ---
+        flipBtn.addEventListener('click', () => {
+            card.classList.toggle('is-flipped');
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentCardIndex < flashcards.length - 1) {
+                currentCardIndex++;
+                card.classList.remove('is-flipped');
+                // Pequeno delay para a animação de virar começar antes da troca de conteúdo
+                setTimeout(() => updateCard(currentCardIndex), 150);
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                card.classList.remove('is-flipped');
+                setTimeout(() => updateCard(currentCardIndex), 150);
+            }
+        });
+
+        // Inicializar o primeiro cartão
+        window.onload = () => {
+            updateCard(currentCardIndex);
+        };
+    </script>
+</body>
+</html>

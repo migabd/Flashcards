@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards: Transtornos do Neurodesenvolvimento</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Estilos para a animação de virar o card */
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .flashcard-back {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-lg mx-auto text-center mb-8">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Flashcards Interativos</h1>
+        <p class="text-gray-600 dark:text-gray-300 mt-2">Transtornos do Neurodesenvolvimento</p>
+    </div>
+
+    <!-- Container do Flashcard -->
+    <div id="flashcard-container" class="w-full max-w-lg h-80 perspective-1000">
+        <!-- O card em si -->
+        <div id="flashcard" class="flashcard w-full h-full">
+            <div id="flashcard-inner" class="flashcard-inner">
+                <!-- Frente do Card -->
+                <div id="flashcard-front" class="flashcard-front bg-white dark:bg-gray-800 text-gray-900 dark:text-white">
+                    <!-- Conteúdo da frente será inserido via JS -->
+                </div>
+                <!-- Verso do Card -->
+                <div id="flashcard-back" class="flashcard-back bg-blue-100 dark:bg-blue-900/30 text-gray-900 dark:text-white">
+                     <!-- Conteúdo do verso será inserido via JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botões de Navegação -->
+    <div class="mt-8 flex space-x-4">
+        <button id="flip-button" class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 transition-transform transform hover:scale-105">
+            Virar
+        </button>
+        <button id="next-button" class="px-6 py-3 bg-gray-700 text-white font-semibold rounded-lg shadow-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-75 transition-transform transform hover:scale-105">
+            Próximo
+        </button>
+    </div>
+
+    <script>
+        const flashcards = [
+            {
+                front: {
+                    title: "Transtorno do Espectro Autista (TEA)",
+                    question: "Quais são as características centrais que definem o TEA?"
+                },
+                back: {
+                    answer: "O TEA é caracterizado por déficits na comunicação e interação social, além de padrões restritos e repetitivos de comportamento, interesses ou atividades.",
+                    points: [
+                        "Dificuldade em iniciar e manter conversas.",
+                        "Contato visual e linguagem corporal atípicos.",
+                        "Interesses intensos e focados em temas específicos.",
+                        "Hipersensibilidade ou hipossensibilidade a estímulos sensoriais."
+                    ]
+                }
+            },
+            {
+                front: {
+                    title: "Transtorno do Déficit de Atenção com Hiperatividade (TDAH)",
+                    question: "Quais são os três principais grupos de sintomas do TDAH?"
+                },
+                back: {
+                    answer: "Os sintomas do TDAH são agrupados em desatenção, hiperatividade e impulsividade. Nem todos os indivíduos apresentam os três.",
+                    points: [
+                        "<strong>Desatenção:</strong> Dificuldade em manter o foco, parece não ouvir, perde objetos.",
+                        "<strong>Hiperatividade:</strong> Inquietação, dificuldade em ficar sentado, fala excessiva.",
+                        "<strong>Impulsividade:</strong> Dificuldade em esperar a sua vez, interrompe os outros."
+                    ]
+                }
+            },
+            {
+                front: {
+                    title: "Dislexia",
+                    question: "Qual é a principal dificuldade enfrentada por uma pessoa com dislexia?"
+                },
+                back: {
+                    answer: "A dislexia é um transtorno específico da aprendizagem que afeta primariamente a habilidade de ler e escrever com precisão e fluência.",
+                    points: [
+                        "Dificuldade no reconhecimento de palavras.",
+                        "Problemas para decodificar (associar letras a sons).",
+                        "Leitura lenta e com esforço.",
+                        "Dificuldades na ortografia."
+                    ]
+                }
+            },
+            {
+                front: {
+                    title: "Discalculia",
+                    question: "Como a discalculia afeta a vida de uma pessoa?"
+                },
+                back: {
+                    answer: "A discalculia é um transtorno específico da aprendizagem que envolve uma dificuldade persistente em entender e manipular números e conceitos matemáticos.",
+                    points: [
+                        "Dificuldade com o senso numérico (ex: comparar quantidades).",
+                        "Problemas para memorizar fatos aritméticos básicos (ex: tabuada).",
+                        "Dificuldade com o raciocínio matemático e resolução de problemas.",
+                        "Ansiedade em relação à matemática."
+                    ]
+                }
+            },
+            {
+                front: {
+                    title: "Transtorno do Desenvolvimento da Coordenação (TDC)",
+                    question: "O que caracteriza o Transtorno do Desenvolvimento da Coordenação, também conhecido como dispraxia?"
+                },
+                back: {
+                    answer: "O TDC é caracterizado por um desempenho em habilidades motoras coordenadas (finas e grossas) que está substancialmente abaixo do esperado para a idade.",
+                    points: [
+                        "Aparência 'desajeitada' ou 'desastrada'.",
+                        "Dificuldade em atividades como escrever, usar talheres, amarrar sapatos.",
+                        "Problemas em esportes e atividades físicas.",
+                        "Lentidão e imprecisão na execução de tarefas motoras."
+                    ]
+                }
+            }
+        ];
+
+        let currentCardIndex = 0;
+        let isFlipped = false;
+
+        const flashcardElement = document.getElementById('flashcard');
+        const flashcardFront = document.getElementById('flashcard-front');
+        const flashcardBack = document.getElementById('flashcard-back');
+        const flipButton = document.getElementById('flip-button');
+        const nextButton = document.getElementById('next-button');
+
+        function updateCardContent() {
+            const cardData = flashcards[currentCardIndex];
+
+            // Atualiza a frente
+            flashcardFront.innerHTML = `
+                <h2 class="text-2xl font-bold text-center text-blue-600 dark:text-blue-400">${cardData.front.title}</h2>
+                <p class="mt-4 text-lg text-center">${cardData.front.question}</p>
+            `;
+
+            // Atualiza o verso
+            let pointsHtml = cardData.back.points.map(point => `<li class="mt-2 text-left">${point}</li>`).join('');
+            flashcardBack.innerHTML = `
+                <p class="font-semibold text-center">${cardData.back.answer}</p>
+                <ul class="list-disc list-inside mt-4 text-sm md:text-base">
+                    ${pointsHtml}
+                </ul>
+            `;
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            flashcardElement.classList.toggle('flipped');
+        }
+
+        function nextCard() {
+            currentCardIndex = (currentCardIndex + 1) % flashcards.length;
+            if (isFlipped) {
+                flipCard(); // Vira de volta para a frente antes de mostrar o próximo
+                // Adiciona um pequeno delay para a animação de virar terminar antes de trocar o conteúdo
+                setTimeout(updateCardContent, 300);
+            } else {
+                updateCardContent();
+            }
+        }
+
+        // Event Listeners
+        flipButton.addEventListener('click', flipCard);
+        nextButton.addEventListener('click', nextCard);
+
+        // Carrega o primeiro card
+        window.onload = updateCardContent;
+    </script>
+</body>
+</html>

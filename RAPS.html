@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Interativo: A Rede de Atenção Psicossocial (RAPS)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #1c3c6c;
+            --background-color: #f0f2f5;
+            --card-background: #ffffff;
+            --text-color: #333;
+            --light-text-color: #fff;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .quiz-container {
+            width: 100%;
+            max-width: 600px;
+            background-color: var(--card-background);
+            border-radius: 16px;
+            box-shadow: 0 8px 25px var(--shadow-color);
+            padding: 30px 40px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .quiz-header h1 {
+            color: var(--secondary-color);
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .question-area {
+            margin-bottom: 20px;
+        }
+
+        #question-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        #question-text {
+            font-size: 1.3em;
+            line-height: 1.5;
+            min-height: 60px;
+        }
+
+        .answer-area {
+            background-color: #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            display: none; /* Começa escondida */
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .answer-area.visible {
+            display: block;
+            opacity: 1;
+        }
+
+        .answer-area ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        .answer-area li {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        .answer-area li:last-child {
+            margin-bottom: 0;
+        }
+
+        .answer-area strong {
+            color: var(--secondary-color);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .reveal-button-container {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        #reveal-btn {
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 30px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        
+        #reveal-btn:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.05);
+        }
+
+        .navigation {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+
+        .nav-button {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+        }
+
+        .nav-button:disabled {
+            border-color: #ccc;
+            color: #ccc;
+            cursor: not-allowed;
+        }
+
+        #card-counter {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h1>Quiz RAPS</h1>
+        </div>
+
+        <div class="question-area">
+            <p id="question-title">Pergunta</p>
+            <p id="question-text"></p>
+        </div>
+
+        <div class="reveal-button-container">
+            <button id="reveal-btn">Revelar Resposta</button>
+        </div>
+
+        <div id="answer-area" class="answer-area">
+            <ul id="answer-list"></ul>
+        </div>
+
+        <div class="navigation">
+            <button id="prev-button" class="nav-button">Anterior</button>
+            <span id="card-counter"></span>
+            <button id="next-button" class="nav-button">Próximo</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const quizData = [
+                {
+                    question: "Quais os 3 objetivos centrais da Rede de Atenção Psicossocial?",
+                    answers: [
+                        "<strong>1. Ampliar o Acesso:</strong> Garantir que pessoas com sofrimento ou transtorno mental e suas famílias tenham acesso a pontos de atenção em saúde.",
+                        "<strong>2. Cuidado Integral:</strong> Articular os diferentes serviços de saúde para oferecer um cuidado contínuo e completo, do acolhimento à reinserção social.",
+                        "<strong>3. Reabilitação Psicossocial:</strong> Promover a autonomia e a reinserção na sociedade através do acesso a trabalho, renda, moradia e cultura."
+                    ]
+                },
+                {
+                    question: "Cite 4 diretrizes (princípios) fundamentais que guiam o funcionamento da RAPS.",
+                    answers: [
+                        "<strong>1. Respeito aos Direitos Humanos:</strong> Assegurar a autonomia, a liberdade e o exercício da cidadania das pessoas.",
+                        "<strong>2. Cuidado em Liberdade no Território:</strong> Priorizar serviços de base comunitária, evitando o isolamento e promovendo a vida em sociedade.",
+                        "<strong>3. Combate ao Estigma:</strong> Lutar contra o preconceito associado aos transtornos mentais.",
+                        "<strong>4. Atenção Humanizada:</strong> Centrar o cuidado nas necessidades singulares de cada pessoa, com acolhimento e criação de vínculo."
+                    ]
+                },
+                {
+                    question: "Quais são os 3 componentes estratégicos da RAPS para o cuidado contínuo no território?",
+                    answers: [
+                        "<strong>1. Atenção Básica:</strong> É a porta de entrada do SUS, composta pelas Unidades Básicas de Saúde (UBS) e Núcleos de Apoio à Saúde da Família (NASF), que fazem o primeiro acolhimento.",
+                        "<strong>2. Atenção Psicossocial Estratégica:</strong> Onde o cuidado especializado acontece, principalmente nos Centros de Atenção Psicossocial (CAPS) em suas diversas modalidades.",
+                        "<strong>3. Reabilitação Psicossocial:</strong> Estratégias que apoiam a vida em comunidade, como iniciativas de geração de trabalho e renda e cooperativas sociais."
+                    ]
+                },
+                {
+                    question: "Para situações de crise e necessidades de moradia, quais 4 componentes da RAPS são fundamentais?",
+                    answers: [
+                        "<strong>1. Urgência e Emergência:</strong> Para crises agudas, acionando SAMU 192, UPA 24h e as portas de emergência dos Hospitais Gerais.",
+                        "<strong>2. Atenção Hospitalar:</strong> Para internações breves e especializadas, quando necessárias, em leitos de saúde mental dentro de Hospitais Gerais.",
+                        "<strong>3. Atenção Residencial Transitória:</strong> Oferece acolhimento temporário em Unidades de Acolhimento (UA) para pessoas em vulnerabilidade.",
+                        "<strong>4. Estratégias de Desinstitucionalização:</strong> Garante moradia digna para egressos de longas internações psiquiátricas, através dos Serviços Residenciais Terapêuticos (SRT)."
+                    ]
+                },
+                {
+                    question: "O que é o CAPS e quais suas 3 características principais?",
+                    answers: [
+                        "<strong>Definição:</strong> O Centro de Atenção Psicossocial é o principal serviço da RAPS, que organiza a rede de cuidados no território e oferece atenção diária às pessoas com transtornos mentais.",
+                        "<strong>1. Serviço Aberto e Comunitário:</strong> Atua de 'portas abertas', inserido na comunidade para promover a integração social.",
+                        "<strong>2. Cuidado Multiprofissional:</strong> Conta com uma equipe diversa (psiquiatras, psicólogos, enfermeiros, assistentes sociais, terapeutas, etc.) para um cuidado completo.",
+                        "<strong>3. Projeto Terapêutico Singular:</strong> Desenvolve um plano de tratamento único para cada usuário, de acordo com suas necessidades e potencialidades."
+                    ]
+                }
+            ];
+
+            const questionTitleEl = document.getElementById('question-title');
+            const questionTextEl = document.getElementById('question-text');
+            const answerAreaEl = document.getElementById('answer-area');
+            const answerListEl = document.getElementById('answer-list');
+            const revealBtn = document.getElementById('reveal-btn');
+            const prevButton = document.getElementById('prev-button');
+            const nextButton = document.getElementById('next-button');
+            const cardCounterEl = document.getElementById('card-counter');
+
+            let currentQuestionIndex = 0;
+            const totalQuestions = quizData.length;
+
+            function loadQuestion(index) {
+                const currentQuestion = quizData[index];
+                
+                questionTitleEl.textContent = `Pergunta ${index + 1}`;
+                questionTextEl.textContent = currentQuestion.question;
+                
+                answerListEl.innerHTML = '';
+                currentQuestion.answers.forEach(answer => {
+                    const li = document.createElement('li');
+                    li.innerHTML = answer;
+                    answerListEl.appendChild(li);
+                });
+
+                answerAreaEl.classList.remove('visible');
+                revealBtn.textContent = 'Revelar Resposta';
+                
+                cardCounterEl.textContent = `${index + 1} / ${totalQuestions}`;
+                
+                prevButton.disabled = index === 0;
+                nextButton.disabled = index === totalQuestions - 1;
+            }
+
+            revealBtn.addEventListener('click', () => {
+                const isVisible = answerAreaEl.classList.toggle('visible');
+                revealBtn.textContent = isVisible ? 'Ocultar Resposta' : 'Revelar Resposta';
+            });
+
+            nextButton.addEventListener('click', () => {
+                if (currentQuestionIndex < totalQuestions - 1) {
+                    currentQuestionIndex++;
+                    loadQuestion(currentQuestionIndex);
+                }
+            });
+
+            prevButton.addEventListener('click', () => {
+                if (currentQuestionIndex > 0) {
+                    currentQuestionIndex--;
+                    loadQuestion(currentQuestionIndex);
+                }
+            });
+
+            // Carregar a primeira pergunta
+            loadQuestion(currentQuestionIndex);
+        });
+    </script>
+
+</body>
+</html>

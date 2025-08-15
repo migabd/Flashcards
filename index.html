@@ -1,144 +1,265 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flashcards de Psiquiatria - Índice</title>
+    <title>Flashcards de Estudo - Índice</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Define a fonte Poppins como principal */
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden; /* Evita scroll horizontal */
         }
-        /* Estilo para a transição suave e rolagem */
+
+        /* Fundo gradiente animado */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            background: linear-gradient(-45deg, #0d9488, #2563eb, #be185d, #f59e0b);
+            background-size: 400% 400%;
+            animation: gradient 20s ease infinite;
+            opacity: 0.1;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .dark .animated-bg {
+            opacity: 0.2;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Transição suave para a abertura das seções de links */
         .link-container {
-            transition: max-height 0.5s ease-in-out;
+            transition: max-height 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.5s ease-in-out, padding 0.5s ease;
             max-height: 0;
+            opacity: 0;
             overflow: hidden;
+            padding-top: 0;
+            padding-bottom: 0;
         }
         .link-container.show {
-            max-height: 60vh; /* Altura máxima para a lista, permitindo rolagem */
-            overflow-y: auto; /* Adiciona barra de rolagem se o conteúdo exceder a altura */
+            max-height: 60vh;
+            opacity: 1;
+            overflow-y: auto;
+            padding-top: 0.25rem; /* p-1 */
+            padding-bottom: 0.25rem; /* p-1 */
         }
-        /* Efeito de hover nos botões de link */
+
+        /* Efeito de hover nos botões de link com brilho */
+        .link-btn {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
         .link-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateY(-3px);
+        }
+        .link-btn-teal:hover { box-shadow: 0 0 20px rgba(20, 184, 166, 0.4); }
+        .link-btn-sky:hover { box-shadow: 0 0 20px rgba(14, 165, 233, 0.4); }
+        .link-btn-rose:hover { box-shadow: 0 0 20px rgba(244, 63, 94, 0.4); }
+        .link-btn-amber:hover { box-shadow: 0 0 20px rgba(245, 158, 11, 0.4); }
+        .link-btn-indigo:hover { box-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
+        .link-btn-violet:hover { box-shadow: 0 0 20px rgba(139, 92, 246, 0.4); }
+        
+        /* Scrollbar customizada */
+        .link-container::-webkit-scrollbar { width: 8px; }
+        .link-container::-webkit-scrollbar-track { background: transparent; }
+        .link-container::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
+        .dark .link-container::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.2);
         }
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen flex items-center justify-center p-4">
+<body class="bg-slate-50 dark:bg-gray-900 text-slate-800 dark:text-slate-200 min-h-screen p-4 transition-colors duration-500">
+    
+    <!-- Fundo animado -->
+    <div class="animated-bg"></div>
 
-    <div class="w-full max-w-2xl mx-auto">
+    <!-- Botão de Dark Mode -->
+    <div class="absolute top-4 right-4 z-20">
+        <button id="theme-toggle" class="p-2 rounded-full bg-slate-200 dark:bg-gray-800 text-slate-600 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-50 dark:focus:ring-offset-gray-900 focus:ring-teal-500 transition-colors">
+            <svg id="theme-toggle-dark-icon" class="hidden h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 14.95a1 1 0 010-1.414l.707-.707a1 1 0 111.414 1.414l-.707.707a1 1 0 01-1.414 0zM5 11a1 1 0 100-2H4a1 1 0 100 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+        </button>
+    </div>
+
+    <div class="w-full max-w-5xl mx-auto relative z-10">
         <header class="text-center mb-8">
-            <h1 class="text-4xl md:text-5xl font-bold text-teal-600 dark:text-teal-400">Flashcards de Estudo</h1>
-            <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">Seu guia de acesso rápido para estudos.</p>
+            <h1 class="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-sky-500 dark:from-teal-400 dark:to-sky-400">Flashcards de Estudo</h1>
+            <p class="text-lg text-slate-600 dark:text-slate-400 mt-2">Seu guia de acesso rápido para estudos.</p>
         </header>
 
-        <main class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:p-8">
+        <main class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-xl rounded-2xl shadow-xl p-6 md:p-8 border border-slate-200/50 dark:border-gray-700/50">
             <!-- Container para os botões principais -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <button id="psychiatry-btn" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-4 px-6 rounded-lg text-xl flex items-center justify-center transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-teal-300 dark:focus:ring-teal-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-3" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 00-1-1v-.5a1.5 1.5 0 01-3 0V15a1 1 0 00-1-1H4a1 1 0 01-1-1v-3a1 1 0 011-1h.5a1.5 1.5 0 000-3H4a1 1 0 01-1-1V5a1 1 0 011-1h3a1 1 0 001-1v-.5z" />
-                    </svg>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+                <!-- Botões de Categoria -->
+                <button id="psychiatry-btn" class="group w-full bg-gradient-to-br from-teal-500 to-emerald-600 text-white font-bold py-4 px-4 rounded-xl text-lg flex items-center justify-center transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-teal-500/40 focus:outline-none focus:ring-4 focus:ring-teal-300 dark:focus:ring-teal-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-2 transition-transform duration-300 group-hover:rotate-6" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3.5a1.5 1.5 0 013 0V4a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-.5a1.5 1.5 0 000 3h.5a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 00-1-1v-.5a1.5 1.5 0 01-3 0V15a1 1 0 00-1-1H4a1 1 0 01-1-1v-3a1 1 0 011-1h.5a1.5 1.5 0 000-3H4a1 1 0 01-1-1V5a1 1 0 011-1h3a1 1 0 001-1v-.5z" /></svg>
                     Psiquiatria
                 </button>
-                <button id="transversal-btn" class="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-4 px-6 rounded-lg text-xl flex items-center justify-center transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-indigo-300 dark:focus:ring-indigo-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                    </svg>
+                <button id="reumato-btn" class="group w-full bg-gradient-to-br from-sky-500 to-blue-600 text-white font-bold py-4 px-4 rounded-xl text-lg flex items-center justify-center transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-sky-500/40 focus:outline-none focus:ring-4 focus:ring-sky-300 dark:focus:ring-sky-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-2 transition-transform duration-300 group-hover:-rotate-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm6 2a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1zm5 2a1 1 0 00-1-1h-2a1 1 0 100 2h2a1 1 0 001-1zm-3 4a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1zm-5 1a1 1 0 00-1-1H6a1 1 0 100 2h1a1 1 0 001-1zm-2 5a1 1 0 011-1h2a1 1 0 110 2h-2a1 1 0 01-1-1z" clip-rule="evenodd" /><path d="M2 10a1 1 0 011-1h14a1 1 0 110 2H3a1 1 0 01-1-1z" /></svg>
+                    Reumato
+                </button>
+                <button id="oncolo-btn" class="group w-full bg-gradient-to-br from-rose-500 to-pink-600 text-white font-bold py-4 px-4 rounded-xl text-lg flex items-center justify-center transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-rose-500/40 focus:outline-none focus:ring-4 focus:ring-rose-300 dark:focus:ring-rose-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-2 transition-transform duration-300 group-hover:rotate-6" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a2.5 2.5 0 00-2.5 2.5c0 3.314 2.5 6.5 2.5 6.5s2.5-3.186 2.5-6.5A2.5 2.5 0 0010 2zM10 14.5c-3.314 0-6.5-2.5-6.5-2.5S6.814 12 10 12s6.5 2.5 6.5 2.5-3.186-2.5-6.5-2.5z" /></svg>
+                    Oncolo
+                </button>
+                <button id="gastro-btn" class="group w-full bg-gradient-to-br from-amber-500 to-orange-600 text-white font-bold py-4 px-4 rounded-xl text-lg flex items-center justify-center transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-amber-500/40 focus:outline-none focus:ring-4 focus:ring-amber-300 dark:focus:ring-amber-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-2 transition-transform duration-300 group-hover:-rotate-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M7 2a2 2 0 00-2 2v12a2 2 0 002 2h6a2 2 0 002-2V4a2 2 0 00-2-2H7zm0 2h6v2H7V4zm0 4h6v2H7V8zm0 4h6v2H7v-2z" clip-rule="evenodd" /></svg>
+                    Gastro
+                </button>
+                <button id="transversal-btn" class="group w-full bg-gradient-to-br from-indigo-500 to-purple-600 text-white font-bold py-4 px-4 rounded-xl text-lg flex items-center justify-center transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-indigo-500/40 focus:outline-none focus:ring-4 focus:ring-indigo-300 dark:focus:ring-indigo-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-2 transition-transform duration-300 group-hover:-rotate-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
                     Transversal
                 </button>
             </div>
 
-            <!-- Seção de Psiquiatria -->
-            <div id="links-section-psychiatry" class="link-container mt-6 p-1">
-                <div class="relative mb-6">
-                    <input type="text" id="search-bar-psychiatry" class="w-full pl-10 pr-4 py-3 bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-teal-500 dark:focus:border-teal-400 rounded-lg outline-none transition" placeholder="Pesquisar tópicos de psiquiatria...">
-                    <svg class="w-6 h-6 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                </div>
-                <div id="links-grid-psychiatry" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
-                <p id="no-results-psychiatry" class="text-center text-gray-500 dark:text-gray-400 mt-4 hidden">Nenhum resultado encontrado.</p>
-            </div>
+            <!-- Seções de Links -->
+            <div id="links-section-psychiatry" class="link-container mt-6"></div>
+            <div id="links-section-reumato" class="link-container mt-6"></div>
+            <div id="links-section-oncolo" class="link-container mt-6"></div>
+            <div id="links-section-gastro" class="link-container mt-6"></div>
+            <div id="links-section-transversal" class="link-container mt-6"></div>
 
-            <!-- Seção Transversal -->
-            <div id="links-section-transversal" class="link-container mt-6 p-1">
-                <div class="relative mb-6">
-                    <input type="text" id="search-bar-transversal" class="w-full pl-10 pr-4 py-3 bg-gray-100 dark:bg-gray-700 border-2 border-transparent focus:border-indigo-500 dark:focus:border-indigo-400 rounded-lg outline-none transition" placeholder="Pesquisar tópicos transversais...">
-                    <svg class="w-6 h-6 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                </div>
-                <div id="links-grid-transversal" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
-                <p id="no-results-transversal" class="text-center text-gray-500 dark:text-gray-400 mt-4 hidden">Nenhum resultado encontrado.</p>
-            </div>
         </main>
 
-        <footer class="text-center mt-8 text-gray-500 dark:text-gray-400">
+        <footer class="text-center mt-8 text-slate-500 dark:text-slate-400">
             <p>&copy; 2024. Criado para o repositório 'migabd/Flashcards'.</p>
         </footer>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // --- Elementos Comuns ---
-            const psychiatryBtn = document.getElementById('psychiatry-btn');
-            const transversalBtn = document.getElementById('transversal-btn');
+            // --- Lógica do Dark Mode ---
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const darkIcon = document.getElementById('theme-toggle-dark-icon');
+            const lightIcon = document.getElementById('theme-toggle-light-icon');
 
-            // --- Elementos de Psiquiatria ---
-            const linksSectionPsychiatry = document.getElementById('links-section-psychiatry');
-            const searchBarPsychiatry = document.getElementById('search-bar-psychiatry');
-            const linksGridPsychiatry = document.getElementById('links-grid-psychiatry');
-            const noResultsMsgPsychiatry = document.getElementById('no-results-psychiatry');
+            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                lightIcon.classList.remove('hidden');
+                document.documentElement.classList.add('dark');
+            } else {
+                darkIcon.classList.remove('hidden');
+                document.documentElement.classList.remove('dark');
+            }
 
-            // --- Elementos Transversais ---
-            const linksSectionTransversal = document.getElementById('links-section-transversal');
-            const searchBarTransversal = document.getElementById('search-bar-transversal');
-            const linksGridTransversal = document.getElementById('links-grid-transversal');
-            const noResultsMsgTransversal = document.getElementById('no-results-transversal');
+            themeToggleBtn.addEventListener('click', function() {
+                darkIcon.classList.toggle('hidden');
+                lightIcon.classList.toggle('hidden');
+                if (localStorage.getItem('color-theme')) {
+                    if (localStorage.getItem('color-theme') === 'light') {
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('color-theme', 'dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('color-theme', 'light');
+                    }
+                } else {
+                    if (document.documentElement.classList.contains('dark')) {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('color-theme', 'light');
+                    } else {
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('color-theme', 'dark');
+                    }
+                }
+            });
 
-            // --- Listas de Páginas ---
-            const psychiatryPages = [
-                { title: 'Conceitos para Transtornos Psicóticos', url: 'Conceitos úteis para transtornos psicóticos.html' },
-                { title: 'Tipos de Delírio', url: 'Tiposdedelírio.html' },
-                { title: 'Transtornos Psicóticos', url: 'Transtornospsicóticos.html' },
-                { title: 'Tratamento para Transtornos Psicóticos', url: 'Tratamento para transtornos psicóticos.html' },
-                { title: 'Tratamento na Emergência Psiquiátrica', url: 'Tratamento para transtornos psicóticosnaemergencia.html' },
-                { title: 'Alguns Fármacos Úteis', url: 'alguns fármacos úteis.html' },
-                { title: 'Transtornos de Humor', url: 'transtornosdehumor.html' },
-                { title: 'Tratamento para Transtornos de Humor', url: 'tratamentotranstornosdehumor.html' },
-                { title: 'Transtornos do Sono', url: 'Transtornosdosono.html' },
-                { title: 'Tratamento para Transtornos do Sono', url: 'Tratamentotranstornosdosono.html' },
-                { title: 'Dependência Química', url: 'Flashcardsdependênciaquímica.html' },
-                { title: 'Disfunções Sexuais', url: 'flashcardsdisunçõessexuais.html' },
-                { title: 'Cessação do Tabagismo', url: 'flashcardcessarotabagismo.html' },
-                { title: 'Prós e Contras de cada ISRS', url: 'ProsecontrascadaISRS.html' },
-                { title: 'Transtornos de Neurodesenvolvimento', url: 'Transtornosdeneurodesenvolvimento.html' },
-                { title: 'Transtorno Alimentar', url: 'Transtornosalimentares.html' },
-                { title: 'Transtornos Ansiosos e Outros', url: 'Transtornosdeansiedade.html' },
-                { title: 'O Funcionamento da RAPS', url: 'RAPS.html' },
-                { title: 'Comportamento Sexual Compulsivo', url: 'Comportamentosexualcompulsivo.html' }
-            ];
+            // --- Mapeamento de botões, seções e dados ---
+            const sections = {
+                psychiatry: {
+                    btn: document.getElementById('psychiatry-btn'),
+                    container: document.getElementById('links-section-psychiatry'),
+                    placeholder: 'Pesquisar tópicos de psiquiatria...',
+                    pages: [
+                        { title: 'Conceitos para Transtornos Psicóticos', url: 'Conceitos úteis para transtornos psicóticos.html' },
+                        { title: 'Tipos de Delírio', url: 'Tiposdedelírio.html' },
+                        { title: 'Transtornos Psicóticos', url: 'Transtornospsicóticos.html' },
+                        { title: 'Tratamento para Transtornos Psicóticos', url: 'Tratamento para transtornos psicóticos.html' },
+                        { title: 'Tratamento na Emergência Psiquiátrica', url: 'Tratamento para transtornos psicóticosnaemergencia.html' },
+                        { title: 'Alguns Fármacos Úteis', url: 'alguns fármacos úteis.html' },
+                        { title: 'Transtornos de Humor', url: 'transtornosdehumor.html' },
+                        { title: 'Tratamento para Transtornos de Humor', url: 'tratamentotranstornosdehumor.html' },
+                        { title: 'Transtornos do Sono', url: 'Transtornosdosono.html' },
+                        { title: 'Tratamento para Transtornos do Sono', url: 'Tratamentotranstornosdosono.html' },
+                        { title: 'Dependência Química', url: 'Flashcardsdependênciaquímica.html' },
+                        { title: 'Disfunções Sexuais', url: 'flashcardsdisunçõessexuais.html' },
+                        { title: 'Cessação do Tabagismo', url: 'flashcardcessarotabagismo.html' },
+                        { title: 'Prós e Contras de cada ISRS', url: 'ProsecontrascadaISRS.html' },
+                        { title: 'Transtornos de Neurodesenvolvimento', url: 'Transtornosdeneurodesenvolvimento.html' },
+                        { title: 'Transtorno Alimentar', url: 'Transtornosalimentares.html' },
+                        { title: 'Transtornos Ansiosos e Outros', url: 'Transtornosdeansiedade.html' },
+                        { title: 'O Funcionamento da RAPS', url: 'RAPS.html' },
+                        { title: 'Comportamento Sexual Compulsivo', url: 'Comportamentosexualcompulsivo.html' }
+                    ],
+                    themeColor: 'teal'
+                },
+                reumato: {
+                    btn: document.getElementById('reumato-btn'),
+                    container: document.getElementById('links-section-reumato'),
+                    placeholder: 'Pesquisar tópicos de reumatologia...',
+                    pages: [ /* Adicione os links de Reumatologia aqui */ ],
+                    themeColor: 'sky'
+                },
+                oncolo: {
+                    btn: document.getElementById('oncolo-btn'),
+                    container: document.getElementById('links-section-oncolo'),
+                    placeholder: 'Pesquisar tópicos de oncologia...',
+                    pages: [ /* Adicione os links de Oncologia aqui */ ],
+                    themeColor: 'rose'
+                },
+                gastro: {
+                    btn: document.getElementById('gastro-btn'),
+                    container: document.getElementById('links-section-gastro'),
+                    placeholder: 'Pesquisar tópicos de gastroenterologia...',
+                    pages: [ /* Adicione os links de Gastroenterologia aqui */ ],
+                    themeColor: 'amber'
+                },
+                transversal: {
+                    btn: document.getElementById('transversal-btn'),
+                    container: document.getElementById('links-section-transversal'),
+                    themeColor: 'indigo',
+                    pages: [ /* Adicione links diretos para Transversal aqui, se houver */ ],
+                    subsections: {
+                        epidemiology: {
+                            title: 'Estudos Epidemiológicos',
+                            placeholder: 'Pesquisar estudos epidemiológicos...',
+                            pages: [
+                                { title: 'Aula 2 Transversal', url: 'Aula2tranversal.html' },
+                                { title: 'Aula 3 Transversal', url: 'Aula3transversal.html' },
+                                { title: 'Aula 4 Transversal', url: 'Aula4transversal.html' },
+                                { title: 'Aula 5 Transversal', url: 'Aula5transversal.html' },
+                                { title: 'Aula 6 Transversal', url: 'Aula6transversal.html' },
+                                { title: 'Aula 7 Transversal', url: 'Aula7transversal.html' },
+                            ],
+                            themeColor: 'violet'
+                        }
+                    }
+                }
+            };
 
-            const transversalPages = [
-                { title: 'Aula 2 Transversal', url: 'Aula2tranversal.html' },
-                { title: 'Aula 3 Transversal', url: 'Aula3transversal.html' },
-                { title: 'Aula 4 Transversal', url: 'Aula4transversal.html' },
-                { title: 'Aula 5 Transversal', url: 'Aula5transversal.html' },
-                { title: 'Aula 6 Transversal', url: 'Aula6transversal.html' },
-                { title: 'Aula 7 Transversal', url: 'Aula7transversal.html' },
-            ];
-
-            // --- Função Genérica para Renderizar Links ---
-            function renderLinks(filter = '', pages, gridElement, noResultsElement, themeColor) {
+            function renderLinks(filter = '', details, gridElement, noResultsElement) {
                 gridElement.innerHTML = '';
-                const filteredPages = pages.filter(page => page.title.toLowerCase().includes(filter.toLowerCase()));
+                const filteredPages = details.pages.filter(page => page.title.toLowerCase().includes(filter.toLowerCase()));
 
-                if (filteredPages.length === 0 && filter) {
+                if (filteredPages.length === 0) {
                     noResultsElement.classList.remove('hidden');
+                    noResultsElement.textContent = details.pages.length === 0 ? 'Nenhum tópico disponível nesta seção ainda.' : 'Nenhum resultado encontrado.';
                 } else {
                     noResultsElement.classList.add('hidden');
                 }
@@ -146,45 +267,69 @@
                 filteredPages.forEach(page => {
                     const linkElement = document.createElement('a');
                     linkElement.href = page.url;
-                    linkElement.className = `link-btn block bg-white dark:bg-gray-700 p-4 rounded-lg shadow-md hover:bg-${themeColor}-50 dark:hover:bg-gray-600 transition-all duration-300`;
+                    linkElement.className = `link-btn link-btn-${details.themeColor} block bg-white dark:bg-gray-700/50 p-4 rounded-lg shadow-md hover:bg-${details.themeColor}-50 dark:hover:bg-gray-700`;
                     linkElement.innerHTML = `
-                        <h3 class="font-semibold text-${themeColor}-700 dark:text-${themeColor}-300">${page.title}</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Acessar material</p>
+                        <h3 class="font-semibold text-${details.themeColor}-600 dark:text-${details.themeColor}-300">${page.title}</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Acessar material</p>
                     `;
                     gridElement.appendChild(linkElement);
                 });
             }
 
-            // --- Lógica para Psiquiatria ---
-            psychiatryBtn.addEventListener('click', () => {
-                linksSectionPsychiatry.classList.toggle('show');
-                linksSectionTransversal.classList.remove('show'); // Garante que a outra seção feche
-                if (linksSectionPsychiatry.classList.contains('show')) {
-                    renderLinks(searchBarPsychiatry.value, psychiatryPages, linksGridPsychiatry, noResultsMsgPsychiatry, 'teal');
-                }
-            });
+            function createLinkView(details, container, key) {
+                container.innerHTML = `
+                    <div class="relative mb-6">
+                        <input type="text" id="search-bar-${key}" class="w-full pl-10 pr-4 py-3 bg-slate-100 dark:bg-gray-700 border-2 border-transparent focus:border-${details.themeColor}-500 dark:focus:border-${details.themeColor}-400 rounded-lg outline-none transition" placeholder="${details.placeholder}">
+                        <svg class="w-6 h-6 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                    <div id="links-grid-${key}" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+                    <p id="no-results-${key}" class="text-center text-slate-500 dark:text-slate-400 mt-4 hidden">Nenhum resultado encontrado.</p>
+                `;
+                const searchBar = container.querySelector(`#search-bar-${key}`);
+                const grid = container.querySelector(`#links-grid-${key}`);
+                const noResults = container.querySelector(`#no-results-${key}`);
 
-            searchBarPsychiatry.addEventListener('input', (e) => {
-                renderLinks(e.target.value, psychiatryPages, linksGridPsychiatry, noResultsMsgPsychiatry, 'teal');
-            });
+                searchBar.addEventListener('input', (e) => renderLinks(e.target.value, details, grid, noResults));
+                renderLinks('', details, grid, noResults);
+            }
 
-            // --- Lógica para Transversal ---
-            transversalBtn.addEventListener('click', () => {
-                linksSectionTransversal.classList.toggle('show');
-                linksSectionPsychiatry.classList.remove('show'); // Garante que a outra seção feche
-                if (linksSectionTransversal.classList.contains('show')) {
-                    renderLinks(searchBarTransversal.value, transversalPages, linksGridTransversal, noResultsMsgTransversal, 'indigo');
-                }
-            });
+            function createSubMenuView(details, container) {
+                container.innerHTML = '';
+                const subMenuContainer = document.createElement('div');
+                subMenuContainer.className = 'grid grid-cols-1 sm:grid-cols-2 gap-4 p-1';
 
-            searchBarTransversal.addEventListener('input', (e) => {
-                renderLinks(e.target.value, transversalPages, linksGridTransversal, noResultsMsgTransversal, 'indigo');
-            });
+                Object.entries(details.subsections).forEach(([subKey, subDetails]) => {
+                    const button = document.createElement('button');
+                    button.className = `group w-full bg-gradient-to-br from-${subDetails.themeColor}-500 to-${subDetails.themeColor}-600 text-white font-bold py-4 px-4 rounded-xl text-lg flex items-center justify-center transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-${subDetails.themeColor}-500/40`;
+                    button.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 mr-2 transition-transform duration-300 group-hover:rotate-6" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3zm3.146 2.146a.5.5 0 01.708 0l2.5 2.5a.5.5 0 010 .708l-2.5 2.5a.5.5 0 01-.708-.708L7.793 8 6.146 6.354a.5.5 0 010-.708z" clip-rule="evenodd" /></svg>
+                        ${subDetails.title}
+                    `;
+                    button.addEventListener('click', () => createLinkView(subDetails, container, subKey));
+                    subMenuContainer.appendChild(button);
+                });
+                container.appendChild(subMenuContainer);
+            }
             
-            // Renderiza os links inicialmente para que a busca funcione
-            // mas eles estarão ocultos pelos containers
-            renderLinks('', psychiatryPages, linksGridPsychiatry, noResultsMsgPsychiatry, 'teal');
-            renderLinks('', transversalPages, linksGridTransversal, noResultsMsgTransversal, 'indigo');
+            function setupSection(key, details) {
+                details.btn.addEventListener('click', () => {
+                    const isAlreadyOpen = details.container.classList.contains('show');
+                    Object.values(sections).forEach(s => s.container.classList.remove('show'));
+
+                    if (!isAlreadyOpen) {
+                        if (details.subsections) {
+                            createSubMenuView(details, details.container);
+                        } else {
+                            createLinkView(details, details.container, key);
+                        }
+                        details.container.classList.add('show');
+                    }
+                });
+            }
+
+            Object.entries(sections).forEach(([key, details]) => setupSection(key, details));
         });
     </script>
 

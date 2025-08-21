@@ -45,14 +45,6 @@
             background-color: #475569; /* slate-600 */
         }
         
-        /* Animações de entrada (REMOVIDA) */
-        /* @keyframes fade-in {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-            animation: fade-in 0.5s ease-out forwards;
-        } */
     </style>
 </head>
 <body class="text-slate-900 dark:text-slate-100 min-h-screen p-4 transition-colors duration-300">
@@ -195,7 +187,21 @@
             const sections = {
                 primeiro_periodo: { btn: document.getElementById('primeiro-periodo-btn'), container: document.getElementById('links-section-primeiro-periodo'), subsections: { ies: { title: 'IES', placeholder: 'Pesquisar tópicos...', pages: [] }, pc: { title: 'PC', placeholder: 'Pesquisar tópicos...', pages: [] }, cfsh: { title: 'CFSH', placeholder: 'Pesquisar tópicos...', pages: [] } } },
                 segundo_periodo: { btn: document.getElementById('segundo-periodo-btn'), container: document.getElementById('links-section-segundo-periodo'), subsections: { sh1: { title: 'SH1', placeholder: 'Pesquisar tópicos...', pages: [] }, sh2: { title: 'SH2', placeholder: 'Pesquisar tópicos...', pages: [] }, sh3: { title: 'SH3', placeholder: 'Pesquisar tópicos...', pages: [] } } },
-                terceiro_periodo: { btn: document.getElementById('terceiro-periodo-btn'), container: document.getElementById('links-section-terceiro-periodo'), subsections: { fii: { title: 'FII', placeholder: 'Pesquisar tópicos...', pages: [] }, dor: { title: 'DOR', placeholder: 'Pesquisar tópicos...', pages: [] }, fppa: { title: 'FPPA', placeholder: 'Pesquisar tópicos...', pages: [] } } },
+                terceiro_periodo: { 
+                    btn: document.getElementById('terceiro-periodo-btn'), 
+                    container: document.getElementById('links-section-terceiro-periodo'), 
+                    subsections: { 
+                        fii: { 
+                            title: 'FII', 
+                            placeholder: 'Pesquisar tópicos...', 
+                            pages: [
+                                { title: 'Anatomia do Baço', url: 'FII/Anatomiadobaço.html' }
+                            ] 
+                        }, 
+                        dor: { title: 'DOR', placeholder: 'Pesquisar tópicos...', pages: [] }, 
+                        fppa: { title: 'FPPA', placeholder: 'Pesquisar tópicos...', pages: [] } 
+                    } 
+                },
                 quarto_periodo: { btn: document.getElementById('quarto-periodo-btn'), container: document.getElementById('links-section-quarto-periodo'), subsections: { sgrn: { title: 'SGRN', placeholder: 'Pesquisar tópicos...', pages: [] }, sia: { title: 'SIA', placeholder: 'Pesquisar tópicos...', pages: [] }, smh: { title: 'SMH', placeholder: 'Pesquisar tópicos...', pages: [] } } },
                 quinto_periodo: {
                     btn: document.getElementById('quinto-periodo-btn'),

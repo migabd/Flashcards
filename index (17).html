@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards de Estudo - Índice</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            background-color: #f8fafc; /* slate-50 */
+        }
+        .dark body {
+            background-color: #0f172a; /* slate-900 */
+        }
+
+        .link-container {
+            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease-in-out, padding 0.5s ease;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        .link-container.show {
+            max-height: 70vh;
+            opacity: 1;
+            overflow-y: auto;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Scrollbar customizada */
+        .link-container::-webkit-scrollbar { width: 8px; }
+        .link-container::-webkit-scrollbar-track { background: transparent; }
+        .link-container::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1; /* slate-300 */
+            border-radius: 10px;
+        }
+        .dark .link-container::-webkit-scrollbar-thumb {
+            background-color: #475569; /* slate-600 */
+        }
+        
+        /* Animações de entrada (REMOVIDA) */
+        /* @keyframes fade-in {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fade-in 0.5s ease-out forwards;
+        } */
+    </style>
+</head>
+<body class="text-slate-900 dark:text-slate-100 min-h-screen p-4 transition-colors duration-300">
+    
+    <!-- Botão de Dark Mode -->
+    <div class="absolute top-4 right-4 z-20">
+        <button id="theme-toggle" class="p-2 rounded-full bg-slate-200/50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-50 dark:focus:ring-offset-slate-900 focus:ring-teal-500 transition-colors">
+            <svg id="theme-toggle-dark-icon" class="hidden h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+            <svg id="theme-toggle-light-icon" class="hidden h-5 w-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 14.95a1 1 0 010-1.414l.707-.707a1 1 0 111.414 1.414l-.707.707a1 1 0 01-1.414 0zM5 11a1 1 0 100-2H4a1 1 0 100 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+        </button>
+    </div>
+
+    <div class="w-full max-w-6xl mx-auto relative z-10">
+        <header class="text-center mb-12 flex flex-col items-center">
+            <div class="flex items-center justify-center">
+                <svg class="w-12 h-12 md:w-16 md:h-16 text-teal-500 dark:text-teal-400 mr-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75l-2.489-2.489m0 0a3.375 3.375 0 10-4.773-4.773 3.375 3.375 0 004.774 4.774zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h1 class="text-5xl md:text-6xl font-bold text-slate-800 dark:text-slate-100 pb-2">Flashcards</h1>
+            </div>
+        </header>
+
+        <main class="bg-white/70 dark:bg-slate-800/50 backdrop-blur-xl rounded-2xl shadow-lg p-6 md:p-8 border border-slate-200/80 dark:border-slate-700/50">
+            <!-- Container para os botões principais -->
+            <div id="main-buttons-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+                <!-- Botões de Período -->
+                <button id="primeiro-periodo-btn" class="period-button"><div class="period-number-container"><span class="period-number">1º</span></div> <span class="period-text">Período</span></button>
+                <button id="segundo-periodo-btn" class="period-button"><div class="period-number-container"><span class="period-number">2º</span></div> <span class="period-text">Período</span></button>
+                <button id="terceiro-periodo-btn" class="period-button"><div class="period-number-container"><span class="period-number">3º</span></div> <span class="period-text">Período</span></button>
+                <button id="quarto-periodo-btn" class="period-button"><div class="period-number-container"><span class="period-number">4º</span></div> <span class="period-text">Período</span></button>
+                <button id="quinto-periodo-btn" class="period-button"><div class="period-number-container"><span class="period-number">5º</span></div> <span class="period-text">Período</span></button>
+                <button id="sexto-periodo-btn" class="period-button"><div class="period-number-container"><span class="period-number">6º</span></div> <span class="period-text">Período</span></button>
+                <button id="setimo-periodo-btn" class="period-button"><div class="period-number-container"><span class="period-number">7º</span></div> <span class="period-text">Período</span></button>
+                <button id="oitavo-periodo-btn" class="period-button"><div class="period-number-container"><span class="period-number">8º</span></div> <span class="period-text">Período</span></button>
+                <button id="nono-periodo-btn" class="period-button"><div class="period-number-container"><span class="period-number">9º</span></div> <span class="period-text">Período</span></button>
+                <button id="decimo-periodo-btn" class="period-button"><div class="period-number-container"><span class="period-number">10º</span></div> <span class="period-text">Período</span></button>
+                <button id="decimo-primeiro-periodo-btn" class="period-button"><div class="period-number-container"><span class="period-number">11º</span></div> <span class="period-text">Período</span></button>
+                <button id="decimo-segundo-periodo-btn" class="period-button"><div class="period-number-container"><span class="period-number">12º</span></div> <span class="period-text">Período</span></button>
+                <button id="piesc-btn" class="period-button"><div class="period-number-container"><span class="period-number">P</span></div> <span class="period-text">PIESC</span></button>
+                <button id="transversal-btn" class="period-button col-span-2 sm:col-span-3 md:col-span-4 lg:col-span-5 xl:col-span-5"><div class="period-number-container"><span class="period-number">T</span></div> <span class="period-text">Transversal</span></button>
+            </div>
+            
+            <script>
+                // --- ATUALIZAÇÃO DOS ESTILOS DOS BOTÕES ---
+                const colorThemes = [
+                    { name: 'teal', shadow: 'shadow-teal-500/20', darkShadow: 'dark:shadow-teal-400/10' },
+                    { name: 'sky', shadow: 'shadow-sky-500/20', darkShadow: 'dark:shadow-sky-400/10' },
+                    { name: 'amber', shadow: 'shadow-amber-500/20', darkShadow: 'dark:shadow-amber-400/10' },
+                    { name: 'rose', shadow: 'shadow-rose-500/20', darkShadow: 'dark:shadow-rose-400/10' },
+                    { name: 'indigo', shadow: 'shadow-indigo-500/20', darkShadow: 'dark:shadow-indigo-400/10' },
+                    { name: 'lime', shadow: 'shadow-lime-500/20', darkShadow: 'dark:shadow-lime-400/10' },
+                    { name: 'pink', shadow: 'shadow-pink-500/20', darkShadow: 'dark:shadow-pink-400/10' },
+                    { name: 'emerald', shadow: 'shadow-emerald-500/20', darkShadow: 'dark:shadow-emerald-400/10' },
+                    { name: 'cyan', shadow: 'shadow-cyan-500/20', darkShadow: 'dark:shadow-cyan-400/10' },
+                    { name: 'violet', shadow: 'shadow-violet-500/20', darkShadow: 'dark:shadow-violet-400/10' },
+                    { name: 'fuchsia', shadow: 'shadow-fuchsia-500/20', darkShadow: 'dark:shadow-fuchsia-400/10' },
+                    { name: 'orange', shadow: 'shadow-orange-500/20', darkShadow: 'dark:shadow-orange-400/10' },
+                ];
+
+                document.querySelectorAll('.period-button').forEach((button, index) => {
+                    const theme = colorThemes[index % colorThemes.length];
+                    const baseClasses = 'group w-full text-center p-5 bg-gradient-to-br from-white to-slate-50 dark:from-slate-800 dark:to-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-2xl transition-all duration-300 ease-in-out transform hover:-translate-y-2 hover:scale-[1.03] hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-slate-900 flex flex-col items-center justify-center h-36';
+                    
+                    const colorClasses = `hover:${theme.shadow} ${theme.darkShadow} hover:border-${theme.name}-400 dark:hover:border-${theme.name}-500 focus:ring-${theme.name}-500`;
+
+                    button.className = `${baseClasses} ${colorClasses}`;
+                    
+                    const numberContainer = button.querySelector('.period-number-container');
+                    numberContainer.className = `flex items-center justify-center w-16 h-16 bg-slate-100 dark:bg-slate-700/80 rounded-full mb-3 transition-all duration-300 group-hover:bg-${theme.name}-100 dark:group-hover:bg-${theme.name}-900/50 group-hover:scale-110`;
+
+                    const numberSpan = button.querySelector('.period-number');
+                    numberSpan.className = `text-3xl font-bold text-slate-600 dark:text-slate-300 transition-colors duration-300 group-hover:text-${theme.name}-600 dark:group-hover:text-${theme.name}-400`;
+                    
+                    const textSpan = button.querySelector('.period-text');
+                    textSpan.className = 'font-semibold text-slate-700 dark:text-slate-300 mt-1 text-base';
+                });
+            </script>
+
+            <!-- Seções de Links -->
+            <div id="links-section-primeiro-periodo" class="link-container mt-6"></div>
+            <div id="links-section-segundo-periodo" class="link-container mt-6"></div>
+            <div id="links-section-terceiro-periodo" class="link-container mt-6"></div>
+            <div id="links-section-quarto-periodo" class="link-container mt-6"></div>
+            <div id="links-section-quinto-periodo" class="link-container mt-6"></div>
+            <div id="links-section-sexto-periodo" class="link-container mt-6"></div>
+            <div id="links-section-setimo-periodo" class="link-container mt-6"></div>
+            <div id="links-section-oitavo-periodo" class="link-container mt-6"></div>
+            <div id="links-section-nono-periodo" class="link-container mt-6"></div>
+            <div id="links-section-decimo-periodo" class="link-container mt-6"></div>
+            <div id="links-section-decimo-primeiro-periodo" class="link-container mt-6"></div>
+            <div id="links-section-decimo-segundo-periodo" class="link-container mt-6"></div>
+            <div id="links-section-piesc" class="link-container mt-6"></div>
+            <div id="links-section-transversal" class="link-container mt-6"></div>
+
+        </main>
+
+        <footer class="text-center mt-8 text-slate-500 dark:text-slate-400">
+            <p>&copy; 2024. Criado para o repositório 'migabd/Flashcards'.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- Lógica do Dark Mode ---
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const darkIcon = document.getElementById('theme-toggle-dark-icon');
+            const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                lightIcon.classList.remove('hidden');
+                document.documentElement.classList.add('dark');
+            } else {
+                darkIcon.classList.remove('hidden');
+                document.documentElement.classList.remove('dark');
+            }
+
+            themeToggleBtn.addEventListener('click', function() {
+                darkIcon.classList.toggle('hidden');
+                lightIcon.classList.toggle('hidden');
+                if (localStorage.getItem('color-theme')) {
+                    if (localStorage.getItem('color-theme') === 'light') {
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('color-theme', 'dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('color-theme', 'light');
+                    }
+                } else {
+                    if (document.documentElement.classList.contains('dark')) {
+                        document.documentElement.classList.remove('dark');
+                        localStorage.setItem('color-theme', 'light');
+                    } else {
+                        document.documentElement.classList.add('dark');
+                        localStorage.setItem('color-theme', 'dark');
+                    }
+                }
+            });
+
+            // --- Mapeamento de botões, seções e dados ---
+            const sections = {
+                primeiro_periodo: { btn: document.getElementById('primeiro-periodo-btn'), container: document.getElementById('links-section-primeiro-periodo'), subsections: { ies: { title: 'IES', placeholder: 'Pesquisar tópicos...', pages: [] }, pc: { title: 'PC', placeholder: 'Pesquisar tópicos...', pages: [] }, cfsh: { title: 'CFSH', placeholder: 'Pesquisar tópicos...', pages: [] } } },
+                segundo_periodo: { btn: document.getElementById('segundo-periodo-btn'), container: document.getElementById('links-section-segundo-periodo'), subsections: { sh1: { title: 'SH1', placeholder: 'Pesquisar tópicos...', pages: [] }, sh2: { title: 'SH2', placeholder: 'Pesquisar tópicos...', pages: [] }, sh3: { title: 'SH3', placeholder: 'Pesquisar tópicos...', pages: [] } } },
+                terceiro_periodo: { btn: document.getElementById('terceiro-periodo-btn'), container: document.getElementById('links-section-terceiro-periodo'), subsections: { fii: { title: 'FII', placeholder: 'Pesquisar tópicos...', pages: [] }, dor: { title: 'DOR', placeholder: 'Pesquisar tópicos...', pages: [] }, fppa: { title: 'FPPA', placeholder: 'Pesquisar tópicos...', pages: [] } } },
+                quarto_periodo: { btn: document.getElementById('quarto-periodo-btn'), container: document.getElementById('links-section-quarto-periodo'), subsections: { sgrn: { title: 'SGRN', placeholder: 'Pesquisar tópicos...', pages: [] }, sia: { title: 'SIA', placeholder: 'Pesquisar tópicos...', pages: [] }, smh: { title: 'SMH', placeholder: 'Pesquisar tópicos...', pages: [] } } },
+                quinto_periodo: {
+                    btn: document.getElementById('quinto-periodo-btn'),
+                    container: document.getElementById('links-section-quinto-periodo'),
+                    subsections: {
+                        psychiatry: {
+                            title: 'Psiquiatria',
+                            placeholder: 'Pesquisar tópicos...',
+                            pages: [
+                                { title: 'Conceitos para Transtornos Psicóticos', url: 'Conceitos úteis para transtornos psicóticos.html' },
+                                { title: 'Tipos de Delírio', url: 'Tiposdedelírio.html' },
+                                { title: 'Transtornos Psicóticos', url: 'Transtornospsicóticos.html' },
+                                { title: 'Tratamento para Transtornos Psicóticos', url: 'Tratamento para transtornos psicóticos.html' },
+                                { title: 'Tratamento na Emergência Psiquiátrica', url: 'Tratamento para transtornos psicóticosnaemergencia.html' },
+                                { title: 'Alguns Fármacos Úteis', url: 'alguns fármacos úteis.html' },
+                                { title: 'Transtornos de Humor', url: 'transtornosdehumor.html' },
+                                { title: 'Tratamento para Transtornos de Humor', url: 'tratamentotranstornosdehumor.html' },
+                                { title: 'Transtornos do Sono', url: 'Transtornosdosono.html' },
+                                { title: 'Tratamento para Transtornos do Sono', url: 'Tratamentotranstornosdosono.html' },
+                                { title: 'Dependência Química', url: 'Flashcardsdependênciaquímica.html' },
+                                { title: 'Disfunções Sexuais', url: 'flashcardsdisunçõessexuais.html' },
+                                { title: 'Cessação do Tabagismo', url: 'flashcardcessarotabagismo.html' },
+                                { title: 'Prós e Contras de cada ISRS', url: 'ProsecontrascadaISRS.html' },
+                                { title: 'Transtornos de Neurodesenvolvimento', url: 'Transtornosdeneurodesenvolvimento.html' },
+                                { title: 'Transtorno Alimentar', url: 'Transtornosalimentares.html' },
+                                { title: 'Transtornos Ansiosos e Outros', url: 'Transtornosdeansiedade.html' },
+                                { title: 'O Funcionamento da RAPS', url: 'RAPS.html' },
+                                { title: 'Comportamento Sexual Compulsivo', url: 'Comportamentosexualcompulsivo.html' }
+                            ]
+                        },
+                        geriatria: { title: 'Geriatria', placeholder: 'Pesquisar tópicos...', pages: [] },
+                        neuro: { title: 'Neuro', placeholder: 'Pesquisar tópicos...', pages: [] }
+                    }
+                },
+                sexto_periodo: {
+                    btn: document.getElementById('sexto-periodo-btn'),
+                    container: document.getElementById('links-section-sexto-periodo'),
+                    subsections: {
+                        reumato: { title: 'Reumato', placeholder: 'Pesquisar tópicos...', pages: [] },
+                        oncolo: { title: 'Oncolo', placeholder: 'Pesquisar tópicos...', pages: [] },
+                        gastro: { title: 'Gastro', placeholder: 'Pesquisar tópicos...', pages: [] }
+                    }
+                },
+                setimo_periodo: { 
+                    btn: document.getElementById('setimo-periodo-btn'), 
+                    container: document.getElementById('links-section-setimo-periodo'), 
+                    subsections: {
+                        endocrino: { title: 'Endócrino', placeholder: 'Pesquisar tópicos...', pages: [] },
+                        pneumo: { title: 'Pneumo', placeholder: 'Pesquisar tópicos...', pages: [] },
+                        nefro: { title: 'Nefro', placeholder: 'Pesquisar tópicos...', pages: [] }
+                    }
+                },
+                oitavo_periodo: { 
+                    btn: document.getElementById('oitavo-periodo-btn'), 
+                    container: document.getElementById('links-section-oitavo-periodo'),
+                    subsections: {
+                        infecto: { title: 'Infecto', placeholder: 'Pesquisar tópicos...', pages: [] },
+                        medicina_legal: { title: 'Medicina Legal', placeholder: 'Pesquisar tópicos...', pages: [] },
+                        emergencias: { title: 'Emergências', placeholder: 'Pesquisar tópicos...', pages: [] }
+                    }
+                },
+                nono_periodo: { btn: document.getElementById('nono-periodo-btn'), container: document.getElementById('links-section-nono-periodo'), placeholder: 'Nenhum tópico disponível ainda.', pages: [], subsections: {} },
+                decimo_periodo: { btn: document.getElementById('decimo-periodo-btn'), container: document.getElementById('links-section-decimo-periodo'), placeholder: 'Nenhum tópico disponível ainda.', pages: [], subsections: {} },
+                decimo_primeiro_periodo: { btn: document.getElementById('decimo-primeiro-periodo-btn'), container: document.getElementById('links-section-decimo-primeiro-periodo'), placeholder: 'Nenhum tópico disponível ainda.', pages: [], subsections: {} },
+                decimo_segundo_periodo: { btn: document.getElementById('decimo-segundo-periodo-btn'), container: document.getElementById('links-section-decimo-segundo-periodo'), placeholder: 'Nenhum tópico disponível ainda.', pages: [], subsections: {} },
+                piesc: { btn: document.getElementById('piesc-btn'), container: document.getElementById('links-section-piesc'), placeholder: 'Nenhum tópico disponível ainda.', pages: [], subsections: {} },
+                transversal: {
+                    btn: document.getElementById('transversal-btn'),
+                    container: document.getElementById('links-section-transversal'),
+                    subsections: {
+                        epidemiology: {
+                            title: 'Estudos Epidemiológicos',
+                            placeholder: 'Pesquisar tópicos...',
+                            pages: [
+                                { title: 'Aula 2 Transversal', url: 'Aula2tranversal.html' },
+                                { title: 'Aula 3 Transversal', url: 'Aula3transversal.html' },
+                                { title: 'Aula 4 Transversal', url: 'Aula4transversal.html' },
+                                { title: 'Aula 5 Transversal', url: 'Aula5transversal.html' },
+                                { title: 'Aula 6 Transversal', url: 'Aula6transversal.html' },
+                                { title: 'Aula 7 Transversal', url: 'Aula7transversal.html' },
+                            ]
+                        }
+                    }
+                }
+            };
+
+            function renderLinks(filter = '', details, gridElement, noResultsElement) {
+                gridElement.innerHTML = '';
+                const filteredPages = details.pages.filter(page => page.title.toLowerCase().includes(filter.toLowerCase()));
+
+                if (filteredPages.length === 0) {
+                    noResultsElement.classList.remove('hidden');
+                    noResultsElement.textContent = details.pages.length === 0 ? 'Nenhum tópico disponível nesta seção ainda.' : 'Nenhum resultado encontrado.';
+                } else {
+                    noResultsElement.classList.add('hidden');
+                }
+
+                filteredPages.forEach(page => {
+                    const linkElement = document.createElement('a');
+                    linkElement.href = page.url;
+                    linkElement.className = `block bg-white dark:bg-slate-800/50 p-4 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm transition-all hover:border-teal-400 dark:hover:border-teal-500 hover:shadow-md`;
+                    linkElement.innerHTML = `
+                        <h3 class="font-semibold text-teal-600 dark:text-teal-400">${page.title}</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Acessar material</p>
+                    `;
+                    gridElement.appendChild(linkElement);
+                });
+            }
+
+            function createLinkView(details, container, key) {
+                container.innerHTML = `
+                    <div class="relative mb-6">
+                        <input type="text" id="search-bar-${key}" class="w-full pl-10 pr-4 py-3 bg-slate-100 dark:bg-slate-700/50 border-2 border-slate-200 dark:border-slate-700 focus:border-teal-500 dark:focus:border-teal-400 rounded-lg outline-none transition" placeholder="${details.placeholder}">
+                        <svg class="w-6 h-6 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                    <div id="links-grid-${key}" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+                    <p id="no-results-${key}" class="text-center text-slate-500 dark:text-slate-400 mt-4 hidden">Nenhum resultado encontrado.</p>
+                `;
+                const searchBar = container.querySelector(`#search-bar-${key}`);
+                const grid = container.querySelector(`#links-grid-${key}`);
+                const noResults = container.querySelector(`#no-results-${key}`);
+
+                searchBar.addEventListener('input', (e) => renderLinks(e.target.value, details, grid, noResults));
+                renderLinks('', details, grid, noResults);
+            }
+
+            function createSubMenuView(details, container) {
+                container.innerHTML = '';
+                const subMenuContainer = document.createElement('div');
+                subMenuContainer.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-1';
+                
+                if (Object.keys(details.subsections).length === 0) {
+                     subMenuContainer.innerHTML = `<p class="text-center text-slate-500 dark:text-slate-400 col-span-full py-8">${details.placeholder || 'Nenhum tópico disponível ainda.'}</p>`;
+                } else {
+                    Object.entries(details.subsections).forEach(([subKey, subDetails], index) => {
+                        const button = document.createElement('button');
+                        button.className = `sub-button group w-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold py-5 px-4 rounded-xl text-lg flex items-center justify-center transition-all duration-300 border border-slate-200 dark:border-slate-700 hover:-translate-y-1 hover:shadow-lg hover:shadow-teal-500/10 dark:hover:shadow-teal-500/20`;
+                        button.innerHTML = `
+                            ${subDetails.icon || ''}
+                            ${subDetails.title}
+                        `;
+                        button.addEventListener('click', () => createLinkView(subDetails, container, subKey));
+                        subMenuContainer.appendChild(button);
+                    });
+                }
+                container.appendChild(subMenuContainer);
+            }
+            
+            function setupSection(key, details) {
+                details.btn.addEventListener('click', () => {
+                    const isAlreadyOpen = details.container.classList.contains('show');
+                    Object.values(sections).forEach(s => s.container.classList.remove('show'));
+
+                    if (!isAlreadyOpen) {
+                        if (details.subsections && Object.keys(details.subsections).length > 0) {
+                            createSubMenuView(details, details.container);
+                        } else if (details.pages && details.pages.length > 0) {
+                             createLinkView(details, details.container, key);
+                        } else {
+                            createSubMenuView(details, details.container);
+                        }
+                        details.container.classList.add('show');
+                    }
+                });
+            }
+
+            Object.entries(sections).forEach(([key, details]) => setupSection(key, details));
+        });
+    </script>
+
+</body>
+</html>

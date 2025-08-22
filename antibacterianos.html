@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards de Farmacologia: Antibacterianos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Estilo para a cena 3D que contém o card */
+        .scene {
+            perspective: 1000px;
+        }
+        /* O card em si, com a transição */
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+        }
+        /* Estilo para quando o card está virado */
+        .card.is-flipped {
+            transform: rotateY(180deg);
+        }
+        /* Estilos comuns para a frente e o verso do card */
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; /* Esconde o lado de trás quando não está virado */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 1rem; /* 16px */
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            padding: 1.5rem; /* 24px */
+        }
+        /* Estilo específico para a frente do card */
+        .card-face--front {
+            background: linear-gradient(135deg, #4338ca, #6d28d9);
+            color: white;
+        }
+        /* Estilo específico para o verso do card */
+        .card-face--back {
+            background-color: #f3f4f6; /* cinza claro */
+            color: #1f2937; /* cinza escuro */
+            transform: rotateY(180deg);
+            overflow-y: auto; /* Adiciona scroll se o conteúdo for grande */
+        }
+        /* Estilo para os botões de navegação */
+        .nav-button {
+            transition: all 0.2s ease-in-out;
+        }
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-4 sm:p-6">
+
+    <div class="w-full max-w-2xl mx-auto">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-800">Flashcards de Antibacterianos</h1>
+            <p class="text-gray-600 mt-2">Clique no card para ver os detalhes e use os botões para navegar.</p>
+        </header>
+
+        <!-- Container do Flashcard -->
+        <div id="flashcard-container" class="scene w-full h-80 sm:h-96">
+            <div id="card" class="card">
+                <!-- Frente do Card -->
+                <div id="card-front" class="card-face card-face--front">
+                    <!-- Conteúdo da frente será inserido via JS -->
+                </div>
+                <!-- Verso do Card -->
+                <div id="card-back" class="card-face card-face--back">
+                    <!-- Conteúdo do verso será inserido via JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegação e Contador -->
+        <div class="flex items-center justify-between mt-8">
+            <button id="prev-btn" class="nav-button bg-white text-gray-700 font-semibold py-2 px-4 sm:px-6 rounded-lg shadow-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Anterior
+            </button>
+            <div id="card-counter" class="text-gray-700 font-semibold"></div>
+            <button id="next-btn" class="nav-button bg-indigo-600 text-white font-semibold py-2 px-4 sm:px-6 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Próximo
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // --- DADOS DOS FLASHCARDS ---
+        const flashcards = [
+            {
+                classe: "Penicilinas (β-Lactâmicos)",
+                mecanismo: "Inibem a transpeptidase, enzima essencial para a síntese da parede celular bacteriana (peptidoglicano), levando à lise da bactéria.",
+                aplicacoes: "Infecções de pele, tecidos moles, trato respiratório (faringite, pneumonia), sífilis e endocardite.",
+                exemplos: "Penicilina G, Amoxicilina, Oxacilina."
+            },
+            {
+                classe: "Cefalosporinas (β-Lactâmicos)",
+                mecanismo: "Similar às penicilinas, inibem a síntese da parede celular bacteriana. São classificadas em gerações com espectro de ação variável.",
+                aplicacoes: "Amplo espectro. Usadas em infecções de pele, urinárias, pneumonia, meningite (gerações mais altas) e profilaxia cirúrgica.",
+                exemplos: "Cefalexina (1ª), Cefuroxima (2ª), Ceftriaxona (3ª), Cefepime (4ª)."
+            },
+            {
+                classe: "Carbapenêmicos (β-Lactâmicos)",
+                mecanismo: "Inibem a síntese da parede celular. Possuem o mais amplo espectro de ação entre os β-lactâmicos.",
+                aplicacoes: "Reservados para infecções hospitalares graves e por bactérias multirresistentes.",
+                exemplos: "Imipenem, Meropenem, Ertapenem."
+            },
+            {
+                classe: "Macrolídeos",
+                mecanismo: "Ligam-se à subunidade 50S do ribossomo bacteriano, inibindo a síntese proteica.",
+                aplicacoes: "Infecções respiratórias (pneumonias atípicas), infecções por clamídia, e como alternativa para pacientes alérgicos à penicilina.",
+                exemplos: "Azitromicina, Claritromicina, Eritromicina."
+            },
+            {
+                classe: "Quinolonas (Fluoroquinolonas)",
+                mecanismo: "Inibem as enzimas DNA girase e topoisomerase IV, impedindo a replicação e o reparo do DNA bacteriano.",
+                aplicacoes: "Infecções do trato urinário, gastrointestinais (diarreia bacteriana), infecções ósseas, articulares e respiratórias.",
+                exemplos: "Ciprofloxacino, Levofloxacino, Moxifloxacino."
+            },
+            {
+                classe: "Tetraciclinas",
+                mecanismo: "Ligam-se à subunidade 30S do ribossomo, bloqueando a ligação do aminoacil-tRNA e inibindo a síntese proteica.",
+                aplicacoes: "Acne, infecções por clamídia, riquétsias (Febre Maculosa), doença de Lyme e cólera.",
+                exemplos: "Doxiciclina, Minociclina, Tetraciclina."
+            },
+            {
+                classe: "Aminoglicosídeos",
+                mecanismo: "Ligam-se irreversivelmente à subunidade 30S do ribossomo, causando leitura incorreta do mRNA e inibindo a síntese proteica. São bactericidas.",
+                aplicacoes: "Infecções graves por bactérias Gram-negativas aeróbicas (sepse, pneumonia hospitalar). Frequentemente associados a β-lactâmicos.",
+                exemplos: "Gentamicina, Amicacina, Tobramicina."
+            },
+            {
+                classe: "Glicopeptídeos",
+                mecanismo: "Inibem a síntese da parede celular ligando-se diretamente às porções D-alanil-D-alanina do peptidoglicano.",
+                aplicacoes: "Infecções graves por bactérias Gram-positivas resistentes, como MRSA (Staphylococcus aureus resistente à meticilina) e colite pseudomembranosa.",
+                exemplos: "Vancomicina, Teicoplanina."
+            },
+            {
+                classe: "Sulfonamidas e Trimetoprima",
+                mecanismo: "Atuam em etapas sequenciais da síntese do ácido fólico bacteriano, essencial para a produção de DNA e RNA.",
+                aplicacoes: "Infecções do trato urinário, pneumonia por Pneumocystis jirovecii, nocardiose. A combinação (Cotrimoxazol) é comum.",
+                exemplos: "Sulfametoxazol + Trimetoprima (SMX-TMP)."
+            }
+        ];
+
+        // --- ELEMENTOS DO DOM ---
+        const card = document.getElementById('card');
+        const cardFront = document.getElementById('card-front');
+        const cardBack = document.getElementById('card-back');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const cardCounter = document.getElementById('card-counter');
+
+        // --- ESTADO DA APLICAÇÃO ---
+        let currentCardIndex = 0;
+
+        // --- FUNÇÕES ---
+
+        /**
+         * Atualiza o conteúdo do flashcard com base no índice atual.
+         */
+        function updateCard() {
+            const currentCardData = flashcards[currentCardIndex];
+
+            // Atualiza a frente
+            cardFront.innerHTML = `<h2 class="text-2xl sm:text-3xl font-bold text-center">${currentCardData.classe}</h2>`;
+
+            // Atualiza o verso
+            cardBack.innerHTML = `
+                <div class="text-left w-full">
+                    <h3 class="text-xl font-bold text-indigo-700 mb-2">Mecanismo de Ação</h3>
+                    <p class="text-sm sm:text-base mb-4">${currentCardData.mecanismo}</p>
+                    <h3 class="text-xl font-bold text-indigo-700 mb-2">Aplicações Clínicas</h3>
+                    <p class="text-sm sm:text-base mb-4">${currentCardData.aplicacoes}</p>
+                    <h3 class="text-xl font-bold text-indigo-700 mb-2">Exemplos</h3>
+                    <p class="text-sm sm:text-base font-semibold">${currentCardData.exemplos}</p>
+                </div>
+            `;
+
+            // Atualiza o contador
+            cardCounter.textContent = `${currentCardIndex + 1} / ${flashcards.length}`;
+
+            // Atualiza o estado dos botões
+            prevBtn.disabled = currentCardIndex === 0;
+            nextBtn.disabled = currentCardIndex === flashcards.length - 1;
+
+            // Garante que o card comece desvirado ao mudar
+            if (card.classList.contains('is-flipped')) {
+                card.classList.remove('is-flipped');
+            }
+        }
+
+        /**
+         * Vira o card.
+         */
+        function flipCard() {
+            card.classList.toggle('is-flipped');
+        }
+
+        /**
+         * Mostra o próximo card.
+         */
+        function showNextCard() {
+            if (currentCardIndex < flashcards.length - 1) {
+                currentCardIndex++;
+                updateCard();
+            }
+        }
+
+        /**
+         * Mostra o card anterior.
+         */
+        function showPrevCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                updateCard();
+            }
+        }
+
+        // --- EVENT LISTENERS ---
+        card.addEventListener('click', flipCard);
+        nextBtn.addEventListener('click', showNextCard);
+        prevBtn.addEventListener('click', showPrevCard);
+
+        // --- INICIALIZAÇÃO ---
+        // Exibe o primeiro card ao carregar a página
+        updateCard();
+    </script>
+</body>
+</html>

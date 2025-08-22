@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards: Anatomia do Fígado</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .card-container {
+            perspective: 1000px;
+        }
+        .card {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        .card.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .card-front {
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+        }
+        .card-back {
+            background-color: #f0fdf4; /* Light green */
+            border: 1px solid #bbf7d0;
+            transform: rotateY(180deg);
+        }
+        .nav-button {
+            transition: all 0.2s ease-in-out;
+        }
+        .nav-button:hover {
+            transform: scale(1.05);
+        }
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-2xl mx-auto">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-teal-700">Anatomia do Fígado</h1>
+            <p class="text-gray-600 mt-2">Um baralho de flashcards para fortalecer seu conhecimento.</p>
+        </header>
+
+        <!-- Card Container -->
+        <div id="card-container" class="card-container w-full h-80 md:h-96 mb-6">
+            <div id="card" class="card">
+                <!-- Card Front -->
+                <div id="card-front" class="card-face card-front">
+                    <!-- Content will be injected by JS -->
+                </div>
+                <!-- Card Back -->
+                <div id="card-back" class="card-face card-back">
+                    <!-- Content will be injected by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="flex items-center justify-between w-full">
+            <button id="prev-btn" class="nav-button bg-white border border-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-lg shadow-sm hover:bg-gray-100 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+                Anterior
+            </button>
+            <div id="card-counter" class="text-gray-600 font-medium"></div>
+            <button id="next-btn" class="nav-button bg-teal-600 text-white font-semibold py-2 px-4 rounded-lg shadow-sm hover:bg-teal-700 flex items-center">
+                Próximo
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const flashcards = [
+            {
+                question: "Qual a localização principal do fígado no corpo humano?",
+                answer: "O fígado está localizado predominantemente no <strong>quadrante superior direito</strong> do abdômen, logo abaixo do diafragma e protegido pelas costelas."
+            },
+            {
+                question: "Quais são os quatro lobos anatômicos do fígado?",
+                answer: "São o <strong>lobo direito</strong> (o maior), <strong>lobo esquerdo</strong>, <strong>lobo caudado</strong> (posterior) e <strong>lobo quadrado</strong> (inferior)."
+            },
+            {
+                question: "O fígado possui um suprimento sanguíneo duplo. Quais vasos o compõem?",
+                answer: "A <strong>artéria hepática</strong>, que fornece sangue rico em oxigênio (cerca de 25%), e a <strong>veia porta hepática</strong>, que transporta sangue rico em nutrientes do sistema digestivo (cerca de 75%)."
+            },
+            {
+                question: "Para onde o sangue processado pelo fígado é drenado?",
+                answer: "O sangue é drenado pelas <strong>veias hepáticas</strong> (direita, média e esquerda), que desembocam diretamente na <strong>veia cava inferior</strong>."
+            },
+            {
+                question: "Qual ligamento importante divide os lobos direito e esquerdo e fixa o fígado à parede abdominal anterior?",
+                answer: "O <strong>ligamento falciforme</strong>. Sua borda livre contém o ligamento redondo, um remanescente da veia umbilical fetal."
+            },
+            {
+                question: "Qual é a unidade funcional microscópica do fígado?",
+                answer: "O <strong>lóbulo hepático</strong>. É uma estrutura hexagonal organizada em torno de uma veia central, com tríades portais em seus vértices."
+            },
+            {
+                question: "O que constitui a 'tríade portal' encontrada nos lóbulos hepáticos?",
+                answer: "A tríade portal é composta por três estruturas: um ramo da <strong>artéria hepática</strong>, um ramo da <strong>veia porta</strong> e um <strong>ducto biliar</strong>."
+            },
+            {
+                question: "Como são chamadas as principais células do fígado e qual sua função?",
+                answer: "São os <strong>hepatócitos</strong>. Essas células são responsáveis pela vasta maioria das funções metabólicas, de síntese e de desintoxicação do fígado."
+            },
+            {
+                question: "O que são os sinusóides hepáticos e que tipo de célula imune especializada eles contêm?",
+                answer: "Sinusóides são capilares fenestrados que permitem o contato do sangue com os hepatócitos. Eles contêm as <strong>células de Kupffer</strong>, que são macrófagos residentes responsáveis por fagocitar patógenos e detritos celulares."
+            },
+            {
+                question: "O que é o Hilo Hepático ou 'Porta Hepatis'?",
+                answer: "É a 'porta de entrada' do fígado. Uma fissura transversal na face inferior por onde a artéria hepática, a veia porta e os nervos entram, e os ductos hepáticos e vasos linfáticos saem."
+            },
+            {
+                question: "Além da divisão anatômica, como o fígado é dividido funcionalmente para fins cirúrgicos?",
+                answer: "É dividido em <strong>oito segmentos funcionais</strong> (Segmentos de Couinaud). Cada segmento possui seu próprio suprimento sanguíneo e drenagem biliar, o que permite a remoção cirúrgica de um segmento sem afetar os outros."
+            }
+        ];
+
+        let currentCardIndex = 0;
+
+        const card = document.getElementById('card');
+        const cardFront = document.getElementById('card-front');
+        const cardBack = document.getElementById('card-back');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const cardCounter = document.getElementById('card-counter');
+
+        function updateCardContent() {
+            const currentCard = flashcards[currentCardIndex];
+            cardFront.innerHTML = `<h2 class="text-xl md:text-2xl font-semibold text-center text-gray-700">${currentCard.question}</h2><p class="text-sm text-gray-400 mt-8">(Clique para virar)</p>`;
+            cardBack.innerHTML = `<p class="text-base md:text-lg text-center text-teal-800">${currentCard.answer}</p>`;
+            card.classList.remove('is-flipped');
+            updateNavigation();
+        }
+
+        function updateNavigation() {
+            cardCounter.textContent = `Cartão ${currentCardIndex + 1} de ${flashcards.length}`;
+            prevBtn.disabled = currentCardIndex === 0;
+            nextBtn.disabled = currentCardIndex === flashcards.length - 1;
+        }
+
+        card.addEventListener('click', () => {
+            card.classList.toggle('is-flipped');
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                updateCardContent();
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentCardIndex < flashcards.length - 1) {
+                currentCardIndex++;
+                updateCardContent();
+            }
+        });
+
+        // Initialize the first card
+        updateCardContent();
+    </script>
+</body>
+</html>

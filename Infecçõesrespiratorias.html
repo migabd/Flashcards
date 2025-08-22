@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards: Infecções Respiratórias Agudas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Estilo para a barra de rolagem (opcional, mas melhora a estética) */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-2xl mx-auto">
+        <div id="flashcard-container" class="bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-500 ease-in-out transform">
+            <!-- Header do Flashcard -->
+            <div id="flashcard-header" class="p-6 bg-slate-800 text-white">
+                <h1 id="disease-title" class="text-2xl md:text-3xl font-bold text-center"></h1>
+            </div>
+
+            <!-- Conteúdo do Flashcard (será preenchido dinamicamente) -->
+            <div id="flashcard-content" class="p-6 md:p-8 space-y-6">
+                <!-- As seções serão inseridas aqui pelo JavaScript -->
+            </div>
+        </div>
+
+        <!-- Controles de Navegação -->
+        <div class="flex justify-between items-center mt-6">
+            <button id="prev-btn" class="flex items-center justify-center bg-slate-700 text-white rounded-full p-3 shadow-md hover:bg-slate-600 transition-colors duration-300 disabled:bg-slate-400 disabled:cursor-not-allowed">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <div id="card-counter" class="text-slate-600 font-medium"></div>
+            <button id="next-btn" class="flex items-center justify-center bg-slate-700 text-white rounded-full p-3 shadow-md hover:bg-slate-600 transition-colors duration-300 disabled:bg-slate-400 disabled:cursor-not-allowed">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Dados dos Flashcards ---
+            const flashcardsData = [
+                // Cards Conceituais
+                {
+                    title: "Classificação: ITRS vs. ITRI",
+                    sections: [
+                        {
+                            heading: "Infecções do Trato Respiratório Superior (ITRS)",
+                            icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-sky-500"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>`,
+                            content: [
+                                "**Estruturas:** Acometem nariz, seios paranasais, faringe e laringe (acima da glote).",
+                                "**Exemplos:** Resfriado, sinusite, faringite.",
+                                "**Gravidade:** Geralmente mais leves e autolimitadas.",
+                            ]
+                        },
+                        {
+                            heading: "Infecções do Trato Respiratório Inferior (ITRI)",
+                            icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-red-500"><path d="M20.25 14.521C20.25 15.32 17.521 16 14.5 16c-3.021 0-5.75-.68-5.75-1.479S11.479 13 14.5 13c3.021 0 5.75.68 5.75 1.521z"></path><path d="M14.5 16V8.5"></path><path d="M11.5 13.5c0 .828-1.343 1.5-3 1.5S5.5 14.328 5.5 13.5 6.843 12 8.5 12s3 .672 3 1.5z"></path><path d="M8.5 12V4.5"></path><path d="M14.5 8.5c1.657 0 3-1.119 3-2.5S16.157 3.5 14.5 3.5 11.5 4.619 11.5 6s1.343 2.5 3 2.5z"></path><path d="M8.5 4.5c1.657 0 3-1.119 3-2.5S10.157-.5 8.5-.5 5.5.619 5.5 2s1.343 2.5 3 2.5z"></path></svg>`,
+                            content: [
+                                "**Estruturas:** Afetam traqueia, brônquios, bronquíolos e alvéolos (abaixo da glote).",
+                                "**Exemplos:** Bronquite, bronquiolite, pneumonia.",
+                                "**Gravidade:** Tipicamente mais graves, com maior risco de hospitalização.",
+                            ]
+                        }
+                    ]
+                },
+                {
+                    title: "Principais Vírus Respiratórios",
+                    sections: [
+                        {
+                            heading: "Agentes Virais Comuns",
+                            icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-violet-500"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>`,
+                            content: [
+                                "**Rinovírus:** Principal causa do **resfriado comum**.",
+                                "**Vírus Influenza (A e B):** Causa da **gripe**, associado a quadros mais graves.",
+                                "**Vírus Sincicial Respiratório (VSR):** Principal causa de **bronquiolite** e pneumonia em lactentes.",
+                                "**SARS-CoV-2:** Agente da **COVID-19**.",
+                                "**Outros:** Adenovírus, Metapneumovírus, Parainfluenza.",
+                            ]
+                        }
+                    ]
+                },
+                {
+                    title: "Sinais de Alerta para Gravidade (SRAG)",
+                    sections: [
+                        {
+                            heading: "Sinais em Adultos e Crianças",
+                            icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-amber-500"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>`,
+                            content: [
+                                "**Dispneia / Dificuldade para respirar**.",
+                                "**Pressão ou dor persistente no tórax**.",
+                                "**Saturação de O₂ < 95%** em ar ambiente.",
+                                "**Coloração azulada (cianose)** nos lábios ou rosto.",
+                            ]
+                        },
+                        {
+                            heading: "Sinais Específicos em Crianças",
+                            icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-amber-500"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>`,
+                            content: [
+                                "**Respiração muito rápida (taquipneia)**.",
+                                "**Tiragem intercostal** (afundamento da pele entre as costelas).",
+                                "**Gemência** (som ao expirar) e **batimento de asa de nariz**.",
+                                "**Incapacidade de beber, sugar ou se alimentar**.",
+                            ]
+                        }
+                    ]
+                },
+                // Cards de Doenças (adaptados)
+                {
+                    title: "Resfriado Comum",
+                    sections: [
+                        { heading: "Quadro Clínico", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-sky-500"><path d="M12 2a10 10 0 1 0 10 10c0-2.43-.9-4.68-2.4-6.32"></path><path d="M12 18a10 10 0 0 1-7.5-3.68"></path><path d="M12 2a10 10 0 0 1 7.5 3.68"></path><path d="m9 14 1 1 2-2"></path><path d="M17.5 7.5c.28 0 .5.22.5.5v1c0 .28-.22.5-.5.5h-5c-.28 0-.5-.22-.5-.5v-1c0-.28.22-.5.5-.5Z"></path><circle cx="12" cy="12" r="10"></circle></svg>`, content: ["**Coriza hialina**, **espirros**, **tosse seca** e **dor de garganta** leve.", "Febre baixa ou ausente."] },
+                        { heading: "Diagnóstico", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-amber-500"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"></path></svg>`, content: ["**Essencialmente clínico**.", "Não necessita exames complementares."] },
+                        { heading: "Tratamento", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-emerald-500"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M9 12h6"></path><path d="M12 9v6"></path></svg>`, content: ["**Sintomático:** Repouso, hidratação, analgésicos.", "**Não usar antibióticos**."] },
+                        { heading: "Principais Aspectos", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-indigo-500"><path d="M12 6.52c.42-.25.96-.25 1.38 0l8.03 4.69a1 1 0 0 1 .5.87v9.24a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9.24a1 1 0 0 1 .5-.87Z"></path><path d="m12 13.5-8.5-4.95"></path><path d="m21 8.55-8.5 4.95"></path><path d="M12 22.5V13"></path><path d="M22 8.5l-10 6-10-6"></path></svg>`, content: ["**Etiologia:** Principalmente **Rinovírus**.", "Curso **autolimitado** (7-10 dias)."] }
+                    ]
+                },
+                {
+                    title: "Influenza (Gripe)",
+                    sections: [
+                        { heading: "Quadro Clínico", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-sky-500"><path d="M12 2a10 10 0 1 0 10 10c0-2.43-.9-4.68-2.4-6.32"></path><path d="M12 18a10 10 0 0 1-7.5-3.68"></path><path d="M12 2a10 10 0 0 1 7.5 3.68"></path><path d="m9 14 1 1 2-2"></path><path d="M17.5 7.5c.28 0 .5.22.5.5v1c0 .28-.22.5-.5.5h-5c-.28 0-.5-.22-.5-.5v-1c0-.28.22-.5.5-.5Z"></path><circle cx="12" cy="12" r="10"></circle></svg>`, content: ["**Início súbito**, **febre alta**, **mialgia intensa** (dores no corpo).", "Cefaleia, calafrios e prostração."] },
+                        { heading: "Diagnóstico", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-amber-500"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"></path></svg>`, content: ["Clínico, Teste Rápido ou **RT-PCR** (padrão-ouro)."] },
+                        { heading: "Tratamento", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-emerald-500"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M9 12h6"></path><path d="M12 9v6"></path></svg>`, content: ["Sintomático.", "**Antiviral (Oseltamivir)** para casos graves ou grupos de risco, idealmente nas primeiras 48h."] },
+                        { heading: "Principais Aspectos", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-indigo-500"><path d="M12 6.52c.42-.25.96-.25 1.38 0l8.03 4.69a1 1 0 0 1 .5.87v9.24a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9.24a1 1 0 0 1 .5-.87Z"></path><path d="m12 13.5-8.5-4.95"></path><path d="m21 8.55-8.5 4.95"></path><path d="M12 22.5V13"></path><path d="M22 8.5l-10 6-10-6"></path></svg>`, content: ["**Prevenção:** **Vacinação anual** é a medida mais eficaz.", "**Complicações:** Risco de **pneumonia** secundária."] }
+                    ]
+                },
+                {
+                    title: "Bronquiolite Viral Aguda",
+                    sections: [
+                        { heading: "Quadro Clínico", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-sky-500"><path d="M12 2a10 10 0 1 0 10 10c0-2.43-.9-4.68-2.4-6.32"></path><path d="M12 18a10 10 0 0 1-7.5-3.68"></path><path d="M12 2a10 10 0 0 1 7.5 3.68"></path><path d="m9 14 1 1 2-2"></path><path d="M17.5 7.5c.28 0 .5.22.5.5v1c0 .28-.22.5-.5.5h-5c-.28 0-.5-.22-.5-.5v-1c0-.28.22-.5.5-.5Z"></path><circle cx="12" cy="12" r="10"></circle></svg>`, content: ["**Sibilância** ('chiado'), **taquipneia** (respiração rápida) e **retrações torácicas**.", "Inicia com sintomas de resfriado."] },
+                        { heading: "Tratamento", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-emerald-500"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M9 12h6"></path><path d="M12 9v6"></path></svg>`, content: ["**Medidas de Suporte:** Oxigenoterapia (se SatO₂ baixa), hidratação e desobstrução nasal."] },
+                        { heading: "Principais Aspectos", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-indigo-500"><path d="M12 6.52c.42-.25.96-.25 1.38 0l8.03 4.69a1 1 0 0 1 .5.87v9.24a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9.24a1 1 0 0 1 .5-.87Z"></path><path d="m12 13.5-8.5-4.95"></path><path d="m21 8.55-8.5 4.95"></path><path d="M12 22.5V13"></path><path d="M22 8.5l-10 6-10-6"></path></svg>`, content: ["**Etiologia:** Principalmente **Vírus Sincicial Respiratório (VSR)**.", "**População:** Afeta **lactentes e crianças < 2 anos**."] }
+                    ]
+                },
+                {
+                    title: "Pneumonia (PAC)",
+                    sections: [
+                        { heading: "Quadro Clínico", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-sky-500"><path d="M12 2a10 10 0 1 0 10 10c0-2.43-.9-4.68-2.4-6.32"></path><path d="M12 18a10 10 0 0 1-7.5-3.68"></path><path d="M12 2a10 10 0 0 1 7.5 3.68"></path><path d="m9 14 1 1 2-2"></path><path d="M17.5 7.5c.28 0 .5.22.5.5v1c0 .28-.22.5-.5.5h-5c-.28 0-.5-.22-.5-.5v-1c0-.28.22-.5.5-.5Z"></path><circle cx="12" cy="12" r="10"></circle></svg>`, content: ["**Tosse produtiva**, **febre alta**, **dispneia** (falta de ar) e **dor torácica**.", "Ausculta com estertores crepitantes."] },
+                        { heading: "Diagnóstico", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-amber-500"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"></path></svg>`, content: ["**Radiografia de Tórax** é fundamental para confirmar a consolidação pulmonar."] },
+                        { heading: "Tratamento", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-emerald-500"><rect width="18" height="18" x="3" y="3" rx="2"></rect><path d="M9 12h6"></path><path d="M12 9v6"></path></svg>`, content: ["**Antibioticoterapia** é a base do tratamento (ex: Amoxicilina)."] },
+                        { heading: "Principais Aspectos", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-indigo-500"><path d="M12 6.52c.42-.25.96-.25 1.38 0l8.03 4.69a1 1 0 0 1 .5.87v9.24a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9.24a1 1 0 0 1 .5-.87Z"></path><path d="m12 13.5-8.5-4.95"></path><path d="m21 8.55-8.5 4.95"></path><path d="M12 22.5V13"></path><path d="M22 8.5l-10 6-10-6"></path></svg>`, content: ["**Etiologia:** ***Streptococcus pneumoniae*** (pneumococo) é o agente bacteriano mais comum."] }
+                    ]
+                },
+                {
+                    title: "Prevenção no Dia a Dia",
+                    sections: [
+                        {
+                            heading: "Medidas Não Farmacológicas",
+                            icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-teal-500"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>`,
+                            content: [
+                                "**Higiene das Mãos:** Lavar com água e sabão ou usar álcool em gel.",
+                                "**Etiqueta Respiratória:** Cobrir a boca e o nariz ao tossir/espirrar.",
+                                "**Ventilação de Ambientes:** Manter locais arejados.",
+                                "**Uso de Máscaras:** Especialmente se estiver com sintomas ou em locais de risco.",
+                            ]
+                        }
+                    ]
+                }
+            ];
+
+            // --- Elementos do DOM ---
+            const titleEl = document.getElementById('disease-title');
+            const contentEl = document.getElementById('flashcard-content');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const cardCounterEl = document.getElementById('card-counter');
+            const flashcardContainer = document.getElementById('flashcard-container');
+
+            let currentCardIndex = 0;
+
+            // --- Funções ---
+
+            function parseSimpleMarkdown(text) {
+                return text.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-slate-800">$1</strong>');
+            }
+
+            function updateFlashcard(index) {
+                const cardData = flashcardsData[index];
+                
+                flashcardContainer.style.opacity = '0';
+                flashcardContainer.style.transform = 'translateY(20px)';
+
+                setTimeout(() => {
+                    // Atualiza o título
+                    titleEl.textContent = cardData.title;
+
+                    // Limpa o conteúdo anterior
+                    contentEl.innerHTML = '';
+
+                    // Cria e insere as novas seções
+                    cardData.sections.forEach(section => {
+                        const sectionDiv = document.createElement('div');
+                        sectionDiv.className = 'section';
+
+                        const heading = document.createElement('h2');
+                        heading.className = 'text-xl font-semibold text-slate-700 flex items-center mb-3';
+                        heading.innerHTML = `${section.icon} ${section.heading}`;
+                        
+                        const list = document.createElement('ul');
+                        list.className = 'list-disc list-inside text-slate-600 space-y-2 pl-2';
+                        list.innerHTML = section.content.map(item => `<li>${parseSimpleMarkdown(item)}</li>`).join('');
+
+                        sectionDiv.appendChild(heading);
+                        sectionDiv.appendChild(list);
+                        contentEl.appendChild(sectionDiv);
+                    });
+
+                    // Atualiza o contador
+                    cardCounterEl.textContent = `${index + 1} / ${flashcardsData.length}`;
+
+                    // Habilita/desabilita botões
+                    prevBtn.disabled = index === 0;
+                    nextBtn.disabled = index === flashcardsData.length - 1;
+                    
+                    flashcardContainer.style.opacity = '1';
+                    flashcardContainer.style.transform = 'translateY(0)';
+
+                }, 300);
+            }
+
+            // --- Event Listeners ---
+            prevBtn.addEventListener('click', () => {
+                if (currentCardIndex > 0) {
+                    currentCardIndex--;
+                    updateFlashcard(currentCardIndex);
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentCardIndex < flashcardsData.length - 1) {
+                    currentCardIndex++;
+                    updateFlashcard(currentCardIndex);
+                }
+            });
+
+            // --- Inicialização ---
+            updateFlashcard(currentCardIndex);
+        });
+    </script>
+</body>
+</html>

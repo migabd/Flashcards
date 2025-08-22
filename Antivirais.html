@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards de Farmacologia dos Antivirais</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Estilos para a animação de virar o card */
+        .card {
+            perspective: 1000px;
+            min-height: 320px;
+        }
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.7s;
+            transform-style: preserve-3d;
+        }
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 0.75rem; /* rounded-xl */
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white p-4 sm:p-6 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-bold text-cyan-400">Farmacologia dos Antivirais</h1>
+            <p class="text-lg text-gray-400 mt-2">Clique nos cards para ver os detalhes</p>
+        </header>
+
+        <main class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            
+            <!-- Card 1: Inibidores de Entrada -->
+            <div class="card cursor-pointer group">
+                <div class="card-inner">
+                    <div class="card-front bg-gray-800 border border-cyan-500/30 p-6 flex flex-col justify-center items-center text-center shadow-lg shadow-cyan-500/10">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-cyan-400 mb-4"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M12 11v0"></path><path d="M15 9.5a3.5 3.5 0 0 0-3.5-3.5 3.5 3.5 0 0 0-3.5 3.5"></path></svg>
+                        <h2 class="text-xl font-bold">Inibidores de Entrada e Fusão Viral</h2>
+                        <span class="mt-4 text-sm text-gray-400 group-hover:text-cyan-300 transition-colors">Clique para virar</span>
+                    </div>
+                    <div class="card-back bg-gray-800 p-6 border border-cyan-500/30 overflow-y-auto">
+                        <h3 class="text-lg font-semibold text-cyan-400 mb-2">Como agem?</h3>
+                        <p class="text-gray-300 text-sm mb-4">Impedem que o vírus se conecte e entre na célula hospedeira, bloqueando receptores na superfície da célula ou proteínas virais essenciais para a fusão.</p>
+                        <h3 class="text-lg font-semibold text-cyan-400 mb-2">Exemplos:</h3>
+                        <ul class="list-disc list-inside text-gray-300 text-sm space-y-1">
+                            <li><strong class="font-semibold">Enfuvirtida (T20):</strong> Usado no HIV, impede a fusão do vírus com a membrana da célula CD4+.</li>
+                            <li><strong class="font-semibold">Maraviroc:</strong> Também para o HIV, bloqueia o receptor CCR-5.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Inibidores da DNA Polimerase -->
+            <div class="card cursor-pointer group">
+                <div class="card-inner">
+                    <div class="card-front bg-gray-800 border border-pink-500/30 p-6 flex flex-col justify-center items-center text-center shadow-lg shadow-pink-500/10">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-pink-400 mb-4"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M10 12h1"></path><path d="M13 12h1"></path><path d="M10 16h4"></path><path d="M13 16h1"></path></svg>
+                        <h2 class="text-xl font-bold">Inibidores da DNA Polimerase</h2>
+                        <span class="mt-4 text-sm text-gray-400 group-hover:text-pink-300 transition-colors">Clique para virar</span>
+                    </div>
+                    <div class="card-back bg-gray-800 p-6 border border-pink-500/30 overflow-y-auto">
+                        <h3 class="text-lg font-semibold text-pink-400 mb-2">Como agem?</h3>
+                        <p class="text-gray-300 text-sm mb-4">Bloqueiam a enzima **DNA polimerase**, crucial para a replicação do material genético (DNA) do vírus, impedindo sua multiplicação.</p>
+                        <h3 class="text-lg font-semibold text-pink-400 mb-2">Aplicação Principal:</h3>
+                        <p class="text-gray-300 text-sm mb-4">Vírus da Herpes (HSV) e Varicela-Zóster (VZV).</p>
+                        <h3 class="text-lg font-semibold text-pink-400 mb-2">Exemplos:</h3>
+                        <ul class="list-disc list-inside text-gray-300 text-sm space-y-1">
+                            <li><strong class="font-semibold">Aciclovir</strong></li>
+                            <li><strong class="font-semibold">Valaciclovir</strong></li>
+                            <li><strong class="font-semibold">Fanciclovir</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Inibidores da Transcriptase Reversa -->
+            <div class="card cursor-pointer group">
+                <div class="card-inner">
+                    <div class="card-front bg-gray-800 border border-purple-500/30 p-6 flex flex-col justify-center items-center text-center shadow-lg shadow-purple-500/10">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-400 mb-4"><path d="M10.42 12.61a2.1 2.1 0 1 1 2.97 2.97L7.95 21 4 22l.99-3.95 5.43-5.44Z"></path><path d="M14 4.051a3 3 0 0 1 4.242-.243l1.415 1.414a3 3 0 0 1 .243 4.242L12.06 17.38l-1.415-1.414a3 3 0 0 1-.243-4.242l3.61-3.61Z"></path><path d="m16 6 2 2"></path><path d="m4 16 2 2"></path></svg>
+                        <h2 class="text-xl font-bold">Inibidores da Transcriptase Reversa</h2>
+                        <span class="mt-4 text-sm text-gray-400 group-hover:text-purple-300 transition-colors">Clique para virar</span>
+                    </div>
+                    <div class="card-back bg-gray-800 p-6 border border-purple-500/30 overflow-y-auto">
+                        <h3 class="text-lg font-semibold text-purple-400 mb-2">Como agem?</h3>
+                        <p class="text-gray-300 text-sm mb-4">Atuam na enzima **transcriptase reversa** do HIV, que converte o RNA viral em DNA, impedindo a integração do material genético viral ao da célula hospedeira.</p>
+                        <h3 class="text-lg font-semibold text-purple-400 mb-2">Exemplos (ITRNs):</h3>
+                        <ul class="list-disc list-inside text-gray-300 text-sm space-y-1">
+                            <li><strong class="font-semibold">Zidovudina (AZT)</strong></li>
+                            <li><strong class="font-semibold">Lamivudina (3TC)</strong></li>
+                        </ul>
+                        <h3 class="text-lg font-semibold text-purple-400 mt-3 mb-2">Exemplo (ITRNNs):</h3>
+                         <p class="text-gray-300 text-sm"><strong class="font-semibold">Efavirenz (EFZ)</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Inibidores da Protease -->
+            <div class="card cursor-pointer group">
+                <div class="card-inner">
+                    <div class="card-front bg-gray-800 border border-green-500/30 p-6 flex flex-col justify-center items-center text-center shadow-lg shadow-green-500/10">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-400 mb-4"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="m10 10.5 2 2 2-2"></path><path d="m10 15.5 2 2 2-2"></path></svg>
+                        <h2 class="text-xl font-bold">Inibidores da Protease (IP)</h2>
+                        <span class="mt-4 text-sm text-gray-400 group-hover:text-green-300 transition-colors">Clique para virar</span>
+                    </div>
+                    <div class="card-back bg-gray-800 p-6 border border-green-500/30 overflow-y-auto">
+                        <h3 class="text-lg font-semibold text-green-400 mb-2">Como agem?</h3>
+                        <p class="text-gray-300 text-sm mb-4">Bloqueiam a enzima **protease**, que "corta" longas cadeias de proteínas virais para formar novas partículas virais maduras e infecciosas.</p>
+                        <h3 class="text-lg font-semibold text-green-400 mb-2">Aplicação Principal:</h3>
+                        <p class="text-gray-300 text-sm mb-4">HIV</p>
+                        <h3 class="text-lg font-semibold text-green-400 mb-2">Exemplos:</h3>
+                        <ul class="list-disc list-inside text-gray-300 text-sm space-y-1">
+                            <li><strong class="font-semibold">Ritonavir</strong></li>
+                            <li><strong class="font-semibold">Saquinavir</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5: Inibidores da Integrase -->
+            <div class="card cursor-pointer group">
+                <div class="card-inner">
+                    <div class="card-front bg-gray-800 border border-yellow-500/30 p-6 flex flex-col justify-center items-center text-center shadow-lg shadow-yellow-500/10">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-400 mb-4"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
+                        <h2 class="text-xl font-bold">Inibidores da Integrase</h2>
+                        <span class="mt-4 text-sm text-gray-400 group-hover:text-yellow-300 transition-colors">Clique para virar</span>
+                    </div>
+                    <div class="card-back bg-gray-800 p-6 border border-yellow-500/30 overflow-y-auto">
+                        <h3 class="text-lg font-semibold text-yellow-400 mb-2">Como agem?</h3>
+                        <p class="text-gray-300 text-sm mb-4">Impedem a ação da enzima **integrase**, responsável por inserir o DNA viral no DNA da célula hospedeira.</p>
+                        <h3 class="text-lg font-semibold text-yellow-400 mb-2">Aplicação Principal:</h3>
+                        <p class="text-gray-300 text-sm mb-4">HIV</p>
+                        <h3 class="text-lg font-semibold text-yellow-400 mb-2">Exemplos:</h3>
+                        <ul class="list-disc list-inside text-gray-300 text-sm space-y-1">
+                           <li><strong class="font-semibold">Raltegravir</strong></li>
+                           <li><strong class="font-semibold">Dolutegravir</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6: Inibidores da Neuraminidase -->
+            <div class="card cursor-pointer group">
+                <div class="card-inner">
+                    <div class="card-front bg-gray-800 border border-red-500/30 p-6 flex flex-col justify-center items-center text-center shadow-lg shadow-red-500/10">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-400 mb-4"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+                        <h2 class="text-xl font-bold">Inibidores da Liberação (Neuraminidase)</h2>
+                        <span class="mt-4 text-sm text-gray-400 group-hover:text-red-300 transition-colors">Clique para virar</span>
+                    </div>
+                    <div class="card-back bg-gray-800 p-6 border border-red-500/30 overflow-y-auto">
+                        <h3 class="text-lg font-semibold text-red-400 mb-2">Como agem?</h3>
+                        <p class="text-gray-300 text-sm mb-4">Bloqueiam a **neuraminidase**, uma enzima na superfície do vírus da gripe que o ajuda a se soltar da célula infectada para poder infectar outras.</p>
+                        <h3 class="text-lg font-semibold text-red-400 mb-2">Aplicação Principal:</h3>
+                        <p class="text-gray-300 text-sm mb-4">Vírus Influenza (Gripe)</p>
+                        <h3 class="text-lg font-semibold text-red-400 mb-2">Exemplos:</h3>
+                        <ul class="list-disc list-inside text-gray-300 text-sm space-y-1">
+                           <li><strong class="font-semibold">Oseltamivir (Tamiflu)</strong></li>
+                           <li><strong class="font-semibold">Zanamivir</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+             <!-- Card 7: Tratamento da Herpes -->
+            <div class="card cursor-pointer group">
+                <div class="card-inner">
+                    <div class="card-front bg-gray-800 border border-blue-500/30 p-6 flex flex-col justify-center items-center text-center shadow-lg shadow-blue-500/10">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400 mb-4"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+                        <h2 class="text-xl font-bold">Tratamento da Herpes</h2>
+                        <span class="mt-4 text-sm text-gray-400 group-hover:text-blue-300 transition-colors">Clique para virar</span>
+                    </div>
+                    <div class="card-back bg-gray-800 p-6 border border-blue-500/30 overflow-y-auto">
+                        <h3 class="text-lg font-semibold text-blue-400 mb-2">Vírus:</h3>
+                        <p class="text-gray-300 text-sm mb-4">Herpes Simples (HSV), Varicela-Zóster (VZV).</p>
+                        <h3 class="text-lg font-semibold text-blue-400 mb-2">Classe Principal:</h3>
+                        <p class="text-gray-300 text-sm mb-4">Inibidores da DNA Polimerase.</p>
+                        <h3 class="text-lg font-semibold text-blue-400 mb-2">Medicamentos Comuns:</h3>
+                        <ul class="list-disc list-inside text-gray-300 text-sm space-y-1">
+                            <li><strong class="font-semibold">Aciclovir</strong></li>
+                            <li><strong class="font-semibold">Valaciclovir</strong></li>
+                            <li><strong class="font-semibold">Fanciclovir</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 8: Tratamento do HIV/AIDS -->
+            <div class="card cursor-pointer group">
+                <div class="card-inner">
+                    <div class="card-front bg-gray-800 border border-indigo-500/30 p-6 flex flex-col justify-center items-center text-center shadow-lg shadow-indigo-500/10">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-400 mb-4"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M12 8v4l2 2"></path></svg>
+                        <h2 class="text-xl font-bold">Tratamento do HIV/AIDS</h2>
+                        <span class="mt-4 text-sm text-gray-400 group-hover:text-indigo-300 transition-colors">Clique para virar</span>
+                    </div>
+                    <div class="card-back bg-gray-800 p-6 border border-indigo-500/30 overflow-y-auto">
+                        <h3 class="text-lg font-semibold text-indigo-400 mb-2">Estratégia:</h3>
+                        <p class="text-gray-300 text-sm mb-3">Terapia Antirretroviral Combinada (TARc), usando um "coquetel" de fármacos de diferentes classes.</p>
+                        <h3 class="text-lg font-semibold text-indigo-400 mb-2">Composição do Coquetel (1ª linha):</h3>
+                        <p class="text-gray-300 text-sm mb-3">Geralmente combina 3 fármacos:</p>
+                        <ul class="list-disc list-inside text-gray-300 text-sm space-y-1 mb-3">
+                            <li><strong class="font-semibold">2 ITRNs</strong> (Ex: Tenofovir + Lamivudina)</li>
+                            <li><strong class="font-semibold">1 Inibidor da Integrase</strong> (Ex: Dolutegravir)</li>
+                        </ul>
+                        <h3 class="text-lg font-semibold text-indigo-400 mb-2">Objetivo:</h3>
+                        <p class="text-gray-300 text-sm">Suprimir a replicação viral a níveis indetectáveis e restaurar a função do sistema imunológico.</p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // Adiciona a funcionalidade de virar o card ao clique
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.toggle('flipped');
+            });
+        });
+    </script>
+
+</body>
+</html>

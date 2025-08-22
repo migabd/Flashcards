@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards: Interpretação do Leucograma</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Fundo cinza azulado claro */
+        }
+
+        /* Estilos para a cena 3D do cartão */
+        .scene {
+            perspective: 1000px;
+        }
+
+        /* O cartão em si, com a transição */
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.7s;
+            border-radius: 1rem;
+        }
+
+        /* Estilos para a frente e o verso do cartão */
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-front {
+            background: white;
+            color: #1e3a8a; /* Azul escuro */
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8); /* Gradiente azul */
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        /* Classe para virar o cartão */
+        .is-flipped {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+    <div class="max-w-7xl mx-auto">
+        <header class="text-center mb-8 md:mb-12">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800">Interpretação do Leucograma</h1>
+            <p class="mt-2 text-lg text-gray-600">Clique nos cartões para ver o significado clínico.</p>
+        </header>
+
+        <!-- Grid para os flashcards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            
+            <!-- Flashcard: Leucócitos Totais -->
+            <div class="scene h-80">
+                <div class="card">
+                    <div class="card-face card-front">
+                        <h2 class="text-2xl font-bold text-center">Leucócitos Totais</h2>
+                        <p class="mt-4 text-gray-500 text-center">Toque para virar</p>
+                    </div>
+                    <div class="card-face card-back">
+                        <h3 class="text-xl font-bold mb-2">Definição</h3>
+                        <p class="text-center text-sm mb-4">Contagem de todas as células de defesa (glóbulos brancos). A linha de frente do sistema imune.</p>
+                        <h3 class="text-xl font-bold mb-2">Significado Clínico</h3>
+                        <ul class="list-disc list-inside text-sm text-left w-full space-y-1">
+                            <li><strong class="font-semibold">Aumento (Leucocitose):</strong> Infecções (bacterianas), inflamação, estresse, leucemia.</li>
+                            <li><strong class="font-semibold">Diminuição (Leucopenia):</strong> Infecções virais, quimioterapia, doenças autoimunes, problemas na medula óssea.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flashcard: Neutrófilos -->
+            <div class="scene h-80">
+                <div class="card">
+                    <div class="card-face card-front">
+                        <h2 class="text-2xl font-bold text-center">Neutrófilos</h2>
+                        <p class="mt-4 text-gray-500 text-center">Toque para virar</p>
+                    </div>
+                    <div class="card-face card-back">
+                        <h3 class="text-xl font-bold mb-2">Definição</h3>
+                        <p class="text-center text-sm mb-4">Os "soldados" mais numerosos. Combatem principalmente bactérias e fungos.</p>
+                        <h3 class="text-xl font-bold mb-2">Significado Clínico</h3>
+                        <ul class="list-disc list-inside text-sm text-left w-full space-y-1">
+                            <li><strong class="font-semibold">Aumento (Neutrofilia):</strong> Infecções bacterianas agudas, inflamação, uso de corticoides.</li>
+                            <li><strong class="font-semibold">Diminuição (Neutropenia):</strong> Risco de infecções. Ocorre em quimioterapia, sepse, aplasia de medula.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flashcard: Linfócitos -->
+            <div class="scene h-80">
+                <div class="card">
+                    <div class="card-face card-front">
+                        <h2 class="text-2xl font-bold text-center">Linfócitos</h2>
+                        <p class="mt-4 text-gray-500 text-center">Toque para virar</p>
+                    </div>
+                    <div class="card-face card-back">
+                        <h3 class="text-xl font-bold mb-2">Definição</h3>
+                        <p class="text-center text-sm mb-4">A "inteligência" do exército imune. Combatem vírus, produzem anticorpos e regulam a resposta imune.</p>
+                        <h3 class="text-xl font-bold mb-2">Significado Clínico</h3>
+                        <ul class="list-disc list-inside text-sm text-left w-full space-y-1">
+                            <li><strong class="font-semibold">Aumento (Linfocitose):</strong> Infecções virais (gripe, mononucleose), tuberculose, leucemias linfoides.</li>
+                            <li><strong class="font-semibold">Diminuição (Linfopenia):</strong> Imunodeficiências (AIDS), uso de corticoides, doenças autoimunes.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flashcard: Monócitos -->
+            <div class="scene h-80">
+                <div class="card">
+                    <div class="card-face card-front">
+                        <h2 class="text-2xl font-bold text-center">Monócitos</h2>
+                         <p class="mt-4 text-gray-500 text-center">Toque para virar</p>
+                    </div>
+                    <div class="card-face card-back">
+                        <h3 class="text-xl font-bold mb-2">Definição</h3>
+                        <p class="text-center text-sm mb-4">Os "faxineiros". Limpam restos celulares, patógenos e apresentam antígenos para os linfócitos.</p>
+                        <h3 class="text-xl font-bold mb-2">Significado Clínico</h3>
+                        <ul class="list-disc list-inside text-sm text-left w-full space-y-1">
+                            <li><strong class="font-semibold">Aumento (Monocitose):</strong> Infecções crônicas (tuberculose), doenças autoimunes, recuperação de infecções.</li>
+                            <li><strong class="font-semibold">Diminuição (Monocitopenia):</strong> Menos comum, pode estar ligado a aplasia medular ou uso de corticoides.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Flashcard: Eosinófilos -->
+            <div class="scene h-80">
+                <div class="card">
+                    <div class="card-face card-front">
+                        <h2 class="text-2xl font-bold text-center">Eosinófilos</h2>
+                         <p class="mt-4 text-gray-500 text-center">Toque para virar</p>
+                    </div>
+                    <div class="card-face card-back">
+                        <h3 class="text-xl font-bold mb-2">Definição</h3>
+                        <p class="text-center text-sm mb-4">Especialistas em combater parasitas (vermes) e modular reações alérgicas.</p>
+                        <h3 class="text-xl font-bold mb-2">Significado Clínico</h3>
+                        <ul class="list-disc list-inside text-sm text-left w-full space-y-1">
+                            <li><strong class="font-semibold">Aumento (Eosinofilia):</strong> Alergias (asma, rinite), infecções parasitárias.</li>
+                            <li><strong class="font-semibold">Diminuição (Eosinopenia):</strong> Estresse agudo, infecções bacterianas graves, uso de corticoides.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flashcard: Basófilos -->
+            <div class="scene h-80">
+                <div class="card">
+                    <div class="card-face card-front">
+                        <h2 class="text-2xl font-bold text-center">Basófilos</h2>
+                        <p class="mt-4 text-gray-500 text-center">Toque para virar</p>
+                    </div>
+                    <div class="card-face card-back">
+                        <h3 class="text-xl font-bold mb-2">Definição</h3>
+                        <p class="text-center text-sm mb-4">Os mais raros. Liberam histamina em reações alérgicas e processos inflamatórios.</p>
+                        <h3 class="text-xl font-bold mb-2">Significado Clínico</h3>
+                        <ul class="list-disc list-inside text-sm text-left w-full space-y-1">
+                            <li><strong class="font-semibold">Aumento (Basofilia):</strong> Raro. Associado a estados alérgicos, hipotireoidismo, leucemia mieloide crônica.</li>
+                            <li><strong class="font-semibold">Diminuição (Basopenia):</strong> Difícil de detectar. Pode ocorrer em reações alérgicas agudas.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flashcard: Desvio à Esquerda -->
+            <div class="scene h-80">
+                <div class="card">
+                    <div class="card-face card-front">
+                        <h2 class="text-2xl font-bold text-center">Desvio à Esquerda</h2>
+                        <p class="mt-4 text-gray-500 text-center">Toque para virar</p>
+                    </div>
+                    <div class="card-face card-back">
+                        <h3 class="text-xl font-bold mb-2">Definição</h3>
+                        <p class="text-center text-sm mb-4">Presença de neutrófilos jovens (bastonetes) no sangue. A medula óssea está "recrutando" células imaturas às pressas.</p>
+                        <h3 class="text-xl font-bold mb-2">Significado Clínico</h3>
+                        <p class="text-center text-sm">É um forte indicativo de infecção bacteriana aguda e grave. Mostra que o corpo está em uma batalha intensa e precisa de reforços imediatos.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Script para adicionar a funcionalidade de virar os cartões
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('click', function () {
+                card.classList.toggle('is-flipped');
+            });
+        });
+    </script>
+</body>
+</html>

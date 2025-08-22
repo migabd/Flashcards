@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards Interativos: Meningites e Encefalites</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Style for the content area to have a smooth transition */
+        .card-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+        }
+        .card-body.open {
+            max-height: 1000px; /* A large value to allow content to expand */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900">Meningites e Encefalites</h1>
+            <p class="text-lg text-gray-600 mt-2">Guia Rápido com Flashcards Interativos</p>
+        </header>
+
+        <!-- Container para os Flashcards -->
+        <div class="space-y-4 max-w-4xl mx-auto">
+
+            <!-- Card 1: Meningite Bacteriana - Quadro Clínico -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <button class="card-header w-full text-left p-6 focus:outline-none">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-xl md:text-2xl font-bold text-blue-600 flex items-center">
+                            <span class="text-3xl mr-3">🧠</span> Meningite Bacteriana: Quadro Clínico
+                        </h2>
+                        <svg class="w-6 h-6 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </button>
+                <div class="card-body">
+                    <div class="px-6 pb-6 space-y-4 text-gray-700">
+                        <hr>
+                        <div>
+                            <h3 class="font-semibold text-lg">Tríade Clássica:</h3>
+                            <ul class="list-disc list-inside mt-1 ml-2 space-y-1">
+                                <li>🌡️ **Febre Alta:** Início abrupto, > 38°C.</li>
+                                <li>🤕 **Cefaleia Intensa:** "Pior da vida", holocraniana.</li>
+                                <li>뻣 **Rigidez de Nuca:** Dor ao flexionar o pescoço.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg">Sinais de Gravidade:</h3>
+                             <ul class="list-disc list-inside mt-1 ml-2 space-y-1">
+                                <li>😵 **Alteração do Nível de Consciência.**</li>
+                                <li>💥 **Vômitos em Jato.**</li>
+                                <li>✨ **Fotofobia e Fonofobia.**</li>
+                                <li>🔴 **Petéquias/Púrpuras:** Sugere meningococo.</li>
+                            </ul>
+                        </div>
+                         <div>
+                            <h3 class="font-semibold text-lg">Apresentações Específicas:</h3>
+                             <ul class="list-disc list-inside mt-1 ml-2 space-y-1">
+                                <li>👶 **Lactentes:** Irritabilidade, recusa alimentar, fontanela abaulada.</li>
+                                <li>👴 **Idosos:** Confusão mental, febre baixa.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Meningite Bacteriana - Diagnóstico -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <button class="card-header w-full text-left p-6 focus:outline-none">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-xl md:text-2xl font-bold text-blue-600 flex items-center">
+                           <span class="text-3xl mr-3">🔬</span> Meningite Bacteriana: Diagnóstico
+                        </h2>
+                        <svg class="w-6 h-6 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </button>
+                <div class="card-body">
+                    <div class="px-6 pb-6 space-y-4 text-gray-700">
+                        <hr>
+                        <div>
+                            <h3 class="font-semibold text-lg">Punção Lombar (LCR):</h3>
+                            <p class="font-medium text-blue-500">Exame Padrão-Ouro</p>
+                            <ul class="list-disc list-inside mt-1 ml-2 space-y-1">
+                                <li>**Aspecto:** Turvo ou purulento.</li>
+                                <li>**Células:** > 1.000, predomínio de neutrófilos.</li>
+                                <li>**Proteínas:** Elevadas (> 100 mg/dL).</li>
+                                <li>**Glicose:** Baixa (< 40 mg/dL).</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg">Outros Exames:</h3>
+                             <ul class="list-disc list-inside mt-1 ml-2 space-y-1">
+                                <li>**Hemoculturas:** Coletar antes do antibiótico.</li>
+                                <li>**TC de Crânio (Antes da PL):** Indicada em casos de sinais focais, papiledema, Glasgow < 10 ou imunocomprometidos.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-3 rounded-md">
+                            <p class="font-bold">Atenção:</p>
+                            <p>Não atrase o início do antibiótico para realizar exames de imagem!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Meningite Bacteriana - Tratamento -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <button class="card-header w-full text-left p-6 focus:outline-none">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-xl md:text-2xl font-bold text-blue-600 flex items-center">
+                           <span class="text-3xl mr-3">💊</span> Meningite Bacteriana: Tratamento
+                        </h2>
+                        <svg class="w-6 h-6 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </button>
+                <div class="card-body">
+                     <div class="px-6 pb-6 space-y-4 text-gray-700">
+                        <hr>
+                        <div>
+                            <h3 class="font-semibold text-lg">Antibioticoterapia Empírica IV:</h3>
+                            <ul class="list-disc list-inside mt-1 ml-2 space-y-1">
+                                <li>**Adultos (2-50 anos):** Ceftriaxona + Vancomicina.</li>
+                                <li>**> 50 anos / Imunocomprometidos:** Adicionar Ampicilina (cobrir *Listeria*).</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg">Corticoterapia:</h3>
+                             <ul class="list-disc list-inside mt-1 ml-2 space-y-1">
+                                <li>**Dexametasona:** Antes ou junto com a 1ª dose de antibiótico para reduzir sequelas (principalmente por pneumococo).</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg">Medidas de Suporte:</h3>
+                             <ul class="list-disc list-inside mt-1 ml-2 space-y-1">
+                                <li>Monitorização em UTI.</li>
+                                <li>Controle da pressão intracraniana.</li>
+                                <li>Isolamento respiratório (suspeita de meningococo).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Meningite Viral -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                 <button class="card-header w-full text-left p-6 focus:outline-none">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-xl md:text-2xl font-bold text-green-600 flex items-center">
+                           <span class="text-3xl mr-3">🧬</span> Meningite Viral
+                        </h2>
+                        <svg class="w-6 h-6 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </button>
+                <div class="card-body">
+                    <div class="px-6 pb-6 space-y-4 text-gray-700">
+                        <hr>
+                        <div>
+                            <h3 class="font-semibold text-lg">Quadro Clínico:</h3>
+                             <ul class="list-disc list-inside mt-1 ml-2 space-y-1">
+                                <li>Curso mais benigno, autolimitado.</li>
+                                <li>Cefaleia, febre baixa, rigidez de nuca leve.</li>
+                                <li>**Paciente em bom estado geral, alerta.**</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg">Diagnóstico (LCR):</h3>
+                             <ul class="list-disc list-inside mt-1 ml-2 space-y-1">
+                                <li>**Aspecto:** Límpido ("água de rocha").</li>
+                                <li>**Células:** 100-1.000, predomínio de linfócitos.</li>
+                                <li>**Proteínas:** Normais ou pouco elevadas.</li>
+                                <li>**Glicose:** Normal.</li>
+                                <li>**PCR no LCR:** Padrão-ouro para identificar o vírus.</li>
+                            </ul>
+                        </div>
+                         <div>
+                            <h3 class="font-semibold text-lg">Tratamento:</h3>
+                            <p>Majoritariamente de suporte (analgésicos, hidratação).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5: Encefalite -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <button class="card-header w-full text-left p-6 focus:outline-none">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-xl md:text-2xl font-bold text-purple-600 flex items-center">
+                           <span class="text-3xl mr-3">🧠</span> Encefalite: Clínica e Diagnóstico
+                        </h2>
+                        <svg class="w-6 h-6 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </button>
+                <div class="card-body">
+                    <div class="px-6 pb-6 space-y-4 text-gray-700">
+                        <hr>
+                        <div>
+                            <h3 class="font-semibold text-lg">Quadro Clínico (Disfunção Cerebral):</h3>
+                             <ul class="list-disc list-inside mt-1 ml-2 space-y-1">
+                                <li>😵 **Alteração do Nível de Consciência:** É a marca da doença (confusão, letargia, coma).</li>
+                                <li>🤯 **Crises Convulsivas.**</li>
+                                <li>🧠 **Sinais Neurológicos Focais:** Afasia, hemiparesia.</li>
+                                <li>🎭 **Alterações de Comportamento.**</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg">Diagnóstico:</h3>
+                             <ul class="list-disc list-inside mt-1 ml-2 space-y-1">
+                                <li>**LCR:** Semelhante à meningite viral.</li>
+                                <li>**PCR para HSV-1 no LCR:** Fundamental!</li>
+                                <li>**Ressonância Magnética:** Padrão-ouro. Mostra hipersinal nos lobos temporais na encefalite herpética.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6: Encefalite Herpética - Tratamento -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <button class="card-header w-full text-left p-6 focus:outline-none">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-xl md:text-2xl font-bold text-purple-600 flex items-center">
+                           <span class="text-3xl mr-3">🚑</span> Encefalite Herpética: Tratamento
+                        </h2>
+                        <svg class="w-6 h-6 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </button>
+                <div class="card-body">
+                    <div class="px-6 pb-6 space-y-4 text-gray-700">
+                        <hr>
+                        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-3 rounded-md">
+                            <p class="font-bold">Emergência Neurológica!</p>
+                            <p>Alta mortalidade sem tratamento. O tratamento não deve ser atrasado.</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg">Princípio Fundamental:</h3>
+                             <p class="mt-1">"Suspeitou, Tratou!"</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg">Tratamento de Escolha:</h3>
+                             <ul class="list-disc list-inside mt-1 ml-2 space-y-1">
+                                <li>**Aciclovir Intravenoso (IV):** 10 mg/kg a cada 8 horas.</li>
+                                <li>**Duração:** 14 a 21 dias.</li>
+                            </ul>
+                        </div>
+                         <div>
+                            <h3 class="font-semibold text-lg">Manejo de Complicações:</h3>
+                             <ul class="list-disc list-inside mt-1 ml-2 space-y-1">
+                                <li>Controle de crises convulsivas.</li>
+                                <li>Manejo da hipertensão intracraniana.</li>
+                                <li>Monitorar função renal (risco de nefrotoxicidade pelo Aciclovir).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- Fim do Container -->
+
+        <footer class="text-center mt-12 text-gray-500">
+            <p>&copy; 2024 Guia de Estudos. Informações compiladas para fins didáticos.</p>
+        </footer>
+
+    </div>
+    
+    <script>
+        // Script to handle the accordion functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const cardHeaders = document.querySelectorAll('.card-header');
+
+            cardHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const cardBody = header.nextElementSibling;
+                    const arrow = header.querySelector('svg');
+
+                    // Toggle the 'open' class for the transition
+                    if (cardBody.classList.contains('open')) {
+                        cardBody.classList.remove('open');
+                        cardBody.style.paddingTop = '0';
+                        cardBody.style.paddingBottom = '0';
+                        arrow.classList.remove('rotate-180');
+                    } else {
+                        cardBody.classList.add('open');
+                        cardBody.style.paddingTop = '0';
+                        cardBody.style.paddingBottom = '1.5rem'; // Corresponds to pb-6
+                        arrow.classList.add('rotate-180');
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

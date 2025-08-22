@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards: Anatomia do Baço</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .flashcard-container {
+            perspective: 1000px;
+        }
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flashcard-container.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .flashcard-back {
+            transform: rotateY(180deg);
+        }
+        .nav-button {
+            transition: all 0.2s ease-in-out;
+        }
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-2xl mx-auto">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-indigo-600 dark:text-indigo-400">Anatomia do Baço</h1>
+            <p class="text-gray-600 dark:text-gray-400 mt-2">Um baralho de flashcards para seus estudos.</p>
+        </header>
+
+        <!-- Flashcard Component -->
+        <div id="flashcard-container" class="flashcard-container w-full h-80 md:h-96 mb-6 cursor-pointer rounded-lg">
+            <div id="flashcard-inner" class="flashcard-inner">
+                <!-- Card Front -->
+                <div id="flashcard-front" class="flashcard-front bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                    <p id="card-question" class="text-xl md:text-2xl font-semibold text-center"></p>
+                    <span class="absolute bottom-4 text-xs text-gray-400 dark:text-gray-500">Clique para virar</span>
+                </div>
+                <!-- Card Back -->
+                <div id="flashcard-back" class="flashcard-back bg-indigo-50 dark:bg-gray-700 border border-indigo-200 dark:border-gray-600">
+                     <div id="card-answer" class="text-base md:text-lg text-left w-full space-y-2"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="flex items-center justify-between w-full">
+            <button id="prev-btn" class="nav-button p-3 rounded-full bg-white dark:bg-gray-700 shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-700 dark:text-gray-300"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <div id="card-counter" class="text-lg font-medium text-gray-700 dark:text-gray-300"></div>
+            <button id="next-btn" class="nav-button p-3 rounded-full bg-white dark:bg-gray-700 shadow-md">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-700 dark:text-gray-300"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const flashcards = [
+            {
+                question: "Onde o baço está localizado?",
+                answer: `<p>No <strong>quadrante superior esquerdo</strong> do abdômen (hipocôndrio esquerdo), protegido pelas costelas 9, 10 e 11. É um órgão intraperitoneal.</p>`
+            },
+            {
+                question: "Qual é o formato e o tamanho típico do baço?",
+                answer: `<p>Tem o formato de um <strong>punho fechado</strong> ou um grão de café grande.</p>
+                         <ul>
+                            <li class="ml-4 list-disc"><strong>Comprimento:</strong> ~12 cm</li>
+                            <li class="ml-4 list-disc"><strong>Largura:</strong> ~7 cm</li>
+                            <li class="ml-4 list-disc"><strong>Peso:</strong> 150-200g em adultos</li>
+                         </ul>`
+            },
+            {
+                question: "Com quais órgãos o baço se relaciona?",
+                answer: `<p>Sua <strong>superfície visceral</strong> (côncava) se relaciona com:</p>
+                         <ul>
+                            <li class="ml-4 list-disc"><strong>Face Gástrica:</strong> Estômago (anteriormente)</li>
+                            <li class="ml-4 list-disc"><strong>Face Renal:</strong> Rim esquerdo (medialmente)</li>
+                            <li class="ml-4 list-disc"><strong>Face Cólica:</strong> Flexura esplênica do cólon (inferiormente)</li>
+                         </ul>
+                         <p class="mt-2">A <strong>superfície diafragmática</strong> (convexa) se relaciona com o diafragma.</p>`
+            },
+            {
+                question: "O que é o hilo esplênico?",
+                answer: `<p>É uma fissura na superfície visceral por onde entram e saem os <strong>vasos esplênicos</strong> (artéria e veia), vasos linfáticos e nervos. A <strong>cauda do pâncreas</strong> frequentemente toca o hilo esplênico.</p>`
+            },
+            {
+                question: "Como é a estrutura externa do baço?",
+                answer: `<p>É revestido por uma <strong>cápsula fibroelástica</strong> de tecido conjuntivo denso. A partir da cápsula, partem <strong>trabéculas</strong> para o interior do órgão, fornecendo suporte estrutural.</p>`
+            },
+            {
+                question: "Quais são os dois componentes do parênquima esplênico?",
+                answer: `<p>O parênquima (tecido funcional) do baço é dividido em:</p>
+                        <ol>
+                            <li class="ml-4"><strong>1. Polpa Branca:</strong> Tecido linfoide.</li>
+                            <li class="ml-4"><strong>2. Polpa Vermelha:</strong> Tecido de filtração sanguínea.</li>
+                        </ol>`
+            },
+            {
+                question: "O que é e qual a função da Polpa Branca?",
+                answer: `<p>É o componente imunológico do baço. Consiste em tecido linfoide organizado ao redor de arteríolas, formando a <strong>bainha linfoide periarteriolar (PALS)</strong> e os <strong>folículos linfoides</strong>.</p><p class="mt-2"><strong>Função:</strong> Iniciar a resposta imune contra antígenos presentes no sangue.</p>`
+            },
+            {
+                question: "O que é e qual a função da Polpa Vermelha?",
+                answer: `<p>Compõe a maior parte do baço. É formada por <strong>sinusoides esplênicos</strong> separados pelos <strong>cordões de Billroth</strong>.</p><p class="mt-2"><strong>Função:</strong> Filtrar o sangue, removendo hemácias velhas ou danificadas (processo chamado <strong>hemocaterese</strong>) e reciclando ferro.</p>`
+            },
+            {
+                question: "Qual artéria supre o baço e qual sua origem?",
+                answer: `<p>A <strong>Artéria Esplênica</strong>. É o maior ramo do <strong>Tronco Celíaco</strong>, que por sua vez se origina da Aorta Abdominal.</p>`
+            },
+            {
+                question: "Qual veia drena o baço e para onde ela vai?",
+                answer: `<p>A <strong>Veia Esplênica</strong>. Ela se une à veia mesentérica superior para formar a <strong>Veia Porta Hepática</strong>, que leva o sangue rico em nutrientes (e produtos do baço) para o fígado.</p>`
+            },
+            {
+                question: "Resuma as principais funções do baço.",
+                answer: `<ul>
+                            <li class="ml-4 list-disc"><strong>Imunológica:</strong> "Vigia" o sangue em busca de patógenos (polpa branca).</li>
+                            <li class="ml-4 list-disc"><strong>Filtração (Hemocaterese):</strong> Destrói células sanguíneas velhas (polpa vermelha).</li>
+                            <li class="ml-4 list-disc"><strong>Armazenamento:</strong> Funciona como um reservatório de sangue, plaquetas e monócitos.</li>
+                            <li class="ml-4 list-disc"><strong>Hematopoiese:</strong> Produz células sanguíneas durante a vida fetal.</li>
+                         </ul>`
+            }
+        ];
+
+        // DOM Elements
+        const cardContainer = document.getElementById('flashcard-container');
+        const cardInner = document.getElementById('flashcard-inner');
+        const cardQuestion = document.getElementById('card-question');
+        const cardAnswer = document.getElementById('card-answer');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const cardCounter = document.getElementById('card-counter');
+
+        let currentCardIndex = 0;
+        let isFlipped = false;
+
+        function updateCard() {
+            const card = flashcards[currentCardIndex];
+            cardQuestion.textContent = card.question;
+            cardAnswer.innerHTML = card.answer;
+            cardCounter.textContent = `${currentCardIndex + 1} / ${flashcards.length}`;
+            
+            // Reset flip state
+            if (cardContainer.classList.contains('flipped')) {
+                cardContainer.classList.remove('flipped');
+            }
+            isFlipped = false;
+
+            // Update button states
+            prevBtn.disabled = currentCardIndex === 0;
+            nextBtn.disabled = currentCardIndex === flashcards.length - 1;
+        }
+
+        function flipCard() {
+            cardContainer.classList.toggle('flipped');
+            isFlipped = !isFlipped;
+        }
+
+        // Event Listeners
+        cardContainer.addEventListener('click', flipCard);
+
+        prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent card from flipping when button is clicked
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                updateCard();
+            }
+        });
+
+        nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (currentCardIndex < flashcards.length - 1) {
+                currentCardIndex++;
+                updateCard();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                prevBtn.click();
+            } else if (e.key === 'ArrowRight') {
+                nextBtn.click();
+            } else if (e.key === ' ') {
+                e.preventDefault(); // Prevent page scroll
+                flipCard();
+            }
+        });
+        
+        // Initial load
+        updateCard();
+    </script>
+</body>
+</html>

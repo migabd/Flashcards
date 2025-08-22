@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards de Vasculites Sistémicas</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
+
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --background-color: #f0f4f8;
+            --card-background: #ffffff;
+            --text-color: #333;
+            --border-color: #d1d9e6;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-family: 'Roboto', sans-serif;
+            color: var(--secondary-color);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+       .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+       .flashcard {
+            background-color: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            width: 360px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+       .flashcard:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+        }
+
+       .flashcard-header {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+       .flashcard-header h3 {
+            font-family: 'Roboto', sans-serif;
+            color: #2980b9;
+            margin: 0;
+            font-size: 1.4em;
+        }
+
+       .flashcard-header .category {
+            font-style: italic;
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+       .section {
+            margin-bottom: 10px;
+        }
+        
+       .section:last-child {
+            margin-bottom: 0;
+        }
+
+       .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            padding: 10px 0;
+            user-select: none;
+       }
+
+       .section-header h4 {
+            font-family: 'Roboto', sans-serif;
+            color: #34495e;
+            margin: 0;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+       }
+       
+       .toggle-icon {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--primary-color);
+            transition: transform 0.3s ease;
+       }
+
+       .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+       }
+       
+       .section-content.show {
+            max-height: 1000px; /* Adjust as needed */
+            transition: max-height 0.5s ease-in;
+       }
+
+       .section-header.active .toggle-icon {
+            transform: rotate(45deg);
+       }
+
+       .section-content p {
+            margin: 0;
+            line-height: 1.6;
+            font-size: 0.95em;
+            padding-top: 10px;
+       }
+
+       .section-content ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 10px 0 0 0;
+        }
+
+       .section-content ul li {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--primary-color);
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            border-radius: 5px;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+       .section-content ul li strong {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Flashcards de Vasculites Sistémicas</h1>
+    <div class="container">
+
+        <!-- Arterite de Células Gigantes -->
+        <div class="flashcard">
+            <div class="flashcard-header">
+                <h3>Arterite de Células Gigantes (ACG)</h3>
+                <p class="category">Vasculite de Grandes Vasos</p>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <h4>👤 Perfil do Paciente</h4>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="section-content">
+                    <p>Adultos com mais de 50 anos, sendo a forma mais comum de vasculite neste grupo etário.</p>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <h4>🩺 Quadro Clínico</h4>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>Cefaleia:</strong> De início recente, intensa, tipicamente na região temporal.</li>
+                        <li><strong>Sintomas Cranianos:</strong> Claudicação da mandíbula, sensibilidade no couro cabeludo.</li>
+                        <li><strong>Risco de Cegueira:</strong> Perda de visão súbita e irreversível é a complicação mais temida.</li>
+                        <li><strong>Sistémico:</strong> Frequentemente associada à Polimialgia Reumática.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <h4>🔬 Diagnóstico</h4>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>Laboratório:</strong> VHS e PCR muito elevadas.</li>
+                        <li><strong>Padrão-Ouro:</strong> Biópsia da artéria temporal.</li>
+                        <li><strong>Imagem:</strong> Ecografia Doppler, Angio-RM ou PET-CT.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <h4>💊 Tratamento</h4>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>Urgência:</strong> Iniciar imediatamente na suspeita clínica.</li>
+                        <li><strong>Indução:</strong> Altas doses de corticosteroides (Prednisona).</li>
+                        <li><strong>Manutenção:</strong> Desmame lento de corticosteroides; Tocilizumab para poupar esteroides.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Arterite de Takayasu -->
+        <div class="flashcard">
+            <div class="flashcard-header">
+                <h3>Arterite de Takayasu (AT)</h3>
+                <p class="category">Vasculite de Grandes Vasos</p>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <h4>👤 Perfil do Paciente</h4>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="section-content">
+                    <p>Predominantemente mulheres jovens, com início antes dos 50 anos.</p>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <h4>🩺 Quadro Clínico</h4>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>Fase 1 (Sistémica):</strong> Febre, mal-estar, perda de peso, dores articulares.</li>
+                        <li><strong>Fase 2 (Oclusiva):</strong> Claudicação dos membros, assimetria de pulsos e de pressão arterial, tonturas, hipertensão.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <h4>🔬 Diagnóstico</h4>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>Imagem (Chave):</strong> Angio-TC, Angio-RM ou PET-CT mostrando espessamento da aorta e ramos.</li>
+                        <li><strong>Laboratório:</strong> Marcadores inflamatórios (VHS, PCR) elevados.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <h4>💊 Tratamento</h4>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>Indução:</strong> Altas doses de corticosteroides.</li>
+                        <li><strong>Manutenção:</strong> Imunossupressores como Metotrexato ou Azatioprina.</li>
+                        <li><strong>Casos Refratários:</strong> Agentes biológicos (inibidores de TNF ou Tocilizumab).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Poliarterite Nodosa -->
+        <div class="flashcard">
+            <div class="flashcard-header">
+                <h3>Poliarterite Nodosa (PAN)</h3>
+                <p class="category">Vasculite de Médios Vasos</p>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <h4>👤 Perfil do Paciente</h4>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="section-content">
+                    <p>Adultos de meia-idade, com ligeira predominância masculina.</p>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <h4>🩺 Quadro Clínico</h4>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>Sistémico:</strong> Febre, perda de peso acentuada, mialgias.</li>
+                        <li><strong>Neurológico:</strong> Mononeurite múltipla (neuropatia dolorosa e assimétrica).</li>
+                        <li><strong>Pele:</strong> Nódulos subcutâneos, úlceras, livedo reticular.</li>
+                        <li><strong>Renal:</strong> Hipertensão renovascular (não causa glomerulonefrite).</li>
+                        <li><strong>Associação:</strong> Forte ligação com o vírus da Hepatite B (VHB).</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <h4>🔬 Diagnóstico</h4>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>Imagem:</strong> Angiografia com microaneurismas em "contas de rosário".</li>
+                        <li><strong>Padrão-Ouro:</strong> Biópsia de órgão afetado.</li>
+                        <li><strong>Laboratório:</strong> Investigar sempre VHB.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <h4>💊 Tratamento</h4>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>PAN sem VHB:</strong> Corticosteroides; adicionar Ciclofosfamida nos casos graves.</li>
+                        <li><strong>PAN com VHB:</strong> Terapia antiviral + curso curto de corticosteroides.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Doença de Kawasaki -->
+        <div class="flashcard">
+            <div class="flashcard-header">
+                <h3>Doença de Kawasaki (DK)</h3>
+                <p class="category">Vasculite de Médios Vasos</p>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <h4>👤 Perfil do Paciente</h4>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="section-content">
+                    <p>Principalmente lactentes e crianças com menos de 5 anos.</p>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <h4>🩺 Quadro Clínico</h4>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>Obrigatório:</strong> Febre alta (>39°C) por ≥ 5 dias.</li>
+                        <li><strong>Critérios (≥4 de 5):</strong> Conjuntivite, alterações orais ("língua em framboesa"), exantema, alterações de extremidades (edema/descamação), linfadenopatia cervical.</li>
+                        <li><strong>Complicação Grave:</strong> Aneurismas das artérias coronárias.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <h4>🔬 Diagnóstico</h4>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>Clínico:</strong> Baseado nos critérios.</li>
+                        <li><strong>Cardiológico:</strong> Ecocardiograma é mandatório para avaliar as artérias coronárias.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <h4>💊 Tratamento</h4>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>Urgência:</strong> Iniciar nos primeiros 10 dias.</li>
+                        <li><strong>Padrão:</strong> Dose única elevada de Imunoglobulina Intravenosa (IGIV) + Aspirina.</li>
+                        <li><strong>Casos Refratários:</strong> Repetir IGIV, corticosteroides ou Infliximab.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vasculites ANCA -->
+        <div class="flashcard">
+            <div class="flashcard-header">
+                <h3>Vasculites Associadas ao ANCA</h3>
+                <p class="category">Vasculite de Pequenos Vasos</p>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <h4>👤 Perfil do Paciente</h4>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="section-content">
+                    <p>Adultos, sem grande predileção por sexo.</p>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <h4>🩺 Quadro Clínico</h4>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>GPA:</strong> Tríade de trato respiratório superior (sinusite, nariz em sela), inferior (nódulos pulmonares) e glomerulonefrite.</li>
+                        <li><strong>PAM:</strong> Principalmente glomerulonefrite rapidamente progressiva e hemorragia alveolar (síndrome pulmão-rim).</li>
+                        <li><strong>GEPA:</strong> Ocorre em pacientes com asma e eosinofilia. Neuropatia periférica é comum.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <h4>🔬 Diagnóstico</h4>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>Laboratório (Crucial):</strong> Pesquisa de ANCA (c-ANCA/anti-PR3 para GPA; p-ANCA/anti-MPO para PAM/GEPA).</li>
+                        <li><strong>Padrão-Ouro:</strong> Biópsia de órgão afetado (rim, pulmão).</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <h4>💊 Tratamento (GPA/PAM graves)</h4>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>Indução:</strong> Corticosteroides + Rituximab ou Ciclofosfamida.</li>
+                        <li><strong>Manutenção:</strong> Rituximab (1ª linha), Azatioprina ou Metotrexato.</li>
+                        <li><strong>Adjuvante:</strong> Plasmaférese em casos renais muito graves.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vasculite por IgA -->
+        <div class="flashcard">
+            <div class="flashcard-header">
+                <h3>Vasculite por IgA (Púrpura de Henoch-Schönlein)</h3>
+                <p class="category">Vasculite de Pequenos Vasos</p>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <h4>👤 Perfil do Paciente</h4>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="section-content">
+                    <p>A vasculite mais comum na infância.</p>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <h4>🩺 Quadro Clínico</h4>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>Tétrade Clássica:</strong></li>
+                        <li>1. <strong>Púrpura palpável</strong> (obrigatório), principalmente em pernas e nádegas.</li>
+                        <li>2. <strong>Artralgia/Artrite</strong> (tornozelos, joelhos).</li>
+                        <li>3. <strong>Dor Abdominal</strong> (cólica).</li>
+                        <li>4. <strong>Envolvimento Renal</strong> (hematúria/proteinúria) - principal fator de prognóstico.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <h4>🔬 Diagnóstico</h4>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>Clínico:</strong> Baseado na tétrade.</li>
+                        <li><strong>Confirmação:</strong> Biópsia de pele ou rim mostrando depósitos de IgA.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="section">
+                <div class="section-header">
+                    <h4>💊 Tratamento</h4>
+                    <span class="toggle-icon">+</span>
+                </div>
+                <div class="section-content">
+                    <ul>
+                        <li><strong>Suporte:</strong> A maioria dos casos é autolimitada (repouso, analgésicos).</li>
+                        <li><strong>Corticosteroides:</strong> Reservados para dor abdominal/artrite severa ou nefrite grave.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sectionHeaders = document.querySelectorAll('.section-header');
+
+            sectionHeaders.forEach(header => {
+                header.addEventListener('click', function () {
+                    // Toggle a classe 'active' no cabeçalho clicado
+                    this.classList.toggle('active');
+
+                    // Encontra o conteúdo correspondente
+                    const content = this.nextElementSibling;
+                    
+                    // Mostra ou esconde o conteúdo
+                    content.classList.toggle('show');
+
+                    // Altera o ícone
+                    const icon = this.querySelector('.toggle-icon');
+                    if (content.classList.contains('show')) {
+                        icon.textContent = '−'; // Sinal de menos
+                    } else {
+                        icon.textContent = '+';
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

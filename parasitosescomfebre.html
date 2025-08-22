@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards: Parasitoses que Causam Febre</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Estilos para a animação de fade-in */
+        .answer-content {
+            transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .answer-content.show {
+            max-height: 1000px; /* Altura suficiente para o conteúdo */
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900">Parasitoses que Causam Febre</h1>
+            <p class="text-slate-600 mt-2">Toque no card para revelar a resposta</p>
+        </header>
+
+        <!-- Container dos Flashcards -->
+        <main class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <!-- Card: Malária -->
+            <div class="flashcard bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer">
+                <div class="p-6">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <span class="text-4xl mr-4">🦟</span>
+                            <h2 class="text-2xl font-bold text-slate-900">Malária</h2>
+                        </div>
+                        <span class="reveal-text text-sm font-semibold text-sky-600">Revelar</span>
+                    </div>
+                    <div class="answer-content mt-4 space-y-5">
+                        <div>
+                            <h3 class="font-semibold text-lg text-sky-700 border-b-2 border-sky-100 pb-1 mb-2">Quadro Clínico</h3>
+                            <p class="text-slate-600">Apresenta os "acessos maláricos":</p>
+                            <ul class="list-disc list-inside text-slate-600 mt-1 space-y-1">
+                                <li><strong>Calafrios:</strong> Tremores intensos (15 min a 1h).</li>
+                                <li><strong>Febre Alta:</strong> Temperatura pode ultrapassar 40°C.</li>
+                                <li><strong>Sudorese:</strong> Suor intenso para baixar a febre.</li>
+                                <li>Padrão cíclico (terçã ou quartã), dor de cabeça e dores no corpo.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg text-sky-700 border-b-2 border-sky-100 pb-1 mb-2">Diagnóstico</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Gota espessa:</strong> Padrão-ouro, visualiza o <em>Plasmodium</em>.</li>
+                                <li><strong>Testes rápidos (antigênicos):</strong> Úteis onde não há microscopia.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg text-sky-700 border-b-2 border-sky-100 pb-1 mb-2">Tratamento</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong><em>P. vivax:</em></strong> Cloroquina + Primaquina.</li>
+                                <li><strong><em>P. falciparum:</em></strong> Terapias com Artemisinina (ACTs).</li>
+                                <li><strong>Casos graves:</strong> Artesunato injetável.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card: Doença de Chagas (Fase Aguda) -->
+            <div class="flashcard bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer">
+                 <div class="p-6">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                           <span class="text-4xl mr-4">🪲</span>
+                           <h2 class="text-2xl font-bold text-slate-900">Doença de Chagas (Aguda)</h2>
+                        </div>
+                        <span class="reveal-text text-sm font-semibold text-amber-600">Revelar</span>
+                    </div>
+                    <div class="answer-content mt-4 space-y-5">
+                        <div>
+                            <h3 class="font-semibold text-lg text-amber-700 border-b-2 border-amber-100 pb-1 mb-2">Quadro Clínico</h3>
+                            <p class="text-slate-600">Muitas vezes assintomática. Quando presente:</p>
+                            <ul class="list-disc list-inside text-slate-600 mt-1 space-y-1">
+                                <li><strong>Febre:</strong> Prolongada (> 7 dias), contínua ou intermitente.</li>
+                                <li><strong>Sinais de porta de entrada:</strong> Sinal de Romaña (olhos) ou Chagoma (pele).</li>
+                                <li><strong>Sintomas gerais:</strong> Cefaleia, fraqueza, inchaço.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg text-amber-700 border-b-2 border-amber-100 pb-1 mb-2">Diagnóstico</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Exame parasitológico direto:</strong> Pesquisa do <em>T. cruzi</em> em sangue fresco.</li>
+                                <li><strong>Métodos de concentração:</strong> Micro-hematócrito.</li>
+                                <li><strong>PCR:</strong> Detecta o DNA do parasita.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg text-amber-700 border-b-2 border-amber-100 pb-1 mb-2">Tratamento</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Benzonidazol:</strong> Medicamento de primeira escolha no Brasil.</li>
+                                <li><strong>Nifurtimox:</strong> Alternativa terapêutica.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card: Leishmaniose Visceral -->
+            <div class="flashcard bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer">
+                 <div class="p-6">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <span class="text-4xl mr-4">🦟</span>
+                            <h2 class="text-2xl font-bold text-slate-900">Leishmaniose Visceral</h2>
+                        </div>
+                        <span class="reveal-text text-sm font-semibold text-red-600">Revelar</span>
+                    </div>
+                    <div class="answer-content mt-4 space-y-5">
+                        <div>
+                            <h3 class="font-semibold text-lg text-red-700 border-b-2 border-red-100 pb-1 mb-2">Quadro Clínico</h3>
+                            <p class="text-slate-600">Doença sistêmica e progressiva (Calazar).</p>
+                            <ul class="list-disc list-inside text-slate-600 mt-1 space-y-1">
+                                <li><strong>Febre:</strong> Irregular e de longa duração (semanas a meses).</li>
+                                <li><strong>Hepatoesplenomegalia:</strong> Aumento do fígado e, principalmente, do baço.</li>
+                                <li><strong>Pancitopenia:</strong> Anemia, leucopenia e plaquetopenia.</li>
+                                <li>Perda de peso acentuada, fraqueza e tosse seca.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg text-red-700 border-b-2 border-red-100 pb-1 mb-2">Diagnóstico</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Parasitológico:</strong> Padrão-ouro em aspirado de medula óssea.</li>
+                                <li><strong>Imunológico:</strong> Testes sorológicos e teste rápido (rK39).</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg text-red-700 border-b-2 border-red-100 pb-1 mb-2">Tratamento</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                 <li><strong>Anfotericina B Lipossomal:</strong> Droga de escolha atual para a maioria dos casos.</li>
+                                <li><strong>Antimoniais pentavalentes:</strong> Uso histórico, com mais restrições hoje.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card: Toxoplasmose (Aguda) -->
+            <div class="flashcard bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer">
+                 <div class="p-6">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <span class="text-4xl mr-4">🐈</span>
+                            <h2 class="text-2xl font-bold text-slate-900">Toxoplasmose (Aguda)</h2>
+                        </div>
+                        <span class="reveal-text text-sm font-semibold text-emerald-600">Revelar</span>
+                    </div>
+                    <div class="answer-content mt-4 space-y-5">
+                        <div>
+                            <h3 class="font-semibold text-lg text-emerald-700 border-b-2 border-emerald-100 pb-1 mb-2">Quadro Clínico</h3>
+                            <p class="text-slate-600">Maioria (80-90%) assintomática. Quando sintomática:</p>
+                            <ul class="list-disc list-inside text-slate-600 mt-1 space-y-1">
+                                <li><strong>Síndrome Mononucleose-like:</strong> Febre, mal-estar, dores musculares.</li>
+                                <li><strong>Linfadenopatia:</strong> Aumento dos gânglios (sinal mais comum), principalmente no pescoço.</li>
+                                <li>Grave em imunodeprimidos e na forma congênita.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg text-emerald-700 border-b-2 border-emerald-100 pb-1 mb-2">Diagnóstico</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Sorologia:</strong> Detecção de anticorpos <strong>IgM</strong> (infecção aguda) e <strong>IgG</strong> (infecção passada).</li>
+                                <li><strong>Teste de Avidez de IgG:</strong> Essencial em gestantes para datar a infecção.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-lg text-emerald-700 border-b-2 border-emerald-100 pb-1 mb-2">Tratamento</h3>
+                            <ul class="list-disc list-inside text-slate-600 space-y-1">
+                                <li><strong>Imunocompetentes:</strong> Geralmente não requer tratamento.</li>
+                                <li><strong>Gestantes e casos graves:</strong> Combinação de Sulfadiazina + Pirimetamina + Ácido Folínico.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <footer class="text-center mt-12 text-slate-500 text-sm">
+            <p>Este é um material de estudo. Sempre consulte um profissional de saúde para diagnósticos e tratamentos.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Adiciona a funcionalidade de clique para todos os flashcards
+        document.querySelectorAll('.flashcard').forEach(card => {
+            card.addEventListener('click', () => {
+                const answer = card.querySelector('.answer-content');
+                const revealText = card.querySelector('.reveal-text');
+                
+                // Alterna a classe 'show' para ativar a animação de CSS
+                answer.classList.toggle('show');
+
+                // Altera o texto do botão
+                if (answer.classList.contains('show')) {
+                    revealText.textContent = 'Ocultar';
+                } else {
+                    revealText.textContent = 'Revelar';
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
+

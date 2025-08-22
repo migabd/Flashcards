@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards de Farmacologia: Antifúngicos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Fundo mais suave */
+        }
+        /* Efeito de perspectiva para o 3D */
+        .perspective {
+            perspective: 1000px;
+        }
+        /* Estilo do card para a animação de virar */
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.7s;
+            transform-style: preserve-3d;
+        }
+        /* Esconde a parte de trás do card inicialmente */
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Safari */
+            backface-visibility: hidden;
+            border-radius: 1rem; /* Bordas mais arredondadas */
+        }
+        /* Estilo da parte de trás */
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        /* Classe para ativar a animação */
+        .is-flipped {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 p-4 sm:p-6 md:p-8">
+
+    <div class="container mx-auto max-w-6xl">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-indigo-600">Flashcards de Antifúngicos</h1>
+            <p class="text-lg text-gray-600 mt-2">Clique nos cards para revelar as informações.</p>
+        </header>
+
+        <!-- Grid de Flashcards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- Card 1: Azóis -->
+            <div class="perspective h-80 cursor-pointer group" onclick="this.querySelector('.card-inner').classList.toggle('is-flipped')">
+                <div class="card-inner">
+                    <!-- Frente do Card -->
+                    <div class="card-front bg-white shadow-xl flex flex-col justify-center items-center p-6 text-center border-2 border-indigo-200 group-hover:border-indigo-400 transition-all duration-300">
+                        <h2 class="text-3xl font-bold text-indigo-700">Azóis</h2>
+                        <p class="mt-2 text-gray-500">(ex: Fluconazol, Itraconazol)</p>
+                    </div>
+                    <!-- Verso do Card -->
+                    <div class="card-back bg-indigo-600 text-white p-6 shadow-xl flex flex-col justify-center">
+                        <h3 class="text-xl font-bold mb-2">Mecanismo de Ação:</h3>
+                        <p class="text-sm mb-4">Inibem a enzima fúngica 14-alfa-desmetilase, bloqueando a conversão de lanosterol em ergosterol, um componente vital da membrana celular do fungo.</p>
+                        <h3 class="text-xl font-bold mb-2">Aplicações Clínicas:</h3>
+                        <p class="text-sm">Candidíase (oral, vaginal, esofágica), criptococose, dermatofitoses e outras micoses sistêmicas e superficiais.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Poliênicos -->
+            <div class="perspective h-80 cursor-pointer group" onclick="this.querySelector('.card-inner').classList.toggle('is-flipped')">
+                <div class="card-inner">
+                    <!-- Frente do Card -->
+                    <div class="card-front bg-white shadow-xl flex flex-col justify-center items-center p-6 text-center border-2 border-teal-200 group-hover:border-teal-400 transition-all duration-300">
+                        <h2 class="text-3xl font-bold text-teal-700">Poliênicos</h2>
+                        <p class="mt-2 text-gray-500">(ex: Anfotericina B, Nistatina)</p>
+                    </div>
+                    <!-- Verso do Card -->
+                    <div class="card-back bg-teal-600 text-white p-6 shadow-xl flex flex-col justify-center">
+                        <h3 class="text-xl font-bold mb-2">Mecanismo de Ação:</h3>
+                        <p class="text-sm mb-4">Ligam-se ao ergosterol na membrana celular fúngica, formando poros ou canais que aumentam a permeabilidade da membrana, levando à morte celular.</p>
+                        <h3 class="text-xl font-bold mb-2">Aplicações Clínicas:</h3>
+                        <p class="text-sm"><strong>Anfotericina B:</strong> Infecções fúngicas sistêmicas graves (aspergilose, criptococose). <strong>Nistatina:</strong> Candidíase oral e cutânea (uso tópico).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Equinocandinas -->
+            <div class="perspective h-80 cursor-pointer group" onclick="this.querySelector('.card-inner').classList.toggle('is-flipped')">
+                <div class="card-inner">
+                    <!-- Frente do Card -->
+                    <div class="card-front bg-white shadow-xl flex flex-col justify-center items-center p-6 text-center border-2 border-purple-200 group-hover:border-purple-400 transition-all duration-300">
+                        <h2 class="text-3xl font-bold text-purple-700">Equinocandinas</h2>
+                        <p class="mt-2 text-gray-500">(ex: Caspofungina, Micafungina)</p>
+                    </div>
+                    <!-- Verso do Card -->
+                    <div class="card-back bg-purple-600 text-white p-6 shadow-xl flex flex-col justify-center">
+                        <h3 class="text-xl font-bold mb-2">Mecanismo de Ação:</h3>
+                        <p class="text-sm mb-4">Inibem a síntese de β-(1,3)-D-glucana, um componente essencial da parede celular dos fungos, resultando em instabilidade osmótica e lise celular.</p>
+                        <h3 class="text-xl font-bold mb-2">Aplicações Clínicas:</h3>
+                        <p class="text-sm">Candidíase invasiva e esofágica, aspergilose invasiva (como terapia de resgate). Eficazes contra Candida e Aspergillus.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4: Alilaminas -->
+            <div class="perspective h-80 cursor-pointer group" onclick="this.querySelector('.card-inner').classList.toggle('is-flipped')">
+                <div class="card-inner">
+                    <!-- Frente do Card -->
+                    <div class="card-front bg-white shadow-xl flex flex-col justify-center items-center p-6 text-center border-2 border-sky-200 group-hover:border-sky-400 transition-all duration-300">
+                        <h2 class="text-3xl font-bold text-sky-700">Alilaminas</h2>
+                        <p class="mt-2 text-gray-500">(ex: Terbinafina)</p>
+                    </div>
+                    <!-- Verso do Card -->
+                    <div class="card-back bg-sky-600 text-white p-6 shadow-xl flex flex-col justify-center">
+                        <h3 class="text-xl font-bold mb-2">Mecanismo de Ação:</h3>
+                        <p class="text-sm mb-4">Inibem a enzima esqualeno epoxidase, bloqueando a síntese de ergosterol em uma etapa anterior à dos azóis. Causa acúmulo tóxico de esqualeno.</p>
+                        <h3 class="text-xl font-bold mb-2">Aplicações Clínicas:</h3>
+                        <p class="text-sm">Principalmente para dermatofitoses, como onicomicose (infecção fúngica das unhas) e Tinea (corporis, cruris, pedis).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5: Flucitosina -->
+            <div class="perspective h-80 cursor-pointer group" onclick="this.querySelector('.card-inner').classList.toggle('is-flipped')">
+                <div class="card-inner">
+                    <!-- Frente do Card -->
+                    <div class="card-front bg-white shadow-xl flex flex-col justify-center items-center p-6 text-center border-2 border-rose-200 group-hover:border-rose-400 transition-all duration-300">
+                        <h2 class="text-3xl font-bold text-rose-700">Flucitosina (5-FC)</h2>
+                        <p class="mt-2 text-gray-500">(Antimetabólito)</p>
+                    </div>
+                    <!-- Verso do Card -->
+                    <div class="card-back bg-rose-600 text-white p-6 shadow-xl flex flex-col justify-center">
+                        <h3 class="text-xl font-bold mb-2">Mecanismo de Ação:</h3>
+                        <p class="text-sm mb-4">Dentro da célula fúngica, é convertida em 5-fluorouracil (5-FU), que inibe a timidilato sintase, prejudicando a síntese de DNA e RNA do fungo.</p>
+                        <h3 class="text-xl font-bold mb-2">Aplicações Clínicas:</h3>
+                        <p class="text-sm">Usada em combinação com Anfotericina B para tratar meningite criptocócica e candidíase sistêmica grave. Raramente usada como monoterapia devido à resistência.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card 6: Griseofulvina -->
+            <div class="perspective h-80 cursor-pointer group" onclick="this.querySelector('.card-inner').classList.toggle('is-flipped')">
+                <div class="card-inner">
+                    <!-- Frente do Card -->
+                    <div class="card-front bg-white shadow-xl flex flex-col justify-center items-center p-6 text-center border-2 border-amber-200 group-hover:border-amber-400 transition-all duration-300">
+                        <h2 class="text-3xl font-bold text-amber-700">Griseofulvina</h2>
+                         <p class="mt-2 text-gray-500">(Inibidor da Mitose)</p>
+                    </div>
+                    <!-- Verso do Card -->
+                    <div class="card-back bg-amber-600 text-white p-6 shadow-xl flex flex-col justify-center">
+                        <h3 class="text-xl font-bold mb-2">Mecanismo de Ação:</h3>
+                        <p class="text-sm mb-4">Interfere na função dos microtúbulos e inibe a mitose da célula fúngica. Deposita-se nas células precursoras de queratina, tornando-a resistente à invasão fúngica.</p>
+                        <h3 class="text-xl font-bold mb-2">Aplicações Clínicas:</h3>
+                        <p class="text-sm">Tratamento de dermatofitoses da pele, cabelo e unhas (Tinea capitis, corporis) que não respondem ao tratamento tópico.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

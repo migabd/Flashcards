@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards de Músculos do Antebraço</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        /* -- Estilos para o efeito de virar o card -- */
+        .card-container {
+            perspective: 1000px;
+        }
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .card-container.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Safari */
+            backface-visibility: hidden;
+            border-radius: 0.75rem; /* 12px */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem; /* 24px */
+        }
+        .card-back {
+            transform: rotateY(180deg);
+            display: block; /* Para alinhar o texto à esquerda */
+        }
+        .detail-item {
+            margin-bottom: 0.75rem; /* 12px */
+        }
+        .detail-title {
+            font-weight: 600;
+            color: #1e3a8a; /* Tailwind's blue-800 */
+        }
+    </style>
+</head>
+<body class="antialiased text-slate-800">
+
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900">Flashcards de Músculos do Antebraço</h1>
+            <p class="mt-2 text-lg text-slate-600">Clique em um card para ver os detalhes do músculo.</p>
+        </header>
+
+        <!-- Grid para os flashcards -->
+        <div id="flashcard-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+            <!-- Os cards serão inseridos aqui pelo JavaScript -->
+        </div>
+
+    </div>
+
+    <script>
+        const muscles = [
+            {
+                name: 'Pronador Redondo',
+                proximal: 'Epicôndilo medial do úmero e processo coronoide da ulna.',
+                distal: 'Face lateral do terço médio do rádio.',
+                innervation: 'Nervo Mediano (C6, C7).',
+                actions: 'Pronação do antebraço e flexão do cotovelo.'
+            },
+            {
+                name: 'Flexor Radial do Carpo',
+                proximal: 'Epicôndilo medial do úmero.',
+                distal: 'Base do 2º osso metacarpal.',
+                innervation: 'Nervo Mediano (C6, C7).',
+                actions: 'Flexão e abdução (desvio radial) da articulação do punho.'
+            },
+            {
+                name: 'Palmar Longo',
+                proximal: 'Epicôndilo medial do úmero.',
+                distal: 'Metade distal do retináculo dos flexores e aponeurose palmar.',
+                innervation: 'Nervo Mediano (C7, C8).',
+                actions: 'Flexão da articulação do punho e tensiona a aponeurose palmar.'
+            },
+            {
+                name: 'Flexor Ulnar do Carpo',
+                proximal: 'Cabeça umeral: Epicôndilo medial do úmero. Cabeça ulnar: Olécrano e margem posterior da ulna.',
+                distal: 'Osso pisiforme, hâmulo do hamato e 5º osso metacarpal.',
+                innervation: 'Nervo Ulnar (C7, C8, T1).',
+                actions: 'Flexão e adução (desvio ulnar) da articulação do punho.'
+            },
+            {
+                name: 'Flexor Superficial dos Dedos',
+                proximal: 'Cabeça umeroulnar: Epicôndilo medial do úmero e processo coronoide. Cabeça radial: Linha oblíqua anterior do rádio.',
+                distal: 'Corpos das falanges médias dos quatro dedos mediais (2º ao 5º).',
+                innervation: 'Nervo Mediano (C7, C8, T1).',
+                actions: 'Flexão das articulações interfalângicas proximais, metacarpofalângicas e do punho.'
+            },
+            {
+                name: 'Flexor Profundo dos Dedos',
+                proximal: '¾ proximais das faces medial e anterior da ulna e membrana interóssea.',
+                distal: 'Bases das falanges distais dos quatro dedos mediais (2º ao 5º).',
+                innervation: 'Parte medial (4º e 5º dedos): Nervo Ulnar. Parte lateral (2º e 3º dedos): Nervo Mediano (nervo interósseo anterior).',
+                actions: 'Flexão das articulações interfalângicas distais dos dedos mediais e auxilia na flexão do punho.'
+            },
+            {
+                name: 'Flexor Longo do Polegar',
+                proximal: 'Face anterior do rádio e membrana interóssea adjacente.',
+                distal: 'Base da falange distal do polegar.',
+                innervation: 'Nervo Interósseo Anterior (ramo do Nervo Mediano - C8, T1).',
+                actions: 'Flexão das articulações do polegar (interfalângica e metacarpofalângica).'
+            },
+            {
+                name: 'Pronador Quadrado',
+                proximal: '¼ distal da face anterior da ulna.',
+                distal: '¼ distal da face anterior do rádio.',
+                innervation: 'Nervo Interósseo Anterior (ramo do Nervo Mediano - C8, T1).',
+                actions: 'Pronação do antebraço; une o rádio e a ulna.'
+            }
+        ];
+
+        const grid = document.getElementById('flashcard-grid');
+
+        muscles.forEach(muscle => {
+            const cardContainer = document.createElement('div');
+            cardContainer.className = 'card-container h-64 cursor-pointer group';
+
+            const cardInner = document.createElement('div');
+            cardInner.className = 'card-inner';
+
+            // Frente do Card
+            const cardFront = document.createElement('div');
+            cardFront.className = 'card-front bg-white shadow-md group-hover:shadow-lg transition-shadow duration-300 border border-slate-200';
+            cardFront.innerHTML = `<h2 class="text-xl font-semibold text-center text-blue-900">${muscle.name}</h2>`;
+
+            // Verso do Card
+            const cardBack = document.createElement('div');
+            cardBack.className = 'card-back bg-blue-50 shadow-md group-hover:shadow-lg transition-shadow duration-300 border border-blue-200 text-left';
+            cardBack.innerHTML = `
+                <div class="detail-item">
+                    <p class="detail-title">Inserção Proximal:</p>
+                    <p class="text-sm text-slate-700">${muscle.proximal}</p>
+                </div>
+                <div class="detail-item">
+                    <p class="detail-title">Inserção Distal:</p>
+                    <p class="text-sm text-slate-700">${muscle.distal}</p>
+                </div>
+                <div class="detail-item">
+                    <p class="detail-title">Inervação:</p>
+                    <p class="text-sm text-slate-700">${muscle.innervation}</p>
+                </div>
+                <div class="detail-item">
+                    <p class="detail-title">Principais Ações:</p>
+                    <p class="text-sm text-slate-700">${muscle.actions}</p>
+                </div>
+            `;
+            
+            cardInner.appendChild(cardFront);
+            cardInner.appendChild(cardBack);
+            cardContainer.appendChild(cardInner);
+            grid.appendChild(cardContainer);
+
+            // Adiciona o evento de clique para virar o card
+            cardContainer.addEventListener('click', () => {
+                cardContainer.classList.toggle('flipped');
+            });
+        });
+    </script>
+
+</body>
+</html>

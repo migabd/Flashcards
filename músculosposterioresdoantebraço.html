@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards: Músculos Posteriores do Antebraço</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom utilities for 3D transform */
+        .perspective {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            -webkit-backface-visibility: hidden; /* Safari */
+            backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+        .flashcard.is-flipped {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-700">Músculos da Região Posterior do Antebraço</h1>
+            <p class="text-slate-500 mt-2">Toque em um card para ver os detalhes.</p>
+        </header>
+
+        <main>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Card Músculo Braquiorradial -->
+                <div class="perspective h-72">
+                    <div class="flashcard relative w-full h-full cursor-pointer transform-style-3d transition-transform duration-700">
+                        <div class="flashcard-front absolute w-full h-full backface-hidden rounded-lg shadow-lg bg-white flex flex-col justify-center items-center p-4 border border-slate-200">
+                            <h3 class="text-xl font-semibold text-slate-800 text-center">Músculo Braquiorradial</h3>
+                            <p class="text-sm text-slate-500 mt-2">Toque para virar</p>
+                        </div>
+                        <div class="flashcard-back absolute w-full h-full backface-hidden rounded-lg shadow-lg bg-slate-50 p-5 rotate-y-180 flex items-center justify-center">
+                            <ul class="space-y-2 text-gray-700 text-left w-full text-sm">
+                                <li><strong>Inserção Proximal:</strong> Crista supracondilar lateral do úmero (2/3 proximais).</li>
+                                <li><strong>Inserção Distal:</strong> Face lateral da extremidade distal do rádio (processo estiloide).</li>
+                                <li><strong>Inervação:</strong> <strong>Nervo Radial</strong> (C5, C6, C7).</li>
+                                <li><strong>Ações Principais:</strong> Flexão do antebraço (principalmente em posição neutra).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Músculo Extensor Radial Longo do Carpo -->
+                <div class="perspective h-72">
+                    <div class="flashcard relative w-full h-full cursor-pointer transform-style-3d transition-transform duration-700">
+                        <div class="flashcard-front absolute w-full h-full backface-hidden rounded-lg shadow-lg bg-white flex flex-col justify-center items-center p-4 border border-slate-200">
+                            <h3 class="text-xl font-semibold text-slate-800 text-center">M. Extensor Radial Longo do Carpo</h3>
+                            <p class="text-sm text-slate-500 mt-2">Toque para virar</p>
+                        </div>
+                        <div class="flashcard-back absolute w-full h-full backface-hidden rounded-lg shadow-lg bg-slate-50 p-5 rotate-y-180 flex items-center justify-center">
+                            <ul class="space-y-2 text-gray-700 text-left w-full text-sm">
+                                <li><strong>Inserção Proximal:</strong> Crista supracondilar lateral do úmero (1/3 distal).</li>
+                                <li><strong>Inserção Distal:</strong> Face dorsal da base do 2º osso metacarpal.</li>
+                                <li><strong>Inervação:</strong> <strong>Nervo Radial</strong> (C6, C7).</li>
+                                <li><strong>Ações Principais:</strong> Extensão e abdução (desvio radial) da mão.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card Músculo Extensor Radial Curto do Carpo -->
+                <div class="perspective h-72">
+                    <div class="flashcard relative w-full h-full cursor-pointer transform-style-3d transition-transform duration-700">
+                        <div class="flashcard-front absolute w-full h-full backface-hidden rounded-lg shadow-lg bg-white flex flex-col justify-center items-center p-4 border border-slate-200">
+                            <h3 class="text-xl font-semibold text-slate-800 text-center">M. Extensor Radial Curto do Carpo</h3>
+                            <p class="text-sm text-slate-500 mt-2">Toque para virar</p>
+                        </div>
+                        <div class="flashcard-back absolute w-full h-full backface-hidden rounded-lg shadow-lg bg-slate-50 p-5 rotate-y-180 flex items-center justify-center">
+                            <ul class="space-y-2 text-gray-700 text-left w-full text-sm">
+                                <li><strong>Inserção Proximal:</strong> Epicôndilo lateral do úmero.</li>
+                                <li><strong>Inserção Distal:</strong> Face dorsal da base do 3º osso metacarpal.</li>
+                                <li><strong>Inervação:</strong> Ramo profundo do <strong>Nervo Radial</strong> (C7, C8).</li>
+                                <li><strong>Ações Principais:</strong> Extensão e abdução (desvio radial) da mão.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Músculo Extensor dos Dedos -->
+                <div class="perspective h-72">
+                    <div class="flashcard relative w-full h-full cursor-pointer transform-style-3d transition-transform duration-700">
+                        <div class="flashcard-front absolute w-full h-full backface-hidden rounded-lg shadow-lg bg-white flex flex-col justify-center items-center p-4 border border-slate-200">
+                            <h3 class="text-xl font-semibold text-slate-800 text-center">Músculo Extensor dos Dedos</h3>
+                            <p class="text-sm text-slate-500 mt-2">Toque para virar</p>
+                        </div>
+                        <div class="flashcard-back absolute w-full h-full backface-hidden rounded-lg shadow-lg bg-slate-50 p-5 rotate-y-180 flex items-center justify-center">
+                            <ul class="space-y-2 text-gray-700 text-left w-full text-sm">
+                                <li><strong>Inserção Proximal:</strong> Epicôndilo lateral do úmero.</li>
+                                <li><strong>Inserção Distal:</strong> Expansões extensoras dos 4 dedos mediais.</li>
+                                <li><strong>Inervação:</strong> Nervo interósseo posterior (C7, C8).</li>
+                                <li><strong>Ações Principais:</strong> Extensão dos 4 dedos mediais; auxilia na extensão do punho.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Músculo Extensor do Dedo Mínimo -->
+                <div class="perspective h-72">
+                    <div class="flashcard relative w-full h-full cursor-pointer transform-style-3d transition-transform duration-700">
+                        <div class="flashcard-front absolute w-full h-full backface-hidden rounded-lg shadow-lg bg-white flex flex-col justify-center items-center p-4 border border-slate-200">
+                            <h3 class="text-xl font-semibold text-slate-800 text-center">M. Extensor do Dedo Mínimo</h3>
+                            <p class="text-sm text-slate-500 mt-2">Toque para virar</p>
+                        </div>
+                        <div class="flashcard-back absolute w-full h-full backface-hidden rounded-lg shadow-lg bg-slate-50 p-5 rotate-y-180 flex items-center justify-center">
+                            <ul class="space-y-2 text-gray-700 text-left w-full text-sm">
+                                <li><strong>Inserção Proximal:</strong> Epicôndilo lateral do úmero.</li>
+                                <li><strong>Inserção Distal:</strong> Expansão extensora do 5º dedo.</li>
+                                <li><strong>Inervação:</strong> Nervo interósseo posterior (C7, C8).</li>
+                                <li><strong>Ações Principais:</strong> Extensão do 5º dedo; auxilia na extensão do punho.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Músculo Extensor Ulnar do Carpo -->
+                <div class="perspective h-72">
+                    <div class="flashcard relative w-full h-full cursor-pointer transform-style-3d transition-transform duration-700">
+                        <div class="flashcard-front absolute w-full h-full backface-hidden rounded-lg shadow-lg bg-white flex flex-col justify-center items-center p-4 border border-slate-200">
+                            <h3 class="text-xl font-semibold text-slate-800 text-center">M. Extensor Ulnar do Carpo</h3>
+                            <p class="text-sm text-slate-500 mt-2">Toque para virar</p>
+                        </div>
+                        <div class="flashcard-back absolute w-full h-full backface-hidden rounded-lg shadow-lg bg-slate-50 p-5 rotate-y-180 flex items-center justify-center">
+                            <ul class="space-y-2 text-gray-700 text-left w-full text-sm">
+                                <li><strong>Inserção Proximal:</strong> Epicôndilo lateral do úmero e margem posterior da ulna.</li>
+                                <li><strong>Inserção Distal:</strong> Base do 5º osso metacarpal.</li>
+                                <li><strong>Inervação:</strong> Nervo interósseo posterior (C7, C8).</li>
+                                <li><strong>Ações Principais:</strong> Extensão e adução (desvio ulnar) da mão.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card Músculo Ancôneo -->
+                <div class="perspective h-72">
+                    <div class="flashcard relative w-full h-full cursor-pointer transform-style-3d transition-transform duration-700">
+                        <div class="flashcard-front absolute w-full h-full backface-hidden rounded-lg shadow-lg bg-white flex flex-col justify-center items-center p-4 border border-slate-200">
+                            <h3 class="text-xl font-semibold text-slate-800 text-center">Músculo Ancôneo</h3>
+                            <p class="text-sm text-slate-500 mt-2">Toque para virar</p>
+                        </div>
+                        <div class="flashcard-back absolute w-full h-full backface-hidden rounded-lg shadow-lg bg-slate-50 p-5 rotate-y-180 flex items-center justify-center">
+                            <ul class="space-y-2 text-gray-700 text-left w-full text-sm">
+                                <li><strong>Inserção Proximal:</strong> Epicôndilo lateral do úmero.</li>
+                                <li><strong>Inserção Distal:</strong> Face lateral do olécrano e parte superior da ulna.</li>
+                                <li><strong>Inervação:</strong> <strong>Nervo Radial</strong> (C7, C8, T1).</li>
+                                <li><strong>Ações Principais:</strong> Auxilia na extensão do antebraço; estabiliza o cotovelo.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Músculo Supinador -->
+                <div class="perspective h-72">
+                    <div class="flashcard relative w-full h-full cursor-pointer transform-style-3d transition-transform duration-700">
+                        <div class="flashcard-front absolute w-full h-full backface-hidden rounded-lg shadow-lg bg-white flex flex-col justify-center items-center p-4 border border-slate-200">
+                            <h3 class="text-xl font-semibold text-slate-800 text-center">Músculo Supinador</h3>
+                            <p class="text-sm text-slate-500 mt-2">Toque para virar</p>
+                        </div>
+                        <div class="flashcard-back absolute w-full h-full backface-hidden rounded-lg shadow-lg bg-slate-50 p-5 rotate-y-180 flex items-center justify-center">
+                            <ul class="space-y-2 text-gray-700 text-left w-full text-sm">
+                                <li><strong>Inserção Proximal:</strong> Epicôndilo lateral, ligamentos do cotovelo e crista na ulna.</li>
+                                <li><strong>Inserção Distal:</strong> 1/3 proximal do rádio.</li>
+                                <li><strong>Inervação:</strong> Ramo profundo do <strong>Nervo Radial</strong> (C7, C8).</li>
+                                <li><strong>Ações Principais:</strong> Supinação do antebraço.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Músculo Abdutor Longo do Polegar -->
+                 <div class="perspective h-72">
+                    <div class="flashcard relative w-full h-full cursor-pointer transform-style-3d transition-transform duration-700">
+                        <div class="flashcard-front absolute w-full h-full backface-hidden rounded-lg shadow-lg bg-white flex flex-col justify-center items-center p-4 border border-slate-200">
+                            <h3 class="text-xl font-semibold text-slate-800 text-center">M. Abdutor Longo do Polegar</h3>
+                            <p class="text-sm text-slate-500 mt-2">Toque para virar</p>
+                        </div>
+                        <div class="flashcard-back absolute w-full h-full backface-hidden rounded-lg shadow-lg bg-slate-50 p-5 rotate-y-180 flex items-center justify-center">
+                            <ul class="space-y-2 text-gray-700 text-left w-full text-sm">
+                                <li><strong>Inserção Proximal:</strong> Faces posteriores da ulna e do rádio.</li>
+                                <li><strong>Inserção Distal:</strong> Base do 1º osso metacarpal.</li>
+                                <li><strong>Inervação:</strong> Nervo interósseo posterior (C7, C8).</li>
+                                <li><strong>Ações Principais:</strong> Abdução e extensão do polegar.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Card Músculo Extensor Curto do Polegar -->
+                 <div class="perspective h-72">
+                    <div class="flashcard relative w-full h-full cursor-pointer transform-style-3d transition-transform duration-700">
+                        <div class="flashcard-front absolute w-full h-full backface-hidden rounded-lg shadow-lg bg-white flex flex-col justify-center items-center p-4 border border-slate-200">
+                            <h3 class="text-xl font-semibold text-slate-800 text-center">M. Extensor Curto do Polegar</h3>
+                            <p class="text-sm text-slate-500 mt-2">Toque para virar</p>
+                        </div>
+                        <div class="flashcard-back absolute w-full h-full backface-hidden rounded-lg shadow-lg bg-slate-50 p-5 rotate-y-180 flex items-center justify-center">
+                            <ul class="space-y-2 text-gray-700 text-left w-full text-sm">
+                                <li><strong>Inserção Proximal:</strong> Face posterior do rádio.</li>
+                                <li><strong>Inserção Distal:</strong> Base da falange proximal do polegar.</li>
+                                <li><strong>Inervação:</strong> Nervo interósseo posterior (C7, C8).</li>
+                                <li><strong>Ações Principais:</strong> Extensão da falange proximal do polegar.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                 <!-- Card Músculo Extensor Longo do Polegar -->
+                 <div class="perspective h-72">
+                    <div class="flashcard relative w-full h-full cursor-pointer transform-style-3d transition-transform duration-700">
+                        <div class="flashcard-front absolute w-full h-full backface-hidden rounded-lg shadow-lg bg-white flex flex-col justify-center items-center p-4 border border-slate-200">
+                            <h3 class="text-xl font-semibold text-slate-800 text-center">M. Extensor Longo do Polegar</h3>
+                            <p class="text-sm text-slate-500 mt-2">Toque para virar</p>
+                        </div>
+                        <div class="flashcard-back absolute w-full h-full backface-hidden rounded-lg shadow-lg bg-slate-50 p-5 rotate-y-180 flex items-center justify-center">
+                            <ul class="space-y-2 text-gray-700 text-left w-full text-sm">
+                                <li><strong>Inserção Proximal:</strong> 1/3 médio da ulna.</li>
+                                <li><strong>Inserção Distal:</strong> Base da falange distal do polegar.</li>
+                                <li><strong>Inervação:</strong> Nervo interósseo posterior (C7, C8).</li>
+                                <li><strong>Ações Principais:</strong> Extensão da falange distal do polegar.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                 <!-- Card Músculo Extensor do Indicador -->
+                 <div class="perspective h-72">
+                    <div class="flashcard relative w-full h-full cursor-pointer transform-style-3d transition-transform duration-700">
+                        <div class="flashcard-front absolute w-full h-full backface-hidden rounded-lg shadow-lg bg-white flex flex-col justify-center items-center p-4 border border-slate-200">
+                            <h3 class="text-xl font-semibold text-slate-800 text-center">M. Extensor do Indicador</h3>
+                            <p class="text-sm text-slate-500 mt-2">Toque para virar</p>
+                        </div>
+                        <div class="flashcard-back absolute w-full h-full backface-hidden rounded-lg shadow-lg bg-slate-50 p-5 rotate-y-180 flex items-center justify-center">
+                            <ul class="space-y-2 text-gray-700 text-left w-full text-sm">
+                                <li><strong>Inserção Proximal:</strong> Face posterior da ulna.</li>
+                                <li><strong>Inserção Distal:</strong> Expansão extensora do 2º dedo.</li>
+                                <li><strong>Inervação:</strong> Nervo interósseo posterior (C7, C8).</li>
+                                <li><strong>Ações Principais:</strong> Extensão do 2º dedo (permite apontar).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const flashcards = document.querySelectorAll('.flashcard');
+
+            flashcards.forEach(card => {
+                card.addEventListener('click', () => {
+                    card.classList.toggle('is-flipped');
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
+
+
+
